@@ -147,6 +147,38 @@ Passes when a quest is at a specific stage.
 }
 ```
 
+### Skill-check condition
+
+Passes when the party's current skill value is greater than or equal to the difficulty.
+
+```json
+{
+  "type": "skill_check",
+  "skill_id": "perception",
+  "difficulty": 2
+}
+```
+
+Current starter skills are:
+
+```text
+perception
+survival
+resolve
+lore
+stealth
+```
+
+Skill checks are currently deterministic gates, not dice rolls. The condition only controls visibility/availability of a node or choice. Later versions can add roll-based checks or visible check labels once character stats and UI presentation are stronger.
+
+Starter example:
+
+```text
+dialogue/npcs/captain_renna.json
+```
+
+Renna has a perception-gated choice that notices she expected trouble around the missing caravan.
+
 ### Not condition
 
 Passes when the nested condition fails.
@@ -222,6 +254,7 @@ It catches:
 - non-boolean flag values
 - missing quest IDs
 - missing quest stages
+- malformed `skill_check` skill IDs or difficulties
 - malformed `not`, `all`, and `any` conditions
 
 ## Scenario testing
@@ -237,6 +270,8 @@ Use scenarios to prove branching behavior. Current flag-gated dialogue coverage 
 ```text
 tests/scenarios/wolfpine_report_shrine_to_renna.json
 ```
+
+Skill-check conditions should get scenario coverage once the scenario runner supports party-skill setup/assertion steps.
 
 ## Authoring rule
 
