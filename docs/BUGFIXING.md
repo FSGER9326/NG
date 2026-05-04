@@ -9,9 +9,10 @@ Make bugs diagnosable from files and automated checks as much as possible, so th
 1. Keep systems small and data-driven.
 2. Validate all JSON and references before runtime.
 3. Add deterministic sample test data.
-4. Add debug logs to clear text files later.
-5. Keep save files readable JSON during early development.
+4. Log every important gameplay action through `GameLog`.
+5. Keep state dumps readable JSON during early development.
 6. Use placeholder assets with metadata so missing art does not break prototypes.
+7. Add scenario tests for every bug-prone quest/mechanic path.
 
 ## Validation command
 
@@ -26,6 +27,42 @@ The script currently checks:
 - JSON syntax
 - duplicate IDs
 - common referenced files
+
+## Debug bundle command
+
+Run from repo root:
+
+```bat
+tools\collect_debug_bundle.bat
+```
+
+This creates:
+
+```text
+debug\NG_debug_latest.zip
+```
+
+Upload that zip to ChatGPT for analysis.
+
+## Debug harness docs
+
+Full details are in:
+
+```text
+docs/DEBUGGING.md
+```
+
+## Important generated debug files
+
+```text
+debug/latest/validation.log
+debug/latest/scenario.log
+debug/latest/game.log
+debug/latest/actions.jsonl
+debug/latest/state_initial.json
+debug/latest/state_latest.json
+debug/latest/state_after_scenario.json
+```
 
 ## Future validation checks to add
 
@@ -48,34 +85,27 @@ Use JSON for:
 - faction reputation
 - loaded area state
 
-Use text logs for:
+Use text/JSONL logs for:
 
 - boot sequence
 - data-load failures
-- dialogue effects
+- area loading
+- input actions
+- dialogue open/node/choice
 - quest stage changes
-- combat turn history
-
-## Recommended local debug files later
-
-These should be generated locally and ignored by Git:
-
-```text
-logs/latest_boot.log
-logs/latest_area_load.log
-logs/latest_combat.log
-logs/latest_dialogue.log
-saves/debug_save.json
-```
+- flag changes
+- combat turn history later
 
 ## Screenshot minimization
 
 Screenshots are useful for UI/art/layout bugs, but most logic bugs should be reproducible from:
 
 - exact Git commit
-- save JSON
-- debug log
 - validation output
+- game log
+- action JSONL
+- scenario result
+- state dump
 
 ## Bug report template
 
@@ -84,10 +114,10 @@ Repo commit:
 What I expected:
 What happened:
 Steps to reproduce:
-Relevant save/log:
+Relevant save/log/debug bundle:
 Relevant screenshot if visual:
 ```
 
 ## AI agent rule
 
-When fixing a bug, first check whether validation could have caught it. If yes, update validation too.
+When fixing a bug, first check whether validation or a scenario test could have caught it. If yes, update validation or add a scenario test too.
