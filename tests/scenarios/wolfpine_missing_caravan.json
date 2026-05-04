@@ -1,0 +1,38 @@
+{
+  "id": "wolfpine_missing_caravan",
+  "name": "Wolfpine Missing Caravan Prototype Loop",
+  "description": "Loads Wolfpine Road, accepts Captain Renna's quest, inspects the Old Road Shrine, and verifies quest/flag state.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I am looking for work."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "accepted"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "old_shrine"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_wreck"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_old_shrine_inspected",
+      "value": true
+    }
+  ]
+}
