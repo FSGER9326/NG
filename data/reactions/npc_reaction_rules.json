@@ -1,0 +1,167 @@
+{
+  "id": "npc_reaction_rules",
+  "name": "NPC Reaction Rules",
+  "description": "Reusable tag-driven NPC reaction guidelines. These rules are not automatic dialogue yet; they define consistent authoring hooks for passive reactions, greetings, suspicion, respect, kinship, and faction prejudice.",
+  "reaction_axes": [
+    {
+      "id": "respect_martial",
+      "name": "Martial Respect",
+      "summary": "Soldiers, guards, mercenaries, caravan hands, and hard-bitten villagers recognize credible combat or guard experience.",
+      "trigger_tags_any": [
+        "combat.veteran",
+        "training.martial",
+        "background.caravan_guard",
+        "class.warden",
+        "class.hedge_knight",
+        "reputation.reliable"
+      ],
+      "likely_npcs": ["guards", "soldiers", "caravan_masters", "veterans", "militia"],
+      "tone": "measured respect, less posturing, more practical detail",
+      "sample_lines": [
+        "You stand like someone who has watched a road turn bad before.",
+        "I will not waste your time with tavern stories. Here is what matters."
+      ],
+      "dialogue_condition_example": {
+        "type": "any",
+        "conditions": [
+          {"type": "player_tag", "tag": "combat.veteran", "value": true},
+          {"type": "player_tag", "tag": "background.caravan_guard", "value": true},
+          {"type": "skill_check", "skill_id": "command", "difficulty": 2}
+        ]
+      }
+    },
+    {
+      "id": "suspicion_arcane",
+      "name": "Arcane Suspicion",
+      "summary": "Priests, guards, commoners, and frightened villagers distrust visible magic, occult sensitivity, or unnatural marks.",
+      "trigger_tags_any": [
+        "magic.arcane",
+        "magic.sensitive",
+        "occult.marked",
+        "class.mage",
+        "trait.arcane_sensitive"
+      ],
+      "likely_npcs": ["priests", "superstitious_villagers", "guards", "witch_hunters", "bereaved_families"],
+      "tone": "guarded, fearful, testing boundaries, invoking iron or faith",
+      "sample_lines": [
+        "Keep your hands where I can see them, mage.",
+        "Old stones wake for people like you. That is rarely a kindness."
+      ],
+      "dialogue_condition_example": {
+        "type": "any",
+        "conditions": [
+          {"type": "player_tag", "tag": "magic.arcane", "value": true},
+          {"type": "player_tag", "tag": "occult.marked", "value": true}
+        ]
+      }
+    },
+    {
+      "id": "kinship_commoner",
+      "name": "Commoner Kinship",
+      "summary": "Laborers, outcasts, drifters, and hungry villagers open up to characters with believable hardship or common roots.",
+      "trigger_tags_any": [
+        "social.common",
+        "hardship.poverty",
+        "background.outcast",
+        "background.laborer",
+        "survival.road",
+        "region.border"
+      ],
+      "likely_npcs": ["laborers", "farmers", "outcasts", "inn_servants", "hungry_villagers"],
+      "tone": "plainspoken, less formal, more personal detail",
+      "sample_lines": [
+        "You know what a bad winter does to honest folk. So listen close.",
+        "A noble would not notice this, but you might."
+      ],
+      "dialogue_condition_example": {
+        "type": "any",
+        "conditions": [
+          {"type": "player_tag", "tag": "social.common", "value": true},
+          {"type": "player_tag", "tag": "hardship.poverty", "value": true},
+          {"type": "player_tag", "tag": "background.outcast", "value": true}
+        ]
+      }
+    },
+    {
+      "id": "noble_prejudice",
+      "name": "Noble Recognition and Prejudice",
+      "summary": "Nobles, officials, officers, rebels, and debt-holders react strongly to noble blood, exile, and political reputation.",
+      "trigger_tags_any": [
+        "social.noble",
+        "background.noble",
+        "social.exile",
+        "reputation.political",
+        "nobility.adjacent"
+      ],
+      "likely_npcs": ["nobles", "bailiffs", "officers", "rebels", "creditors", "court_servants"],
+      "tone": "formal recognition, veiled contempt, old debts, political caution",
+      "sample_lines": [
+        "That name still buys silence in some rooms and knives in others.",
+        "I wondered whether you would speak like a courtier or an exile."
+      ],
+      "dialogue_condition_example": {
+        "type": "any",
+        "conditions": [
+          {"type": "player_tag", "tag": "social.noble", "value": true},
+          {"type": "player_tag", "tag": "reputation.political", "value": true}
+        ]
+      }
+    },
+    {
+      "id": "underworld_distrust",
+      "name": "Underworld Distrust",
+      "summary": "Guards and honest merchants distrust underworld ties, while thieves and informants may speak more openly.",
+      "trigger_tags_any": [
+        "social.underworld",
+        "background.informant",
+        "reputation.untrustworthy",
+        "stealth.social"
+      ],
+      "likely_npcs": ["guards", "merchants", "thieves", "informants", "smugglers"],
+      "tone": "transactional, guarded, coded, suspicious",
+      "sample_lines": [
+        "People who sell secrets rarely stop at one buyer.",
+        "If you know the quiet price, do not make me say it aloud."
+      ],
+      "dialogue_condition_example": {
+        "type": "any",
+        "conditions": [
+          {"type": "player_tag", "tag": "social.underworld", "value": true},
+          {"type": "player_tag", "tag": "reputation.untrustworthy", "value": true}
+        ]
+      }
+    },
+    {
+      "id": "healer_utility",
+      "name": "Healer Utility",
+      "summary": "The sick, wounded, desperate, and practical authorities value medicine and field surgery even when they dislike the character personally.",
+      "trigger_tags_any": [
+        "class.surgeon",
+        "medicine.field",
+        "reputation.useful",
+        "faith.trained"
+      ],
+      "likely_npcs": ["wounded_guards", "plague_victims", "village_heads", "priests", "families"],
+      "tone": "urgent respect, bargaining, moral pressure",
+      "sample_lines": [
+        "If you know wounds, stop talking and look at this one.",
+        "I do not care what you charge. Tell me if she will live."
+      ],
+      "dialogue_condition_example": {
+        "type": "any",
+        "conditions": [
+          {"type": "player_tag", "tag": "class.surgeon", "value": true},
+          {"type": "skill_check", "skill_id": "medicine", "difficulty": 2}
+        ]
+      }
+    }
+  ],
+  "authoring_rules": [
+    "Use reactions as seasoning, not replacement characterization.",
+    "Prefer one short recognition line before returning to the scene's actual problem.",
+    "NPCs should react according to their own fears, class position, faction, and immediate need.",
+    "A tag can unlock trust, suspicion, price changes, alternate clues, or unique insults.",
+    "Do not make every NPC comment on every visible tag; repetition makes tags feel mechanical.",
+    "When two tags conflict, prefer the NPC's strongest bias or the local situation. A starving villager may tolerate a mage if the mage can heal a child."
+  ]
+}
