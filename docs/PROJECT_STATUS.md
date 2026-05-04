@@ -21,32 +21,47 @@ Original dark low-fantasy CRPG with:
 - faction reputation
 - turn-based AP combat first
 - extendable content files
+- testable scenario-driven content paths
 
 ## Current technical state
 
 The repo currently contains:
 
 - Godot project config
-- main scene wired to instantiate the area prototype
-- bootstrap script
+- main scene that boots into a main menu
+- main menu shell
+- New Game flow into a simple character creator
+- first-pass character creator: name, origin, archetype
+- Start Journey flow into the Wolfpine Road area prototype
 - JSON data loader
-- game-state stub
+- game-state stub with flags, quest stages, party IDs, and faction reputation
 - quest-system stub
 - `AreaController` scene/script prototype
+- reusable dialogue condition evaluator
 - starter area: `wolfpine_road`
+- transition destination stub: `wolfpine_village`
 - starter NPC: `captain_renna`
 - starter companion: `brannoc`
 - starter enemy: `border_bandit`
 - starter item: `border_iron_sword`
 - starter quest: `missing_caravan`
 - validation script: `tools/validate_project.py`
-- GitHub Action: `.github/workflows/validate.yml`
+- debug/scenario runner: `tools/run_scenario_test.gd`
+- local debug bundle scripts
+- GitHub validation workflow
 
-## Current first playable loop
+## Current testable build target
 
-Opening the project in Godot and pressing Play should instantiate the Wolfpine Road prototype.
+Opening the project in Godot and pressing Play should show the main menu.
 
-Expected behavior:
+Expected boot behavior:
+
+- Main menu appears.
+- `New Game` opens the character creator.
+- Character creator allows name/origin/archetype selection.
+- `Start Journey` loads the Wolfpine Road prototype.
+
+Expected Wolfpine Road behavior:
 
 - A dark placeholder background appears.
 - The Wolfpine Road title/debug label appears.
@@ -54,24 +69,39 @@ Expected behavior:
 - Clicking the ground moves the party marker directly toward the clicked point.
 - Hotspot buttons appear for the old shrine and north road.
 - Actor buttons appear for `captain_renna` and `border_bandit`.
-- Clicking the old shrine updates debug text with inspection text.
-- Clicking the north road updates debug text with the target area stub.
-- Clicking `captain_renna` opens a simple JSON-driven dialogue panel.
+- Clicking the old shrine updates debug text, sets a flag, and advances `missing_caravan` to `found_wreck`.
+- Clicking the north road transitions to `wolfpine_village`.
+- Clicking `captain_renna` opens a JSON-driven dialogue panel.
 - Dialogue choices can move between nodes.
-- Dialogue quest effects currently print debug output but are not yet stored in `GameState`.
+- Dialogue effects can start quests, set quest stages, and set flags.
+- Dialogue choices can be gated by reusable flag/quest-stage conditions.
 
-## Current priority
+## Automated scenario coverage
 
-Test the current Godot launch state and fix any runtime errors.
+Scenario files live under:
 
-Next useful tasks:
+```text
+tests/scenarios/
+```
 
-1. Test player click-to-move.
-2. Test Captain Renna dialogue.
-3. Fix any GDScript runtime errors found on launch/click.
-4. Store quest state in `GameState` / `QuestSystem` instead of only printing debug text.
-5. Add flag checks and simple skill-check format to dialogue JSON.
-6. Keep improving `tools/validate_project.py` whenever a bug could have been caught by validation.
+Important current scenarios:
+
+```text
+tests/scenarios/main_menu_new_game.json
+tests/scenarios/wolfpine_missing_caravan.json
+tests/scenarios/wolfpine_shrine_before_renna.json
+tests/scenarios/wolfpine_report_shrine_to_renna.json
+tests/scenarios/wolfpine_road_to_village.json
+```
+
+These are intended to test:
+
+- main menu to character creator to new game
+- Renna quest acceptance
+- shrine inspection quest update
+- shrine-before-Renna quest regression protection
+- flag-gated Renna dialogue
+- Wolfpine Road to Wolfpine Village transition
 
 ## Validation
 
@@ -81,8 +111,51 @@ Run from repo root:
 python tools/validate_project.py
 ```
 
-GitHub Actions also runs validation on push and PR.
+The validator currently checks:
+
+- JSON syntax
+- duplicate IDs
+- common referenced files
+- dialogue next-node references
+- dialogue conditions
+- quest and quest-stage references
+- area actor placements
+- scenario step references
+- main-menu scenario step shapes
+
+## Debug bundle
+
+Run from repo root on Windows:
+
+```bat
+tools\collect_debug_bundle.bat
+```
+
+Expected output:
+
+```text
+debug\NG_debug_latest.zip
+```
+
+Upload that zip for AI-assisted bug analysis.
+
+## Current priority
+
+Bring the testable build to a clean local pass:
+
+1. Pull latest repo state.
+2. Run `tools\collect_debug_bundle.bat`.
+3. Inspect `validation.log` and `scenario.log`.
+4. Fix any GDScript runtime errors found in the menu/new-game/area/dialogue paths.
+5. Continue toward save/load and a simple skill-check format after the boot path is stable.
 
 ## Working rule
 
-If a future AI chat loses context, read this file first, then `docs/ROADMAP.md`, `docs/GAME_DESIGN.md`, `docs/WORKFLOW.md`, `docs/BUGFIXING.md`, and `docs/ASSET_POLICY.md`.
+If a future AI chat loses context, read this file first, then:
+
+1. `docs/ROADMAP.md`
+2. `docs/WORKFLOW.md`
+3. `docs/BUGFIXING.md`
+4. `docs/ASSET_POLICY.md`
+5. `docs/GAME_DESIGN.md`
+6. `docs/ART_BIBLE.md`
