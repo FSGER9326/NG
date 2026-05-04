@@ -40,6 +40,7 @@ The repo currently contains:
 - reusable dialogue condition evaluator
 - starter area: `wolfpine_road`
 - transition destination stub: `wolfpine_village`
+- Wolfpine Village art brief and layout constraints for BG2/Pillars-like village generation
 - starter NPC: `captain_renna`
 - starter companion: `brannoc`
 - starter enemy: `border_bandit`
@@ -75,6 +76,13 @@ Expected Wolfpine Road behavior:
 - Dialogue choices can move between nodes.
 - Dialogue effects can start quests, set quest stages, and set flags.
 - Dialogue choices can be gated by reusable flag/quest-stage conditions.
+
+Expected Wolfpine Village planning state:
+
+- `areas/wolfpine_village/ART_BRIEF.md` defines the first village's visual target, composition, architecture kit, prompt, and rejection checklist.
+- `areas/wolfpine_village/layout_constraints.json` defines walkable zones, required paths, buildings, doors, stairs, hotspot access, NPC zones, and forbidden art mistakes.
+- Village exterior art should be closer to classic BG2/Pillars-style settlement plates than horror-dark wilderness art.
+- Final village art should be generated from the constraints, not used as the source of truth for paths and architecture.
 
 ## Automated scenario coverage
 
@@ -148,6 +156,7 @@ Bring the testable build to a clean local pass:
 3. Inspect `validation.log` and `scenario.log`.
 4. Fix any GDScript runtime errors found in the menu/new-game/area/dialogue paths.
 5. Continue toward save/load and a simple skill-check format after the boot path is stable.
+6. Use `areas/wolfpine_village/ART_BRIEF.md` and `layout_constraints.json` before generating final Wolfpine Village art.
 
 ## Working rule
 
