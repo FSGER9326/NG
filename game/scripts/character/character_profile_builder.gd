@@ -20,6 +20,8 @@ static func build_profile(character_name: String, ancestry: Dictionary, backgrou
 		"trait_id": String(trait.get("id", "")),
 		"origin": String(background.get("name", "")),
 		"archetype": String(character_class.get("name", "")),
+		"portrait_id": _portrait_id_for_background(background),
+		"portrait": _portrait_name_for_background(background),
 		"tags": [],
 		"attributes": _dictionary_int_copy(creation_data.get("base_attributes", {})),
 		"skills": _dictionary_int_copy(creation_data.get("base_skills", {})),
@@ -38,6 +40,7 @@ static func build_profile(character_name: String, ancestry: Dictionary, backgrou
 		"background": profile["background"],
 		"class": profile["class"],
 		"trait": profile["trait"],
+		"portrait_id": profile["portrait_id"],
 		"tags": profile["tags"],
 		"warnings": profile["compatibility_warnings"]
 	})
@@ -76,6 +79,31 @@ static func _check_item_compatibility(profile: Dictionary, item: Dictionary) -> 
 			if profile["tags"].has(String(tag)):
 				return
 		profile["compatibility_warnings"].append("%s is missing one required theme tag" % item_name)
+
+static func _portrait_id_for_background(background: Dictionary) -> String:
+	var explicit_id := String(background.get("portrait_id", ""))
+	if not explicit_id.is_empty():
+		return explicit_id
+	match String(background.get("id", "")):
+		"background_failed_squire":
+			return "portrait_disgraced_squire_01"
+		"background_village_outcast":
+			return "portrait_village_outcast_01"
+		"background_caravan_guard":
+			return "portrait_caravan_guard_01"
+		_:
+			return "portrait_weathered_drifter_01"
+
+static func _portrait_name_for_background(background: Dictionary) -> String:
+	match _portrait_id_for_background(background):
+		"portrait_disgraced_squire_01":
+			return "Disgraced Squire"
+		"portrait_village_outcast_01":
+			return "Village Outcast"
+		"portrait_caravan_guard_01":
+			return "Caravan Guard"
+		_:
+			return "Weathered Drifter"
 
 static func _add_modifiers(target: Dictionary, modifiers: Variant) -> void:
 	if typeof(modifiers) != TYPE_DICTIONARY:
