@@ -103,3 +103,29 @@ func to_debug_dict() -> Dictionary:
 		"active_quest_ids": active_quest_ids.duplicate(true),
 		"quest_stages": quest_stages.duplicate(true)
 	}
+
+func apply_save_data(data: Dictionary) -> void:
+	flags = _dictionary_from(data.get("flags", {}))
+	faction_reputation = _dictionary_from(data.get("faction_reputation", {}))
+	party_skills = _dictionary_from(data.get("party_skills", party_skills))
+	quest_stages = _dictionary_from(data.get("quest_stages", {}))
+	party_member_ids = _string_array_from(data.get("party_member_ids", []))
+	active_quest_ids = _string_array_from(data.get("active_quest_ids", []))
+	GameLog.info("SAVE", "Applied game-state save data", {
+		"flag_count": flags.size(),
+		"quest_count": active_quest_ids.size(),
+		"skill_count": party_skills.size()
+	})
+
+func _dictionary_from(value: Variant) -> Dictionary:
+	if typeof(value) == TYPE_DICTIONARY:
+		return value.duplicate(true)
+	return {}
+
+func _string_array_from(value: Variant) -> Array[String]:
+	var result: Array[String] = []
+	if typeof(value) != TYPE_ARRAY:
+		return result
+	for item in value:
+		result.append(String(item))
+	return result
