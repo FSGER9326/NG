@@ -1,0 +1,3 @@
+Placeholder walkmask notes for Wolfpine Chapel Yard.
+
+Walkable path should run from west_path to prayer_tree and chapel_steps. Grave rows and chapel walls should block movement once final collision data exists.
