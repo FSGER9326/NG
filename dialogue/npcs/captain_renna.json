@@ -7,6 +7,27 @@
       "text": "Captain Renna watches the road with a hand resting near her sword. Rain beads on the iron rim of her cloak-pin.",
       "choices": [
         {
+          "text": "I can close the first report on the missing caravan.",
+          "next": "close_first_report",
+          "conditions": [
+            {
+              "type": "all",
+              "conditions": [
+                {
+                  "type": "quest_stage",
+                  "quest_id": "missing_caravan",
+                  "stage": "reported_clue"
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_caravan_resolved",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
           "text": "I found fresh wagon ruts by the old shrine.",
           "next": "shrine_found_report",
           "conditions": [
@@ -163,6 +184,35 @@
           "next": "end"
         }
       ]
+    },
+    "close_first_report": {
+      "text": "Renna listens without interrupting, then marks the shrine and the wagon ruts on a damp strip of map. \"This is enough to move patrols and stop the village inventing ghosts. It does not end the danger, but it gives us our first honest answer.\"",
+      "choices": [
+        {
+          "text": "Then mark the caravan matter resolved for now.",
+          "next": "resolved_first_report"
+        },
+        {
+          "text": "Not yet. I will keep looking.",
+          "next": "end"
+        }
+      ]
+    },
+    "resolved_first_report": {
+      "text": "\"Done. Wolfpine owes you coin, and more importantly, fewer lies. If you keep digging, bring me proof I can hang from a gate.\"",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "resolved"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_caravan_resolved",
+          "value": true
+        }
+      ],
+      "choices": []
     },
     "end": {
       "text": "Renna looks back to the road.",
