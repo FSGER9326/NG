@@ -5,6 +5,9 @@ const AreaScene = preload("res://game/scenes/area/area_scene.tscn")
 const CrpgTheme = preload("res://game/scripts/ui/crpg_theme.gd")
 const GameLog = preload("res://game/scripts/core/game_log.gd")
 const SaveSystem = preload("res://game/scripts/core/save_system.gd")
+const CharacterProfileBuilder = preload("res://game/scripts/character/character_profile_builder.gd")
+
+const CHARACTER_CREATION_PATH := "res://data/character_creation/character_creation.json"
 
 var data_loader: DataLoader
 var save_system: SaveSystem
@@ -14,10 +17,12 @@ var character_creator_root: Control
 var character_name_edit: LineEdit
 var origin_options: OptionButton
 var archetype_options: OptionButton
+var character_creation_data: Dictionary = {}
 var player_profile: Dictionary = {
 	"name": "Wanderer",
 	"origin": "Border Drifter",
-	"archetype": "Mercenary"
+	"archetype": "Mercenary",
+	"tags": []
 }
 
 func _ready() -> void:
@@ -26,7 +31,8 @@ func _ready() -> void:
 	data_loader = DataLoader.new()
 	save_system = SaveSystem.new()
 	var load_result := data_loader.load_bootstrap_data()
-	GameLog.info("BOOT", "Loaded bootstrap data", {"keys": load_result.keys()})
+	character_creation_data = data_loader.load_json_file(CHARACTER_CREATION_PATH)
+	GameLog.info("BOOT", "Loaded bootstrap data", {"keys": load_result.keys(), "has_character_creation": not character_creation_data.is_empty()})
 	_show_main_menu()
 
 func _show_main_menu() -> void:
@@ -104,8 +110,8 @@ func _show_character_creator() -> void:
 
 	var panel := PanelContainer.new()
 	panel.name = "CreatorPanel"
-	panel.position = Vector2(320, 90)
-	panel.size = Vector2(640, 540)
+	panel.position = Vector2(300, 70)
+	panel.size = Vector2(680, 580)
 	CrpgTheme.apply_panel(panel)
 	character_creator_root.add_child(panel)
 
@@ -128,49 +134,38 @@ func _show_character_creator() -> void:
 	root.add_child(title)
 
 	var intro := Label.new()
-	intro.text = "This is a first-pass creator. It stores a simple profile now; attributes, portraits, classes, and party setup will expand later."
+	intro.text = "Choose a name, background, and class. The current UI keeps the old flow, but now builds a tagged profile for passive checks and NPC reactions."
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	CrpgTheme.apply_label(intro)
 	root.add_child(intro)
 
 	root.add_child(_spacer(10))
-
-	var name_label := Label.new()
-	name_label.text = "Name"
-	CrpgTheme.apply_label(name_label, true)
-	root.add_child(name_label)
+	root.add_child(_make_form_label("Name"))
 
 	character_name_edit = LineEdit.new()
 	character_name_edit.name = "CharacterName"
 	character_name_edit.text = String(player_profile.get("name", "Wanderer"))
 	root.add_child(character_name_edit)
 
-	var origin_label := Label.new()
-	origin_label.text = "Origin"
-	CrpgTheme.apply_label(origin_label, true)
-	root.add_child(origin_label)
-
+	root.add_child(_make_form_label("Background"))
 	origin_options = OptionButton.new()
 	origin_options.name = "OriginOptions"
-	for origin in ["Border Drifter", "Failed Squire", "Village Outcast", "Caravan Guard"]:
-		origin_options.add_item(origin)
-	origin_options.select(0)
+	_populate_option_button(origin_options, character_creation_data.get("backgrounds", []), ["Border Drifter", "Failed Squire", "Village Outcast", "Caravan Guard"])
 	root.add_child(origin_options)
 
-	var archetype_label := Label.new()
-	archetype_label.text = "Archetype"
-	CrpgTheme.apply_label(archetype_label, true)
-	root.add_child(archetype_label)
-
+	root.add_child(_make_form_label("Class"))
 	archetype_options = OptionButton.new()
 	archetype_options.name = "ArchetypeOptions"
-	for archetype in ["Mercenary", "Scout", "Hedge Knight", "Cunning Speaker"]:
-		archetype_options.add_item(archetype)
-	archetype_options.select(0)
+	_populate_option_button(archetype_options, character_creation_data.get("classes", []), ["Mercenary", "Scout", "Hedge Knight", "Cunning Speaker"])
 	root.add_child(archetype_options)
 
-	root.add_child(_spacer(12))
+	var note := Label.new()
+	note.text = "Default ancestry: Border Human. Default trait: Steady Under Fire. Full ancestry/trait selection is the next UI step."
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	CrpgTheme.apply_label(note)
+	root.add_child(note)
 
+	root.add_child(_spacer(12))
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 10)
 	root.add_child(buttons)
@@ -192,18 +187,34 @@ func _start_new_game_from_creator(name_edit: LineEdit, selected_origin_options: 
 	var character_name := name_edit.text.strip_edges()
 	if character_name.is_empty():
 		character_name = "Wanderer"
-	player_profile = {
-		"name": character_name,
-		"origin": selected_origin_options.get_item_text(selected_origin_options.selected),
-		"archetype": selected_archetype_options.get_item_text(selected_archetype_options.selected)
-	}
+	var background_name := selected_origin_options.get_item_text(selected_origin_options.selected)
+	var class_name := selected_archetype_options.get_item_text(selected_archetype_options.selected)
+	player_profile = _build_player_profile(character_name, background_name, class_name)
 	GameLog.info("CHARACTER", "Created player profile", player_profile)
 	_start_game()
+
+func _build_player_profile(character_name: String, background_name: String, class_name: String) -> Dictionary:
+	if character_creation_data.is_empty():
+		return {
+			"name": character_name,
+			"origin": background_name,
+			"archetype": class_name,
+			"background": background_name,
+			"class": class_name,
+			"tags": []
+		}
+	var ancestry := _find_option_by_name(character_creation_data.get("ancestries", []), "Border Human")
+	var background := _find_option_by_name(character_creation_data.get("backgrounds", []), background_name)
+	var character_class := _find_option_by_name(character_creation_data.get("classes", []), class_name)
+	var trait := _find_option_by_name(character_creation_data.get("traits", []), "Steady Under Fire")
+	return CharacterProfileBuilder.build_profile(character_name, ancestry, background, character_class, trait, character_creation_data)
 
 func _start_game() -> void:
 	_clear_current_screen()
 	current_area = AreaScene.instantiate()
 	current_area.name = "CurrentArea"
+	if current_area.has_method("setup_player_profile"):
+		current_area.setup_player_profile(player_profile)
 	add_child(current_area)
 	GameLog.info("GAME", "Started new game", {"player_profile": player_profile})
 
@@ -215,6 +226,8 @@ func _start_game_from_save(save_data: Dictionary) -> bool:
 	player_profile = _dictionary_from(save_data.get("player_profile", player_profile))
 	current_area = AreaScene.instantiate()
 	current_area.name = "CurrentArea"
+	if current_area.has_method("setup_player_profile"):
+		current_area.setup_player_profile(player_profile)
 	add_child(current_area)
 	_apply_save_to_current_area(save_data)
 	GameLog.info("SAVE", "Started game from save", {"player_profile": player_profile, "area_id": String(save_data.get("area_id", ""))})
@@ -250,6 +263,8 @@ func _apply_save_to_current_area(save_data: Dictionary) -> void:
 	var game_state_data := _dictionary_from(save_data.get("game_state", {}))
 	if area_game_state != null and area_game_state.has_method("apply_save_data"):
 		area_game_state.apply_save_data(game_state_data)
+	elif area_game_state != null and area_game_state.has_method("apply_player_profile"):
+		area_game_state.apply_player_profile(player_profile)
 	var quest_system = current_area.get("quest_system")
 	if quest_system != null:
 		quest_system.quest_states = _dictionary_from(game_state_data.get("quest_stages", {}))
@@ -358,13 +373,16 @@ func _get_current_screen() -> String:
 	return "unknown"
 
 func _assert_player_profile(action: Dictionary) -> bool:
-	for key in ["name", "origin", "archetype"]:
+	for key in ["name", "origin", "archetype", "background", "class", "trait"]:
 		if action.has(key):
 			var expected := String(action[key])
 			var actual := String(player_profile.get(key, ""))
 			if actual != expected:
 				GameLog.error("ASSERT", "Player profile mismatch for %s: expected %s got %s" % [key, expected, actual], {"key": key, "expected": expected, "actual": actual})
 				return false
+	if action.has("tag") and not player_profile.get("tags", []).has(String(action.get("tag", ""))):
+		GameLog.error("ASSERT", "Player profile missing tag: %s" % String(action.get("tag", "")), {"player_profile": player_profile})
+		return false
 	GameLog.info("ASSERT", "Player profile OK", {"player_profile": player_profile})
 	return true
 
@@ -379,6 +397,32 @@ func _select_option_by_text(option_button: OptionButton, text: String, label: St
 			return true
 	GameLog.error("SCENARIO", "Could not find %s option: %s" % [label, text])
 	return false
+
+func _populate_option_button(option_button: OptionButton, data_items: Variant, fallback_names: Array) -> void:
+	if typeof(data_items) == TYPE_ARRAY and not data_items.is_empty():
+		for item in data_items:
+			if typeof(item) == TYPE_DICTIONARY:
+				option_button.add_item(String(item.get("name", "Unnamed")))
+	else:
+		for item_name in fallback_names:
+			option_button.add_item(String(item_name))
+	option_button.select(0)
+
+func _find_option_by_name(items: Variant, option_name: String) -> Dictionary:
+	if typeof(items) == TYPE_ARRAY:
+		for item in items:
+			if typeof(item) == TYPE_DICTIONARY and String(item.get("name", "")) == option_name:
+				return item
+		for item in items:
+			if typeof(item) == TYPE_DICTIONARY:
+				return item
+	return {}
+
+func _make_form_label(text: String) -> Label:
+	var label := Label.new()
+	label.text = text
+	CrpgTheme.apply_label(label, true)
+	return label
 
 func _make_fullscreen_control(control_name: String) -> Control:
 	var control := Control.new()
