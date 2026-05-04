@@ -1,0 +1,37 @@
+[0000.001] BOOT: NG log session started: main_menu
+[0000.003] BOOT: NG booting
+[0000.013] DATA: Loading bootstrap data
+[0000.086] DATA: Bootstrap data loaded
+[0000.096] BOOT: Loaded bootstrap data
+[0000.120] MENU: Main menu shown
+[0000.131] SCENARIO: Step 1: assert_screen
+[0000.134] SCENARIO: Running main action assert_screen
+[0000.154] ASSERT: Screen OK: main_menu
+[0000.164] SCENARIO: Step 2: press_menu
+[0000.175] SCENARIO: Running main action press_menu
+[0000.199] MENU: Character creator shown
+[0000.212] SCENARIO: Step 3: assert_screen
+[0000.216] SCENARIO: Running main action assert_screen
+[0000.228] ASSERT: Screen OK: character_creator
+[0000.240] SCENARIO: Step 4: set_character_name
+[0000.251] SCENARIO: Running main action set_character_name
+[0000.263] SCENARIO: Step 5: select_origin
+[0000.274] SCENARIO: Running main action select_origin
+[0000.283] SCENARIO: Selected origin: Caravan Guard
+[0000.296] SCENARIO: Step 6: select_archetype
+[0000.306] SCENARIO: Running main action select_archetype
+[0000.316] SCENARIO: Selected archetype: Scout
+[0000.328] SCENARIO: Step 7: press_menu
+[0000.338] SCENARIO: Running main action press_menu
+[0000.351] CHARACTER: Created player profile
+[0000.363] GAME: Started new game
+[0000.388] SCENARIO: Step 8: assert_screen
+[0000.390] SCENARIO: Running main action assert_screen
+[0000.401] ASSERT: Screen OK: game
+[0000.414] SCENARIO: Step 9: assert_player_profile
+[0000.427] SCENARIO: Running main action assert_player_profile
+[0000.438] ASSERT: Player profile OK
+[0000.450] SCENARIO: Step 10: assert_area
+[0000.461] SCENARIO: Running main action assert_area
+[0000.480] SCENARIO: ERROR: Step failed: 10
+[0000.489] SCENARIO: ERROR: Scenario failed: main_menu_new_game
