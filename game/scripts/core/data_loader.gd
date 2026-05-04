@@ -15,7 +15,7 @@ const BOOTSTRAP_FILES := {
 
 func load_json_file(path: String) -> Dictionary:
 	if path.is_empty():
-		GameLog.error("DATA", "Missing JSON path argument")
+		GameLog.event("json_skipped", {"reason": "empty_path"})
 		return {}
 	if not FileAccess.file_exists(path):
 		GameLog.error("DATA", "Missing JSON file: %s" % path, {"path": path})
