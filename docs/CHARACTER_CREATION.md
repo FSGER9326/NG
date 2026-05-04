@@ -112,6 +112,32 @@ Examples:
 
 This keeps the creator from producing incoherent combinations while still allowing unusual builds through future hand-authored exceptions.
 
+## Compatibility explanation behavior
+
+The compatibility engine checks each selected layer against the tags that came before it. This matters because a trait should not satisfy its own requirement simply by adding its own tags.
+
+Example:
+
+```text
+Fair Young Elf + Cloister Novice + Mage Apprentice + Brawny
+```
+
+The creator should explain conflicts in readable terms such as:
+
+```text
+Brawny conflicts with elf ancestry, young character, slender frame, mage training, fragile arcane training, sheltered upbringing.
+```
+
+The engine keeps a small tag-label table in `CharacterProfileBuilder` so common tags are shown as readable phrases. Unknown tags fall back to a cleaned label, replacing `.` and `_` with spaces.
+
+Rules for compatibility text:
+
+- Prefer readable world-facing reasons over raw tag IDs.
+- Keep reasons short enough to fit in the creator panel.
+- Explain what blocked the option, not only that it is blocked.
+- Do not hard-code one-off class/background pair logic in the UI.
+- Add new tag labels to `CharacterProfileBuilder.TAG_LABELS` when new tags become player-facing.
+
 ## Attributes
 
 Current starter attributes:

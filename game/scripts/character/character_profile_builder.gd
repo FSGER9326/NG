@@ -3,6 +3,37 @@ class_name CharacterProfileBuilder
 
 const GameLog = preload("res://game/scripts/core/game_log.gd")
 
+const TAG_LABELS := {
+	"ancestry.elf": "elf ancestry",
+	"ancestry.human": "human ancestry",
+	"ancestry.dwarf": "dwarf ancestry",
+	"ancestry.halfling": "halfling ancestry",
+	"age.young": "young character",
+	"appearance.fair": "fair appearance",
+	"frame.slender": "slender frame",
+	"frame.stout": "stout frame",
+	"frame.small": "small frame",
+	"frame.brawny": "brawny frame",
+	"frame.work_hardened": "work-hardened body",
+	"class.mage": "mage training",
+	"combat.fragile": "fragile arcane training",
+	"combat.veteran": "veteran combat history",
+	"combat.martial": "martial training",
+	"training.martial": "martial background",
+	"background.veteran": "war veteran background",
+	"background.caravan_guard": "caravan guard background",
+	"background.laborer": "laborer background",
+	"background.cloister": "cloister education",
+	"labor.heavy": "heavy labor history",
+	"education.formal": "formal education",
+	"social.sheltered": "sheltered upbringing",
+	"social.noble": "noble standing",
+	"reputation.untrustworthy": "untrustworthy reputation",
+	"magic.arcane": "arcane training",
+	"occult.marked": "occult mark",
+	"temperament.calm": "calm temperament"
+}
+
 static func build_profile(character_name: String, ancestry: Dictionary, background: Dictionary, character_class: Dictionary, trait: Dictionary, creation_data: Dictionary) -> Dictionary:
 	var clean_name := character_name.strip_edges()
 	if clean_name.is_empty():
@@ -28,11 +59,12 @@ static func build_profile(character_name: String, ancestry: Dictionary, backgrou
 		"compatibility_warnings": []
 	}
 
-	var chosen := [ancestry, background, character_class, trait]
-	for item in chosen:
+	var context_tags: Array = []
+	for item in [ancestry, background, character_class, trait]:
+		for reason in get_item_unavailable_reasons(context_tags, item):
+			profile["compatibility_warnings"].append(reason)
 		_apply_item(profile, item)
-	for item in chosen:
-		_check_item_compatibility(profile, item)
+		context_tags = profile["tags"].duplicate()
 
 	GameLog.info("CHARACTER", "Built character profile", {
 		"name": clean_name,
@@ -47,16 +79,20 @@ static func build_profile(character_name: String, ancestry: Dictionary, backgrou
 	return profile
 
 static func is_item_available(existing_tags: Array, item: Dictionary) -> bool:
-	for blocked_tag in item.get("blocked_by_tags", []):
-		if existing_tags.has(String(blocked_tag)):
-			return false
+	return get_item_unavailable_reasons(existing_tags, item).is_empty()
+
+static func get_item_unavailable_reasons(existing_tags: Array, item: Dictionary) -> Array[String]:
+	var reasons: Array[String] = []
+	var item_name := String(item.get("name", item.get("id", "unknown")))
+	var blocked_matches := _matching_tags(existing_tags, item.get("blocked_by_tags", []))
+	if not blocked_matches.is_empty():
+		reasons.append("%s conflicts with %s." % [item_name, _format_tag_list(blocked_matches)])
 	var required := item.get("requires_any_tags", [])
 	if typeof(required) == TYPE_ARRAY and not required.is_empty():
-		for tag in required:
-			if existing_tags.has(String(tag)):
-				return true
-		return false
-	return true
+		var required_matches := _matching_tags(existing_tags, required)
+		if required_matches.is_empty():
+			reasons.append("%s needs one of these themes: %s." % [item_name, _format_tag_list(required)])
+	return reasons
 
 static func _apply_item(profile: Dictionary, item: Dictionary) -> void:
 	for tag in item.get("tags", []):
@@ -67,18 +103,28 @@ static func _apply_item(profile: Dictionary, item: Dictionary) -> void:
 	_add_modifiers(profile["attributes"], modifiers.get("attributes", {}))
 	_add_modifiers(profile["skills"], modifiers.get("skills", {}))
 
-static func _check_item_compatibility(profile: Dictionary, item: Dictionary) -> void:
-	var item_name := String(item.get("name", item.get("id", "unknown")))
-	for blocked_tag in item.get("blocked_by_tags", []):
-		var tag_id := String(blocked_tag)
-		if profile["tags"].has(tag_id):
-			profile["compatibility_warnings"].append("%s conflicts with tag %s" % [item_name, tag_id])
-	var required := item.get("requires_any_tags", [])
-	if typeof(required) == TYPE_ARRAY and not required.is_empty():
-		for tag in required:
-			if profile["tags"].has(String(tag)):
-				return
-		profile["compatibility_warnings"].append("%s is missing one required theme tag" % item_name)
+static func _matching_tags(existing_tags: Array, query_tags: Variant) -> Array[String]:
+	var result: Array[String] = []
+	if typeof(query_tags) != TYPE_ARRAY:
+		return result
+	for tag in query_tags:
+		var tag_id := String(tag)
+		if existing_tags.has(tag_id) and not result.has(tag_id):
+			result.append(tag_id)
+	return result
+
+static func _format_tag_list(tags: Variant) -> String:
+	if typeof(tags) != TYPE_ARRAY:
+		return "unknown themes"
+	var labels: Array[String] = []
+	for tag in tags:
+		labels.append(format_tag(String(tag)))
+	if labels.is_empty():
+		return "unknown themes"
+	return ", ".join(labels)
+
+static func format_tag(tag_id: String) -> String:
+	return String(TAG_LABELS.get(tag_id, tag_id.replace(".", " ").replace("_", " ")))
 
 static func _portrait_id_for_background(background: Dictionary) -> String:
 	var explicit_id := String(background.get("portrait_id", ""))
