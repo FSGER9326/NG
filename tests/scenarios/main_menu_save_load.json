@@ -1,0 +1,72 @@
+{
+  "id": "main_menu_save_load",
+  "root_scene": "main",
+  "steps": [
+    {
+      "type": "press_menu",
+      "button": "new_game"
+    },
+    {
+      "type": "set_character_name",
+      "name": "Save Tester"
+    },
+    {
+      "type": "select_origin",
+      "origin": "Caravan Guard"
+    },
+    {
+      "type": "select_archetype",
+      "archetype": "Scout"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "game"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I am looking for work."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "accepted"
+    },
+    {
+      "type": "save_game"
+    },
+    {
+      "type": "load_game"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "game"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "assert_player_profile",
+      "name": "Save Tester",
+      "origin": "Caravan Guard",
+      "archetype": "Scout"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "accepted"
+    }
+  ]
+}
