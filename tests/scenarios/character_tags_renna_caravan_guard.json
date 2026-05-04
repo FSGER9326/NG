@@ -1,0 +1,67 @@
+{
+  "id": "character_tags_renna_caravan_guard",
+  "name": "Character Tags Unlock Renna Caravan Guard Reaction",
+  "root_scene": "main",
+  "description": "Verifies that the character creator builds tags from the selected background and that Renna can react to the Caravan Guard tag.",
+  "steps": [
+    {
+      "type": "assert_screen",
+      "screen": "main_menu"
+    },
+    {
+      "type": "press_menu",
+      "button": "new_game"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "character_creator"
+    },
+    {
+      "type": "set_character_name",
+      "name": "Tag Tester"
+    },
+    {
+      "type": "select_origin",
+      "origin": "Caravan Guard"
+    },
+    {
+      "type": "select_archetype",
+      "archetype": "Scout"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_player_profile",
+      "name": "Tag Tester",
+      "origin": "Caravan Guard",
+      "archetype": "Scout",
+      "background": "Caravan Guard",
+      "class": "Scout",
+      "trait": "Steady Under Fire",
+      "tag": "background.caravan_guard"
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "background.caravan_guard",
+      "value": true
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I have walked caravan roads. Tell me where yours broke pattern."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then I should look for a sign meant for drivers, not tracks meant for hunters."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I know the marks."
+    }
+  ]
+}
