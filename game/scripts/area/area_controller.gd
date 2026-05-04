@@ -330,12 +330,20 @@ func _show_dialogue_node(node_id: String) -> void:
 		return
 	active_dialogue_node_id = node_id
 	var node: Dictionary = nodes[node_id]
+	if not _passes_conditions(node):
+		GameLog.warning("DIALOGUE", "Blocked node because conditions failed: %s" % node_id, {"node_id": node_id})
+		_hide_dialogue()
+		return
 	dialogue_text_label.text = String(node.get("text", ""))
 	_clear_layer(dialogue_choices_box)
-	GameLog.info("DIALOGUE", "Entered node %s" % node_id, {"node_id": node_id, "choice_count": node.get("choices", []).size()})
+	var choices := _get_visible_choices(node.get("choices", []))
+	GameLog.info("DIALOGUE", "Entered node %s" % node_id, {
+		"node_id": node_id,
+		"choice_count": node.get("choices", []).size(),
+		"visible_choice_count": choices.size()
+	})
 	_apply_effects(node.get("effects", []), "dialogue:%s" % node_id)
 
-	var choices: Array = node.get("choices", [])
 	if choices.is_empty():
 		var close_button := Button.new()
 		close_button.text = "Continue"
@@ -345,8 +353,6 @@ func _show_dialogue_node(node_id: String) -> void:
 		return
 
 	for choice in choices:
-		if typeof(choice) != TYPE_DICTIONARY:
-			continue
 		var choice_button := Button.new()
 		choice_button.text = String(choice.get("text", "..."))
 		CrpgTheme.apply_button(choice_button)
@@ -354,6 +360,9 @@ func _show_dialogue_node(node_id: String) -> void:
 		dialogue_choices_box.add_child(choice_button)
 
 func _on_dialogue_choice_pressed(choice: Dictionary) -> void:
+	if not _passes_conditions(choice):
+		GameLog.warning("DIALOGUE_CHOICE", "Choice conditions failed: %s" % String(choice.get("text", "...")), {"choice": choice})
+		return
 	var next_node := String(choice.get("next", "end"))
 	GameLog.info("DIALOGUE_CHOICE", "%s -> %s" % [String(choice.get("text", "...")), next_node], {"choice_text": String(choice.get("text", "...")), "next": next_node})
 	if next_node == "end":
@@ -397,6 +406,45 @@ func _apply_effect(effect: Variant, source: String) -> void:
 		_:
 			_set_debug("Unhandled effect: %s from %s" % [effect_type, source])
 			GameLog.warning("EFFECT", "Unhandled effect: %s" % effect_type, {"source": source, "effect": effect})
+
+func _get_visible_choices(choices: Variant) -> Array:
+	var visible: Array = []
+	if typeof(choices) != TYPE_ARRAY:
+		return visible
+	for choice in choices:
+		if typeof(choice) == TYPE_DICTIONARY and _passes_conditions(choice):
+			visible.append(choice)
+	return visible
+
+func _passes_conditions(data: Dictionary) -> bool:
+	var conditions: Variant = data.get("conditions", [])
+	if typeof(conditions) != TYPE_ARRAY:
+		return true
+	for condition in conditions:
+		if not _condition_passes(condition):
+			return false
+	return true
+
+func _condition_passes(condition: Variant) -> bool:
+	if typeof(condition) != TYPE_DICTIONARY:
+		return false
+	var condition_type := String(condition.get("type", ""))
+	match condition_type:
+		"flag":
+			var flag_id := String(condition.get("flag_id", ""))
+			var expected := bool(condition.get("value", true))
+			var actual := game_state.has_flag(flag_id)
+			GameLog.event("condition_checked", {"type": condition_type, "flag_id": flag_id, "expected": expected, "actual": actual})
+			return actual == expected
+		"quest_stage":
+			var quest_id := String(condition.get("quest_id", ""))
+			var expected_stage := String(condition.get("stage", ""))
+			var actual_stage := game_state.get_quest_stage(quest_id)
+			GameLog.event("condition_checked", {"type": condition_type, "quest_id": quest_id, "expected": expected_stage, "actual": actual_stage})
+			return actual_stage == expected_stage
+		_:
+			GameLog.warning("DIALOGUE", "Unknown condition type: %s" % condition_type, {"condition": condition})
+			return false
 
 func _update_quest_tracker() -> void:
 	if quest_tracker_label != null and game_state != null:
@@ -454,11 +502,11 @@ func choose_dialogue_by_text(choice_text: String) -> bool:
 		GameLog.error("SCENARIO", "No active dialogue node for choice: %s" % choice_text)
 		return false
 	var node: Dictionary = nodes[active_dialogue_node_id]
-	for choice in node.get("choices", []):
-		if typeof(choice) == TYPE_DICTIONARY and String(choice.get("text", "")) == choice_text:
+	for choice in _get_visible_choices(node.get("choices", [])):
+		if String(choice.get("text", "")) == choice_text:
 			_on_dialogue_choice_pressed(choice)
 			return true
-	GameLog.error("SCENARIO", "Choice text not found: %s" % choice_text, {"node_id": active_dialogue_node_id})
+	GameLog.error("SCENARIO", "Visible choice text not found: %s" % choice_text, {"node_id": active_dialogue_node_id})
 	return false
 
 func click_hotspot_by_id(hotspot_id: String) -> bool:
