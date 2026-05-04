@@ -13,6 +13,9 @@
     "found_wreck": {
       "summary": "The party found signs of the caravan attack near the old shrine."
     },
+    "found_shrine_clue": {
+      "summary": "The party found an unnatural toll sign at the old shrine: a stamped disc pressed into a dead mule's eye."
+    },
     "reported_clue": {
       "summary": "The party reported the old shrine clue to Captain Renna."
     },
