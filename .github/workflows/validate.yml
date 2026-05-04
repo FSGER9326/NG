@@ -21,3 +21,6 @@ jobs:
 
       - name: Validate JSON project data
         run: python tools/validate_project.py
+
+      - name: Validate asset kit manifests
+        run: python tools/validate_asset_kits.py
