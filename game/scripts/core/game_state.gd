@@ -6,15 +6,57 @@ const GameLog = preload("res://game/scripts/core/game_log.gd")
 var flags: Dictionary = {}
 var faction_reputation: Dictionary = {}
 var party_member_ids: Array[String] = []
+var player_profile: Dictionary = {}
+var player_tags: Array[String] = []
+var player_attributes: Dictionary = {
+	"might": 1,
+	"finesse": 1,
+	"resolve": 1,
+	"wits": 1,
+	"presence": 1,
+	"occult": 0
+}
 var party_skills: Dictionary = {
 	"perception": 2,
 	"survival": 1,
 	"resolve": 1,
 	"lore": 1,
-	"stealth": 1
+	"stealth": 1,
+	"athletics": 0,
+	"medicine": 0,
+	"streetwise": 0,
+	"arcana": 0,
+	"command": 0
 }
 var active_quest_ids: Array[String] = []
 var quest_stages: Dictionary = {}
+
+func apply_player_profile(profile: Dictionary) -> void:
+	player_profile = profile.duplicate(true)
+	player_tags.clear()
+	for tag in profile.get("tags", []):
+		var tag_id := String(tag)
+		if not tag_id.is_empty() and not player_tags.has(tag_id):
+			player_tags.append(tag_id)
+	var profile_attributes: Dictionary = profile.get("attributes", {})
+	for key in profile_attributes.keys():
+		player_attributes[String(key)] = int(profile_attributes[key])
+	var profile_skills: Dictionary = profile.get("skills", {})
+	for key in profile_skills.keys():
+		party_skills[String(key)] = int(profile_skills[key])
+	GameLog.info("CHARACTER", "Applied player profile to game state", {
+		"name": String(profile.get("name", "")),
+		"tag_count": player_tags.size(),
+		"tags": player_tags,
+		"attributes": player_attributes,
+		"skills": party_skills
+	})
+
+func has_player_tag(tag_id: String) -> bool:
+	return player_tags.has(tag_id)
+
+func get_player_attribute(attribute_id: String) -> int:
+	return int(player_attributes.get(attribute_id, 0))
 
 func set_flag(flag_id: String, value: bool = true) -> void:
 	var old_value := bool(flags.get(flag_id, false))
@@ -92,6 +134,8 @@ func get_debug_summary() -> String:
 		lines.append("Quests:")
 		for quest_id in active_quest_ids:
 			lines.append("- %s: %s" % [quest_id, get_quest_stage(quest_id)])
+	if not player_tags.is_empty():
+		lines.append("Tags: %s" % ", ".join(player_tags.slice(0, min(4, player_tags.size()))))
 	return "\n".join(lines)
 
 func to_debug_dict() -> Dictionary:
@@ -99,6 +143,9 @@ func to_debug_dict() -> Dictionary:
 		"flags": flags.duplicate(true),
 		"faction_reputation": faction_reputation.duplicate(true),
 		"party_member_ids": party_member_ids.duplicate(true),
+		"player_profile": player_profile.duplicate(true),
+		"player_tags": player_tags.duplicate(true),
+		"player_attributes": player_attributes.duplicate(true),
 		"party_skills": party_skills.duplicate(true),
 		"active_quest_ids": active_quest_ids.duplicate(true),
 		"quest_stages": quest_stages.duplicate(true)
@@ -111,10 +158,14 @@ func apply_save_data(data: Dictionary) -> void:
 	quest_stages = _dictionary_from(data.get("quest_stages", {}))
 	party_member_ids = _string_array_from(data.get("party_member_ids", []))
 	active_quest_ids = _string_array_from(data.get("active_quest_ids", []))
+	player_profile = _dictionary_from(data.get("player_profile", {}))
+	player_tags = _string_array_from(data.get("player_tags", []))
+	player_attributes = _dictionary_from(data.get("player_attributes", player_attributes))
 	GameLog.info("SAVE", "Applied game-state save data", {
 		"flag_count": flags.size(),
 		"quest_count": active_quest_ids.size(),
-		"skill_count": party_skills.size()
+		"skill_count": party_skills.size(),
+		"tag_count": player_tags.size()
 	})
 
 func _dictionary_from(value: Variant) -> Dictionary:
