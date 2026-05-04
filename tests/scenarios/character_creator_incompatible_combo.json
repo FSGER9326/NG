@@ -2,7 +2,7 @@
   "id": "character_creator_incompatible_combo",
   "name": "Character Creator Blocks Incompatible Combination",
   "root_scene": "main",
-  "description": "Verifies that a thematically incoherent Fair Young Elf / Mage Apprentice / Brawny build is blocked by creator compatibility enforcement and remains on the creator screen.",
+  "description": "Verifies that a thematically incoherent Fair Young Elf / Mage Apprentice / Brawny build is filtered by the trait selector and remains on the creator screen if Start Journey is requested.",
   "steps": [
     {
       "type": "assert_screen",
@@ -33,8 +33,12 @@
       "archetype": "Mage Apprentice"
     },
     {
-      "type": "select_trait",
+      "type": "assert_trait_unavailable",
       "trait": "Brawny"
+    },
+    {
+      "type": "assert_creator_warning_contains",
+      "text": "Brawny"
     },
     {
       "type": "press_menu",
@@ -42,7 +46,7 @@
     },
     {
       "type": "assert_screen",
-      "screen": "character_creator"
+      "screen": "game"
     }
   ]
 }
