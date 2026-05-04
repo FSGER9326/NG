@@ -42,30 +42,35 @@ The repo currently contains:
 - validation script: `tools/validate_project.py`
 - GitHub Action: `.github/workflows/validate.yml`
 
-## First testable state
+## Current first playable loop
 
-Opening the project in Godot and pressing Play should now instantiate the Wolfpine Road prototype.
+Opening the project in Godot and pressing Play should instantiate the Wolfpine Road prototype.
 
 Expected behavior:
 
 - A dark placeholder background appears.
 - The Wolfpine Road title/debug label appears.
+- A visible `◆ party` marker appears.
+- Clicking the ground moves the party marker directly toward the clicked point.
 - Hotspot buttons appear for the old shrine and north road.
-- Actor markers appear for `captain_renna` and `border_bandit`.
+- Actor buttons appear for `captain_renna` and `border_bandit`.
 - Clicking the old shrine updates debug text with inspection text.
 - Clicking the north road updates debug text with the target area stub.
+- Clicking `captain_renna` opens a simple JSON-driven dialogue panel.
+- Dialogue choices can move between nodes.
+- Dialogue quest effects currently print debug output but are not yet stored in `GameState`.
 
 ## Current priority
 
-Finish Milestone 0.2 and move into Milestone 0.3.
+Test the current Godot launch state and fix any runtime errors.
 
 Next useful tasks:
 
-1. Test the current Godot launch state.
-2. Fix any Godot/GDScript syntax/runtime errors found on launch.
-3. Add click-to-move placeholder behavior.
-4. Add simple dialogue panel that can read JSON dialogue.
-5. Apply dialogue effects to start/update quests.
+1. Test player click-to-move.
+2. Test Captain Renna dialogue.
+3. Fix any GDScript runtime errors found on launch/click.
+4. Store quest state in `GameState` / `QuestSystem` instead of only printing debug text.
+5. Add flag checks and simple skill-check format to dialogue JSON.
 6. Keep improving `tools/validate_project.py` whenever a bug could have been caught by validation.
 
 ## Validation
@@ -76,7 +81,7 @@ Run from repo root:
 python tools/validate_project.py
 ```
 
-GitHub Actions now also runs validation on push and PR.
+GitHub Actions also runs validation on push and PR.
 
 ## Working rule
 
