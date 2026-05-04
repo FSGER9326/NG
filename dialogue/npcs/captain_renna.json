@@ -18,6 +18,17 @@
           ]
         },
         {
+          "text": "I have walked caravan roads. Tell me where yours broke pattern.",
+          "next": "caravan_guard_read",
+          "conditions": [
+            {
+              "type": "player_tag",
+              "tag": "background.caravan_guard",
+              "value": true
+            }
+          ]
+        },
+        {
           "text": "You look like you expected the caravan to vanish.",
           "next": "renna_pressure_read",
           "conditions": [
@@ -38,6 +49,28 @@
         },
         {
           "text": "Nothing for now.",
+          "next": "end"
+        }
+      ]
+    },
+    "caravan_guard_read": {
+      "text": "Renna studies the mud on your boots and the way your eyes keep measuring the road. \"Then you know wagons do not vanish. They slow, split, stop, or get invited somewhere worse. Our rear driver was cautious. Too cautious to leave the road without a familiar signal.\"",
+      "choices": [
+        {
+          "text": "Then I should look for a sign meant for drivers, not tracks meant for hunters.",
+          "next": "caravan_guard_followup"
+        },
+        {
+          "text": "I will start where the road first lies.",
+          "next": "end"
+        }
+      ]
+    },
+    "caravan_guard_followup": {
+      "text": "\"Good. Look for cloth knots, chalk on stone, cut bark. Caravan folk warn each other quietly. Someone may have used that language against them.\"",
+      "choices": [
+        {
+          "text": "I know the marks.",
           "next": "end"
         }
       ]
