@@ -1,0 +1,86 @@
+{
+  "id": "character_creator_recover_from_incompatible_combo",
+  "name": "Character Creator Recovers From Incompatible Combination",
+  "root_scene": "main",
+  "description": "Verifies that an incompatible ancestry/class/trait selection blocks Start Journey, then a compatible trait selection clears the block and starts the game with the expected tags.",
+  "steps": [
+    {
+      "type": "assert_screen",
+      "screen": "main_menu"
+    },
+    {
+      "type": "press_menu",
+      "button": "new_game"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "character_creator"
+    },
+    {
+      "type": "set_character_name",
+      "name": "Recovered Tester"
+    },
+    {
+      "type": "select_ancestry",
+      "ancestry": "Fair Young Elf"
+    },
+    {
+      "type": "select_origin",
+      "origin": "Cloister Novice"
+    },
+    {
+      "type": "select_archetype",
+      "archetype": "Mage Apprentice"
+    },
+    {
+      "type": "select_trait",
+      "trait": "Brawny"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "character_creator"
+    },
+    {
+      "type": "select_trait",
+      "trait": "Arcane Sensitive"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "game"
+    },
+    {
+      "type": "assert_player_profile",
+      "name": "Recovered Tester",
+      "ancestry": "Fair Young Elf",
+      "origin": "Cloister Novice",
+      "archetype": "Mage Apprentice",
+      "background": "Cloister Novice",
+      "class": "Mage Apprentice",
+      "trait": "Arcane Sensitive",
+      "tag": "trait.arcane_sensitive"
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "ancestry.elf",
+      "value": true
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "magic.arcane",
+      "value": true
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "trait.arcane_sensitive",
+      "value": true
+    }
+  ]
+}
