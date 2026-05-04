@@ -28,6 +28,10 @@ REFERENCE_KEYS = {
 }
 
 CONDITION_TYPES = {"flag", "quest_stage", "not", "all", "any"}
+MENU_BUTTONS = {"new_game", "start_journey"}
+SCREENS = {"main_menu", "character_creator", "game"}
+ORIGINS = {"Border Drifter", "Failed Squire", "Village Outcast", "Caravan Guard"}
+ARCHETYPES = {"Mercenary", "Scout", "Hedge Knight", "Cunning Speaker"}
 
 
 class ProjectIndex:
@@ -126,7 +130,7 @@ def check_references(path: Path, data: Any, errors: list[str]) -> None:
 
 
 def check_dialogue(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -> None:
-    if not path.parts or "dialogue" not in path.parts or not isinstance(data, dict):
+    if "dialogue" not in path.parts or not isinstance(data, dict):
         return
     nodes = data.get("nodes")
     if not isinstance(nodes, dict):
@@ -234,6 +238,9 @@ def check_quest_references(path: Path, data: Any, index: ProjectIndex, errors: l
 def check_scenario(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -> None:
     if "tests" not in path.parts or "scenarios" not in path.parts or not isinstance(data, dict):
         return
+    root_scene = data.get("root_scene", "area")
+    if not isinstance(root_scene, str):
+        errors.append(f"Scenario root_scene must be string in {path.relative_to(ROOT)}")
     steps = data.get("steps")
     if not isinstance(steps, list):
         errors.append(f"Scenario missing steps list in {path.relative_to(ROOT)}")
@@ -246,35 +253,58 @@ def check_scenario(path: Path, data: Any, index: ProjectIndex, errors: list[str]
         if not isinstance(step_type, str):
             errors.append(f"Scenario step missing type in {path.relative_to(ROOT)} step {step_index}")
             continue
-        match step_type:
-            case "load_area":
-                area_id = step.get("area_id")
-                if not isinstance(area_id, str) or area_id not in index.areas:
-                    errors.append(f"Scenario references missing area in {path.relative_to(ROOT)} step {step_index}: {area_id}")
-            case "click_actor":
-                actor_id = step.get("actor_id")
-                if not isinstance(actor_id, str) or actor_id not in index.actors:
-                    errors.append(f"Scenario references missing actor in {path.relative_to(ROOT)} step {step_index}: {actor_id}")
-            case "choose_dialogue":
-                text = step.get("text")
-                if not isinstance(text, str) or text not in index.dialogue_choice_texts:
-                    errors.append(f"Scenario references missing dialogue choice in {path.relative_to(ROOT)} step {step_index}: {text}")
-            case "click_hotspot":
-                hotspot_id = step.get("hotspot_id")
-                if not isinstance(hotspot_id, str) or hotspot_id not in index.hotspots:
-                    errors.append(f"Scenario references missing hotspot in {path.relative_to(ROOT)} step {step_index}: {hotspot_id}")
-            case "assert_quest_stage":
-                quest_id = step.get("quest_id")
-                stage = step.get("stage")
-                if not isinstance(quest_id, str) or quest_id not in index.quests:
-                    errors.append(f"Scenario references missing quest in {path.relative_to(ROOT)} step {step_index}: {quest_id}")
-                elif not isinstance(stage, str) or stage not in index.quests[quest_id]:
-                    errors.append(f"Scenario references missing quest stage in {path.relative_to(ROOT)} step {step_index}: {quest_id}.{stage}")
-            case "assert_flag":
-                if not isinstance(step.get("flag_id"), str) or not step.get("flag_id"):
-                    errors.append(f"Scenario assert_flag missing flag_id in {path.relative_to(ROOT)} step {step_index}")
-            case _:
-                errors.append(f"Scenario has unknown step type in {path.relative_to(ROOT)} step {step_index}: {step_type}")
+        check_scenario_step(path, step, step_type, step_index, index, errors)
+
+
+def check_scenario_step(path: Path, step: dict[str, Any], step_type: str, step_index: int, index: ProjectIndex, errors: list[str]) -> None:
+    match step_type:
+        case "load_area" | "assert_area":
+            area_id = step.get("area_id")
+            if not isinstance(area_id, str) or area_id not in index.areas:
+                errors.append(f"Scenario {step_type} references missing area in {path.relative_to(ROOT)} step {step_index}: {area_id}")
+        case "click_actor":
+            actor_id = step.get("actor_id")
+            if not isinstance(actor_id, str) or actor_id not in index.actors:
+                errors.append(f"Scenario references missing actor in {path.relative_to(ROOT)} step {step_index}: {actor_id}")
+        case "choose_dialogue":
+            text = step.get("text")
+            if not isinstance(text, str) or text not in index.dialogue_choice_texts:
+                errors.append(f"Scenario references missing dialogue choice in {path.relative_to(ROOT)} step {step_index}: {text}")
+        case "click_hotspot":
+            hotspot_id = step.get("hotspot_id")
+            if not isinstance(hotspot_id, str) or hotspot_id not in index.hotspots:
+                errors.append(f"Scenario references missing hotspot in {path.relative_to(ROOT)} step {step_index}: {hotspot_id}")
+        case "assert_quest_stage":
+            quest_id = step.get("quest_id")
+            stage = step.get("stage")
+            if not isinstance(quest_id, str) or quest_id not in index.quests:
+                errors.append(f"Scenario references missing quest in {path.relative_to(ROOT)} step {step_index}: {quest_id}")
+            elif not isinstance(stage, str) or stage not in index.quests[quest_id]:
+                errors.append(f"Scenario references missing quest stage in {path.relative_to(ROOT)} step {step_index}: {quest_id}.{stage}")
+        case "assert_flag":
+            if not isinstance(step.get("flag_id"), str) or not step.get("flag_id"):
+                errors.append(f"Scenario assert_flag missing flag_id in {path.relative_to(ROOT)} step {step_index}")
+        case "assert_screen":
+            if step.get("screen") not in SCREENS:
+                errors.append(f"Scenario assert_screen has unknown screen in {path.relative_to(ROOT)} step {step_index}: {step.get('screen')}")
+        case "press_menu":
+            if step.get("button") not in MENU_BUTTONS:
+                errors.append(f"Scenario press_menu has unknown button in {path.relative_to(ROOT)} step {step_index}: {step.get('button')}")
+        case "set_character_name":
+            if not isinstance(step.get("name"), str):
+                errors.append(f"Scenario set_character_name missing name in {path.relative_to(ROOT)} step {step_index}")
+        case "select_origin":
+            if step.get("origin") not in ORIGINS:
+                errors.append(f"Scenario select_origin has unknown origin in {path.relative_to(ROOT)} step {step_index}: {step.get('origin')}")
+        case "select_archetype":
+            if step.get("archetype") not in ARCHETYPES:
+                errors.append(f"Scenario select_archetype has unknown archetype in {path.relative_to(ROOT)} step {step_index}: {step.get('archetype')}")
+        case "assert_player_profile":
+            for field in ["name", "origin", "archetype"]:
+                if field in step and not isinstance(step.get(field), str):
+                    errors.append(f"Scenario assert_player_profile field {field} must be string in {path.relative_to(ROOT)} step {step_index}")
+        case _:
+            errors.append(f"Scenario has unknown step type in {path.relative_to(ROOT)} step {step_index}: {step_type}")
 
 
 def to_repo_path(value: str) -> Path:
