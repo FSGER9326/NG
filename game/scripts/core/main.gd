@@ -15,13 +15,17 @@ var current_area: Node2D
 var menu_root: Control
 var character_creator_root: Control
 var character_name_edit: LineEdit
+var ancestry_options: OptionButton
 var origin_options: OptionButton
 var archetype_options: OptionButton
+var trait_options: OptionButton
 var character_creation_data: Dictionary = {}
 var player_profile: Dictionary = {
 	"name": "Wanderer",
 	"origin": "Border Drifter",
 	"archetype": "Mercenary",
+	"ancestry": "Border Human",
+	"trait": "Steady Under Fire",
 	"tags": []
 }
 
@@ -110,8 +114,8 @@ func _show_character_creator() -> void:
 
 	var panel := PanelContainer.new()
 	panel.name = "CreatorPanel"
-	panel.position = Vector2(300, 70)
-	panel.size = Vector2(680, 580)
+	panel.position = Vector2(300, 40)
+	panel.size = Vector2(680, 650)
 	CrpgTheme.apply_panel(panel)
 	character_creator_root.add_child(panel)
 
@@ -123,7 +127,7 @@ func _show_character_creator() -> void:
 	panel.add_child(margin)
 
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 10)
+	root.add_theme_constant_override("separation", 8)
 	margin.add_child(root)
 
 	var title := Label.new()
@@ -134,12 +138,12 @@ func _show_character_creator() -> void:
 	root.add_child(title)
 
 	var intro := Label.new()
-	intro.text = "Choose a name, background, and class. The current UI keeps the old flow, but now builds a tagged profile for passive checks and NPC reactions."
+	intro.text = "Choose a name, ancestry, background, class, and trait. These choices build tags for passive checks and NPC reactions."
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	CrpgTheme.apply_label(intro)
 	root.add_child(intro)
 
-	root.add_child(_spacer(10))
+	root.add_child(_spacer(6))
 	root.add_child(_make_form_label("Name"))
 
 	character_name_edit = LineEdit.new()
@@ -147,25 +151,41 @@ func _show_character_creator() -> void:
 	character_name_edit.text = String(player_profile.get("name", "Wanderer"))
 	root.add_child(character_name_edit)
 
+	root.add_child(_make_form_label("Ancestry"))
+	ancestry_options = OptionButton.new()
+	ancestry_options.name = "AncestryOptions"
+	_populate_option_button(ancestry_options, character_creation_data.get("ancestries", []), ["Border Human"])
+	_select_option_by_text(ancestry_options, String(player_profile.get("ancestry", "Border Human")), "ancestry")
+	root.add_child(ancestry_options)
+
 	root.add_child(_make_form_label("Background"))
 	origin_options = OptionButton.new()
 	origin_options.name = "OriginOptions"
 	_populate_option_button(origin_options, character_creation_data.get("backgrounds", []), ["Border Drifter", "Failed Squire", "Village Outcast", "Caravan Guard"])
+	_select_option_by_text(origin_options, String(player_profile.get("origin", "Border Drifter")), "origin")
 	root.add_child(origin_options)
 
 	root.add_child(_make_form_label("Class"))
 	archetype_options = OptionButton.new()
 	archetype_options.name = "ArchetypeOptions"
 	_populate_option_button(archetype_options, character_creation_data.get("classes", []), ["Mercenary", "Scout", "Hedge Knight", "Cunning Speaker"])
+	_select_option_by_text(archetype_options, String(player_profile.get("archetype", "Mercenary")), "archetype")
 	root.add_child(archetype_options)
 
+	root.add_child(_make_form_label("Trait"))
+	trait_options = OptionButton.new()
+	trait_options.name = "TraitOptions"
+	_populate_option_button(trait_options, character_creation_data.get("traits", []), ["Steady Under Fire"])
+	_select_option_by_text(trait_options, String(player_profile.get("trait", "Steady Under Fire")), "trait")
+	root.add_child(trait_options)
+
 	var note := Label.new()
-	note.text = "Default ancestry: Border Human. Default trait: Steady Under Fire. Full ancestry/trait selection is the next UI step."
+	note.text = "Compatibility is data-driven. Full UI filtering/warnings are next; invalid combinations currently log compatibility warnings in the built profile."
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	CrpgTheme.apply_label(note)
 	root.add_child(note)
 
-	root.add_child(_spacer(12))
+	root.add_child(_spacer(8))
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 10)
 	root.add_child(buttons)
@@ -179,34 +199,38 @@ func _show_character_creator() -> void:
 	var start_button := Button.new()
 	start_button.text = "Start Journey"
 	CrpgTheme.apply_button(start_button)
-	start_button.pressed.connect(_start_new_game_from_creator.bind(character_name_edit, origin_options, archetype_options))
+	start_button.pressed.connect(_start_new_game_from_creator.bind(character_name_edit, ancestry_options, origin_options, archetype_options, trait_options))
 	buttons.add_child(start_button)
 	GameLog.info("MENU", "Character creator shown")
 
-func _start_new_game_from_creator(name_edit: LineEdit, selected_origin_options: OptionButton, selected_archetype_options: OptionButton) -> void:
+func _start_new_game_from_creator(name_edit: LineEdit, selected_ancestry_options: OptionButton, selected_origin_options: OptionButton, selected_archetype_options: OptionButton, selected_trait_options: OptionButton) -> void:
 	var character_name := name_edit.text.strip_edges()
 	if character_name.is_empty():
 		character_name = "Wanderer"
+	var ancestry_name := selected_ancestry_options.get_item_text(selected_ancestry_options.selected)
 	var background_name := selected_origin_options.get_item_text(selected_origin_options.selected)
 	var class_name := selected_archetype_options.get_item_text(selected_archetype_options.selected)
-	player_profile = _build_player_profile(character_name, background_name, class_name)
+	var trait_name := selected_trait_options.get_item_text(selected_trait_options.selected)
+	player_profile = _build_player_profile(character_name, ancestry_name, background_name, class_name, trait_name)
 	GameLog.info("CHARACTER", "Created player profile", player_profile)
 	_start_game()
 
-func _build_player_profile(character_name: String, background_name: String, class_name: String) -> Dictionary:
+func _build_player_profile(character_name: String, ancestry_name: String, background_name: String, class_name: String, trait_name: String) -> Dictionary:
 	if character_creation_data.is_empty():
 		return {
 			"name": character_name,
+			"ancestry": ancestry_name,
 			"origin": background_name,
 			"archetype": class_name,
 			"background": background_name,
 			"class": class_name,
+			"trait": trait_name,
 			"tags": []
 		}
-	var ancestry := _find_option_by_name(character_creation_data.get("ancestries", []), "Border Human")
+	var ancestry := _find_option_by_name(character_creation_data.get("ancestries", []), ancestry_name)
 	var background := _find_option_by_name(character_creation_data.get("backgrounds", []), background_name)
 	var character_class := _find_option_by_name(character_creation_data.get("classes", []), class_name)
-	var trait := _find_option_by_name(character_creation_data.get("traits", []), "Steady Under Fire")
+	var trait := _find_option_by_name(character_creation_data.get("traits", []), trait_name)
 	return CharacterProfileBuilder.build_profile(character_name, ancestry, background, character_class, trait, character_creation_data)
 
 func _start_game() -> void:
@@ -291,10 +315,10 @@ func run_debug_action(action: Dictionary) -> bool:
 				_show_character_creator()
 				return true
 			if button == "start_journey":
-				if character_name_edit == null or origin_options == null or archetype_options == null:
+				if character_name_edit == null or ancestry_options == null or origin_options == null or archetype_options == null or trait_options == null:
 					GameLog.error("ASSERT", "Cannot start journey; character creator controls are missing")
 					return false
-				_start_new_game_from_creator(character_name_edit, origin_options, archetype_options)
+				_start_new_game_from_creator(character_name_edit, ancestry_options, origin_options, archetype_options, trait_options)
 				return true
 			if button == "load_game":
 				return _load_game()
@@ -310,10 +334,14 @@ func run_debug_action(action: Dictionary) -> bool:
 				return false
 			character_name_edit.text = String(action.get("name", "Wanderer"))
 			return true
+		"select_ancestry":
+			return _select_option_by_text(ancestry_options, String(action.get("ancestry", "")), "ancestry")
 		"select_origin":
 			return _select_option_by_text(origin_options, String(action.get("origin", "")), "origin")
 		"select_archetype":
 			return _select_option_by_text(archetype_options, String(action.get("archetype", "")), "archetype")
+		"select_trait":
+			return _select_option_by_text(trait_options, String(action.get("trait", "")), "trait")
 		"assert_player_profile":
 			return _assert_player_profile(action)
 		"assert_area":
@@ -373,7 +401,7 @@ func _get_current_screen() -> String:
 	return "unknown"
 
 func _assert_player_profile(action: Dictionary) -> bool:
-	for key in ["name", "origin", "archetype", "background", "class", "trait"]:
+	for key in ["name", "ancestry", "origin", "archetype", "background", "class", "trait"]:
 		if action.has(key):
 			var expected := String(action[key])
 			var actual := String(player_profile.get(key, ""))
@@ -439,8 +467,10 @@ func _clear_current_screen() -> void:
 	menu_root = null
 	character_creator_root = null
 	character_name_edit = null
+	ancestry_options = null
 	origin_options = null
 	archetype_options = null
+	trait_options = null
 
 func _make_menu_button(text: String, callback: Callable) -> Button:
 	var button := Button.new()
