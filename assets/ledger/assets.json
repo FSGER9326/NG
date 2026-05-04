@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "notes": "Asset ledger for NG. Every external, generated, or modified asset used by data/scenes should be recorded here.",
+  "assets": [
+    {
+      "id": "ng_generated_ui_theme_runtime",
+      "file": "game/scripts/ui/crpg_theme.gd",
+      "type": "runtime_ui_style",
+      "source": "project_generated",
+      "source_url": "",
+      "license": "project_owned",
+      "modified": false,
+      "notes": "Code-generated UI style boxes and colors for the early CRPG presentation layer."
+    },
+    {
+      "id": "ng_generated_iso_placeholder_map",
+      "file": "game/scripts/area/iso_placeholder_map.gd",
+      "type": "runtime_placeholder_background",
+      "source": "project_generated",
+      "source_url": "",
+      "license": "project_owned",
+      "modified": false,
+      "notes": "Code-drawn pseudo-isometric Wolfpine Road placeholder."
+    }
+  ],
+  "external_candidates_not_yet_imported": [
+    {
+      "id": "kenney_ui_candidates",
+      "source": "Kenney",
+      "candidate_use": "UI panels, icons, cursors, SFX",
+      "status": "candidate_only_not_imported",
+      "license_review": "Required per pack before import. Prefer CC0 packs."
+    },
+    {
+      "id": "opengameart_candidates",
+      "source": "OpenGameArt",
+      "candidate_use": "Icons, ambient audio, individual fantasy props",
+      "status": "candidate_only_not_imported",
+      "license_review": "Required per asset. Prefer CC0/OGA-BY; avoid unclear/copyleft assets for now."
+    }
+  ]
+}
