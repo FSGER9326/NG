@@ -19,6 +19,8 @@ var ancestry_options: OptionButton
 var origin_options: OptionButton
 var archetype_options: OptionButton
 var trait_options: OptionButton
+var compatibility_warning_label: Label
+var start_journey_button: Button
 var character_creation_data: Dictionary = {}
 var player_profile: Dictionary = {
 	"name": "Wanderer",
@@ -114,8 +116,8 @@ func _show_character_creator() -> void:
 
 	var panel := PanelContainer.new()
 	panel.name = "CreatorPanel"
-	panel.position = Vector2(300, 40)
-	panel.size = Vector2(680, 650)
+	panel.position = Vector2(300, 28)
+	panel.size = Vector2(680, 675)
 	CrpgTheme.apply_panel(panel)
 	character_creator_root.add_child(panel)
 
@@ -156,6 +158,7 @@ func _show_character_creator() -> void:
 	ancestry_options.name = "AncestryOptions"
 	_populate_option_button(ancestry_options, character_creation_data.get("ancestries", []), ["Border Human"])
 	_select_option_by_text(ancestry_options, String(player_profile.get("ancestry", "Border Human")), "ancestry")
+	ancestry_options.item_selected.connect(_on_creator_selection_changed)
 	root.add_child(ancestry_options)
 
 	root.add_child(_make_form_label("Background"))
@@ -163,6 +166,7 @@ func _show_character_creator() -> void:
 	origin_options.name = "OriginOptions"
 	_populate_option_button(origin_options, character_creation_data.get("backgrounds", []), ["Border Drifter", "Failed Squire", "Village Outcast", "Caravan Guard"])
 	_select_option_by_text(origin_options, String(player_profile.get("origin", "Border Drifter")), "origin")
+	origin_options.item_selected.connect(_on_creator_selection_changed)
 	root.add_child(origin_options)
 
 	root.add_child(_make_form_label("Class"))
@@ -170,6 +174,7 @@ func _show_character_creator() -> void:
 	archetype_options.name = "ArchetypeOptions"
 	_populate_option_button(archetype_options, character_creation_data.get("classes", []), ["Mercenary", "Scout", "Hedge Knight", "Cunning Speaker"])
 	_select_option_by_text(archetype_options, String(player_profile.get("archetype", "Mercenary")), "archetype")
+	archetype_options.item_selected.connect(_on_creator_selection_changed)
 	root.add_child(archetype_options)
 
 	root.add_child(_make_form_label("Trait"))
@@ -177,13 +182,15 @@ func _show_character_creator() -> void:
 	trait_options.name = "TraitOptions"
 	_populate_option_button(trait_options, character_creation_data.get("traits", []), ["Steady Under Fire"])
 	_select_option_by_text(trait_options, String(player_profile.get("trait", "Steady Under Fire")), "trait")
+	trait_options.item_selected.connect(_on_creator_selection_changed)
 	root.add_child(trait_options)
 
-	var note := Label.new()
-	note.text = "Compatibility is data-driven. Full UI filtering/warnings are next; invalid combinations currently log compatibility warnings in the built profile."
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	CrpgTheme.apply_label(note)
-	root.add_child(note)
+	compatibility_warning_label = Label.new()
+	compatibility_warning_label.name = "CompatibilityWarning"
+	compatibility_warning_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	compatibility_warning_label.custom_minimum_size = Vector2(620, 56)
+	CrpgTheme.apply_label(compatibility_warning_label)
+	root.add_child(compatibility_warning_label)
 
 	root.add_child(_spacer(8))
 	var buttons := HBoxContainer.new()
@@ -196,11 +203,12 @@ func _show_character_creator() -> void:
 	back_button.pressed.connect(_show_main_menu)
 	buttons.add_child(back_button)
 
-	var start_button := Button.new()
-	start_button.text = "Start Journey"
-	CrpgTheme.apply_button(start_button)
-	start_button.pressed.connect(_start_new_game_from_creator.bind(character_name_edit, ancestry_options, origin_options, archetype_options, trait_options))
-	buttons.add_child(start_button)
+	start_journey_button = Button.new()
+	start_journey_button.text = "Start Journey"
+	CrpgTheme.apply_button(start_journey_button)
+	start_journey_button.pressed.connect(_start_new_game_from_creator.bind(character_name_edit, ancestry_options, origin_options, archetype_options, trait_options))
+	buttons.add_child(start_journey_button)
+	_update_creator_compatibility()
 	GameLog.info("MENU", "Character creator shown")
 
 func _start_new_game_from_creator(name_edit: LineEdit, selected_ancestry_options: OptionButton, selected_origin_options: OptionButton, selected_archetype_options: OptionButton, selected_trait_options: OptionButton) -> void:
@@ -211,7 +219,13 @@ func _start_new_game_from_creator(name_edit: LineEdit, selected_ancestry_options
 	var background_name := selected_origin_options.get_item_text(selected_origin_options.selected)
 	var class_name := selected_archetype_options.get_item_text(selected_archetype_options.selected)
 	var trait_name := selected_trait_options.get_item_text(selected_trait_options.selected)
-	player_profile = _build_player_profile(character_name, ancestry_name, background_name, class_name, trait_name)
+	var built_profile := _build_player_profile(character_name, ancestry_name, background_name, class_name, trait_name)
+	var warnings: Array = built_profile.get("compatibility_warnings", [])
+	if not warnings.is_empty():
+		_show_creator_warnings(warnings)
+		GameLog.warning("CHARACTER", "Blocked incompatible player profile", {"warnings": warnings, "profile": built_profile})
+		return
+	player_profile = built_profile
 	GameLog.info("CHARACTER", "Created player profile", player_profile)
 	_start_game()
 
@@ -225,13 +239,45 @@ func _build_player_profile(character_name: String, ancestry_name: String, backgr
 			"background": background_name,
 			"class": class_name,
 			"trait": trait_name,
-			"tags": []
+			"tags": [],
+			"compatibility_warnings": []
 		}
 	var ancestry := _find_option_by_name(character_creation_data.get("ancestries", []), ancestry_name)
 	var background := _find_option_by_name(character_creation_data.get("backgrounds", []), background_name)
 	var character_class := _find_option_by_name(character_creation_data.get("classes", []), class_name)
 	var trait := _find_option_by_name(character_creation_data.get("traits", []), trait_name)
 	return CharacterProfileBuilder.build_profile(character_name, ancestry, background, character_class, trait, character_creation_data)
+
+func _update_creator_compatibility(_selected_index: int = -1) -> void:
+	if compatibility_warning_label == null or start_journey_button == null:
+		return
+	if ancestry_options == null or origin_options == null or archetype_options == null or trait_options == null:
+		return
+	var preview_name := character_name_edit.text.strip_edges() if character_name_edit != null else "Wanderer"
+	if preview_name.is_empty():
+		preview_name = "Wanderer"
+	var preview_profile := _build_player_profile(
+		preview_name,
+		ancestry_options.get_item_text(ancestry_options.selected),
+		origin_options.get_item_text(origin_options.selected),
+		archetype_options.get_item_text(archetype_options.selected),
+		trait_options.get_item_text(trait_options.selected)
+	)
+	var warnings: Array = preview_profile.get("compatibility_warnings", [])
+	if warnings.is_empty():
+		compatibility_warning_label.text = "Theme check: coherent."
+		start_journey_button.disabled = false
+	else:
+		_show_creator_warnings(warnings)
+
+func _show_creator_warnings(warnings: Array) -> void:
+	if compatibility_warning_label != null:
+		compatibility_warning_label.text = "Theme conflict:\n- %s" % "\n- ".join(warnings)
+	if start_journey_button != null:
+		start_journey_button.disabled = true
+
+func _on_creator_selection_changed(_selected_index: int = -1) -> void:
+	_update_creator_compatibility(_selected_index)
 
 func _start_game() -> void:
 	_clear_current_screen()
@@ -335,13 +381,21 @@ func run_debug_action(action: Dictionary) -> bool:
 			character_name_edit.text = String(action.get("name", "Wanderer"))
 			return true
 		"select_ancestry":
-			return _select_option_by_text(ancestry_options, String(action.get("ancestry", "")), "ancestry")
+			var ancestry_ok := _select_option_by_text(ancestry_options, String(action.get("ancestry", "")), "ancestry")
+			_update_creator_compatibility()
+			return ancestry_ok
 		"select_origin":
-			return _select_option_by_text(origin_options, String(action.get("origin", "")), "origin")
+			var origin_ok := _select_option_by_text(origin_options, String(action.get("origin", "")), "origin")
+			_update_creator_compatibility()
+			return origin_ok
 		"select_archetype":
-			return _select_option_by_text(archetype_options, String(action.get("archetype", "")), "archetype")
+			var archetype_ok := _select_option_by_text(archetype_options, String(action.get("archetype", "")), "archetype")
+			_update_creator_compatibility()
+			return archetype_ok
 		"select_trait":
-			return _select_option_by_text(trait_options, String(action.get("trait", "")), "trait")
+			var trait_ok := _select_option_by_text(trait_options, String(action.get("trait", "")), "trait")
+			_update_creator_compatibility()
+			return trait_ok
 		"assert_player_profile":
 			return _assert_player_profile(action)
 		"assert_area":
@@ -471,6 +525,8 @@ func _clear_current_screen() -> void:
 	origin_options = null
 	archetype_options = null
 	trait_options = null
+	compatibility_warning_label = null
+	start_journey_button = null
 
 func _make_menu_button(text: String, callback: Callable) -> Button:
 	var button := Button.new()
