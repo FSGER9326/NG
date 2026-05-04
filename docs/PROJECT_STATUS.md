@@ -102,15 +102,17 @@ Expected Wolfpine Road behavior:
 - A visible `◆ party` marker appears.
 - Clicking the ground moves the party marker directly toward the clicked point.
 - Hotspot buttons appear for the old shrine and north road.
-- Actor buttons appear for `captain_renna` and `border_bandit`.
+- Actor buttons appear for `captain_renna`, `brannoc`, and `border_bandit`.
 - Clicking the old shrine updates debug text, sets `wolfpine_old_shrine_inspected`, sets dead-mule/toll-disc/Road-Peace flags, and advances `missing_caravan` to `found_wreck`.
 - Clicking the north road transitions to `wolfpine_village`.
 - Clicking `captain_renna` opens a JSON-driven dialogue panel.
+- Clicking `brannoc` opens companion dialogue, including a toll-disc reaction branch if the old shrine clue was found.
 - Dialogue choices can move between nodes.
-- Dialogue effects can start quests, set quest stages, and set flags.
+- Dialogue effects can start quests, set quest stages, set flags, and add party members.
 - Dialogue choices can be gated by reusable flag/quest-stage/skill/player-tag/attribute conditions.
 - A Caravan Guard player can access Renna's caravan-road reaction branch.
 - If the toll-disc clue was found, Renna exposes a gated branch: `Someone pressed a toll disc into a dead mule's eye.` This sets `missing_caravan` to `found_shrine_clue` and `wolfpine_renna_knows_toll_disc`.
+- If the toll-disc clue was found, Brannoc exposes a gated branch: `You saw the mule at the shrine. The toll disc in its eye.` This sets `brannoc_guilt_hint_1` as the first seed of his caravan-survivor guilt arc.
 
 Expected Wolfpine Village planning state:
 
@@ -149,6 +151,7 @@ tests/scenarios/wolfpine_missing_caravan.json
 tests/scenarios/wolfpine_shrine_before_renna.json
 tests/scenarios/wolfpine_report_shrine_to_renna.json
 tests/scenarios/wolfpine_shrine_toll_disc.json
+tests/scenarios/brannoc_toll_disc_reaction.json
 tests/scenarios/wolfpine_road_to_village.json
 ```
 
@@ -162,6 +165,7 @@ These are intended to test:
 - shrine-before-Renna quest regression protection
 - flag-gated Renna dialogue
 - toll-disc Road Peace clue flags and Renna's toll-disc branch
+- Brannoc's toll-disc reaction and first guilt-arc hint flag
 - Wolfpine Road to Wolfpine Village transition
 
 ## Validation
