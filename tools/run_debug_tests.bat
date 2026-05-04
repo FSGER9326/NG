@@ -12,7 +12,7 @@ python tools\validate_project.py > "%DEBUG_DIR%\validation.log" 2>&1
 if errorlevel 1 (
   echo Validation failed. See debug\latest\validation.log
   type "%DEBUG_DIR%\validation.log"
-  pause
+  if not "%NG_NO_PAUSE%"=="1" pause
   exit /b 1
 )
 
@@ -29,7 +29,7 @@ if "%GODOT_EXE%"=="" (
   echo Could not find Godot on PATH or in repo root.
   echo Put Godot.exe in this folder or add Godot to PATH, then retry.
   echo Validation still passed; no scenario tests were run. > "%DEBUG_DIR%\scenario.log"
-  pause
+  if not "%NG_NO_PAUSE%"=="1" pause
   exit /b 2
 )
 
@@ -44,7 +44,7 @@ for %%S in (tests\scenarios\*.json) do (
   if errorlevel 1 (
     echo Scenario %%~nS failed. See debug\latest\scenario.log and debug\latest\game.log
     type "%SCENARIO_LOG%"
-    pause
+    if not "%NG_NO_PAUSE%"=="1" pause
     exit /b 1
   )
   echo. >> "%SCENARIO_LOG%"
@@ -52,4 +52,4 @@ for %%S in (tests\scenarios\*.json) do (
 
 echo Scenario tests passed.
 echo Debug logs written to: %DEBUG_DIR%
-pause
+if not "%NG_NO_PAUSE%"=="1" pause
