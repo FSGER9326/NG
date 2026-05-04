@@ -7,7 +7,19 @@
       "type": "inspect",
       "position": [650, 380],
       "radius": 48,
-      "description": "A cracked roadside shrine. The old sun emblem has been scratched away."
+      "description": "A cracked roadside shrine. The old sun emblem has been scratched away. Fresh wagon ruts vanish into the trees nearby.",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "found_wreck"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_old_shrine_inspected",
+          "value": true
+        }
+      ]
     },
     {
       "id": "north_exit",
