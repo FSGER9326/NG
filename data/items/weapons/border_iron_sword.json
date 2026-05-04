@@ -1,0 +1,16 @@
+{
+  "id": "border_iron_sword",
+  "name": "Border Iron Sword",
+  "type": "weapon",
+  "slot": "main_hand",
+  "icon": "assets/icons/items/border_iron_sword_placeholder.txt",
+  "tags": ["sword", "iron", "martial"],
+  "value": 42,
+  "stats": {
+    "damage_min": 4,
+    "damage_max": 8,
+    "accuracy": 1,
+    "ap_cost": 4
+  },
+  "description": "A plain iron sword common among border guards and desperate sellswords."
+}
