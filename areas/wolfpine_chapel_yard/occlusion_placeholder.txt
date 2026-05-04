@@ -1,0 +1,3 @@
+Placeholder occlusion notes for Wolfpine Chapel Yard.
+
+Future occlusion should cover chapel eaves, prayer-tree trunk/low branches, larger grave markers, and fence posts that can visually overlap the party marker.
