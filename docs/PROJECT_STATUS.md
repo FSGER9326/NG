@@ -44,13 +44,16 @@ The repo currently contains:
 - Godot project config
 - main scene that boots into a main menu
 - main menu shell
-- New Game flow into a simple character creator
-- first-pass character creator UI: name, background/origin, class/archetype
+- New Game flow into a character creator
+- character creator UI: name, ancestry, background/origin, class/archetype, trait
 - data-driven character creation rules in `data/character_creation/character_creation.json`
 - character profile builder with tags, attributes, skills, and compatibility warnings
+- creator compatibility UI that shows theme conflicts and blocks incoherent builds from starting
+- reusable NPC reaction authoring rules in `data/reactions/npc_reaction_rules.json`
 - player profile/tag/attribute storage in `GameState`
 - player-tag and attribute dialogue conditions for NPC reactions and passive checks
 - Renna caravan-guard reaction branch gated by `background.caravan_guard`
+- Renna arcane-suspicion reaction branch gated by `magic.arcane`
 - Start Journey flow into the Wolfpine Road area prototype
 - JSON data loader
 - game-state stub with flags, quest stages, party IDs, faction reputation, player profile, tags, attributes, and skills
@@ -84,16 +87,19 @@ Expected boot behavior:
 
 - Main menu appears.
 - `New Game` opens the character creator.
-- Character creator allows name/background/class selection through the old origin/archetype scenario controls.
-- `Start Journey` builds a tagged player profile and loads the Wolfpine Road prototype.
+- Character creator allows name/ancestry/background/class/trait selection.
+- `Start Journey` builds a tagged player profile and loads the Wolfpine Road prototype when the selected build is thematically coherent.
+- Incoherent builds remain on the character creator screen with visible compatibility warnings.
 
 Expected character creation behavior:
 
 - Character creation data is loaded from `data/character_creation/character_creation.json`.
-- Background and class choices contribute tags, attributes, and skills through `CharacterProfileBuilder`.
-- The current UI defaults ancestry to `Border Human` and trait to `Steady Under Fire` until ancestry/trait UI is added.
+- Ancestry, background, class, and trait choices contribute tags, attributes, and skills through `CharacterProfileBuilder`.
 - Old scenario fields `origin` and `archetype` remain mapped to `background` and `class` for compatibility.
-- Invalid or incoherent combinations are represented through tag requirements/blocks in data, with full UI enforcement planned next.
+- Invalid or incoherent combinations are represented through tag requirements/blocks in data.
+- The creator previews compatibility warnings and blocks Start Journey when the built profile has compatibility warnings.
+- Example blocked build: `Fair Young Elf` + `Mage Apprentice` + `Brawny`.
+- Example recovery path: change `Brawny` to `Arcane Sensitive`, then Start Journey succeeds and adds `magic.arcane` / `trait.arcane_sensitive` tags.
 
 Expected Wolfpine Road behavior:
 
@@ -111,6 +117,7 @@ Expected Wolfpine Road behavior:
 - Dialogue effects can start quests, set quest stages, set flags, and add party members.
 - Dialogue choices can be gated by reusable flag/quest-stage/skill/player-tag/attribute conditions.
 - A Caravan Guard player can access Renna's caravan-road reaction branch.
+- A magic-tagged player can access Renna's arcane-suspicion reaction branch.
 - If the toll-disc clue was found, Renna exposes a gated branch: `Someone pressed a toll disc into a dead mule's eye.` This sets `missing_caravan` to `found_shrine_clue` and `wolfpine_renna_knows_toll_disc`.
 - If the toll-disc clue was found, Brannoc exposes a gated branch: `You saw the mule at the shrine. The toll disc in its eye.` This sets `brannoc_guilt_hint_1` as the first seed of his caravan-survivor guilt arc.
 
@@ -146,7 +153,11 @@ Important current scenarios:
 
 ```text
 tests/scenarios/main_menu_new_game.json
+tests/scenarios/character_creator_ancestry_trait_tags.json
+tests/scenarios/character_creator_incompatible_combo.json
+tests/scenarios/character_creator_recover_from_incompatible_combo.json
 tests/scenarios/character_tags_renna_caravan_guard.json
+tests/scenarios/character_tags_renna_arcane_suspicion.json
 tests/scenarios/wolfpine_missing_caravan.json
 tests/scenarios/wolfpine_shrine_before_renna.json
 tests/scenarios/wolfpine_report_shrine_to_renna.json
@@ -158,8 +169,11 @@ tests/scenarios/wolfpine_road_to_village.json
 These are intended to test:
 
 - main menu to character creator to new game
-- tagged player profile creation from background/class choices
-- player-tag based Renna NPC reaction
+- ancestry/background/class/trait tagged player profile creation
+- creator compatibility blocking for incoherent builds
+- recovery from an incoherent build by changing to a compatible trait
+- player-tag based Renna caravan-guard NPC reaction
+- player-tag based Renna arcane-suspicion NPC reaction
 - Renna quest acceptance
 - shrine inspection quest update
 - shrine-before-Renna quest regression protection
@@ -216,11 +230,10 @@ Bring the testable build to a clean local pass:
 2. Run `tools\collect_debug_bundle.bat`.
 3. Inspect `validation.log` and `scenario.log`.
 4. Fix any GDScript runtime errors found in the menu/new-game/area/dialogue paths.
-5. Expand the character creator UI to expose ancestry and trait selection, then enforce compatibility blocks in the UI.
-6. Continue toward save/load hardening and broader passive skill/tag-check content after the boot path is stable.
-7. Expand Wolfpine Road and Wolfpine Village content using `docs/STORY_BIBLE.md`, especially the missing caravan, Road Peace, Renna, Brannoc, hunger pressure, and early old-shrine clues.
-8. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
-9. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
+5. Continue toward save/load hardening and broader passive skill/tag-check content after the boot path is stable.
+6. Expand Wolfpine Road and Wolfpine Village content using `docs/STORY_BIBLE.md`, especially the missing caravan, Road Peace, Renna, Brannoc, hunger pressure, and early old-shrine clues.
+7. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
+8. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
 
 ## Working rule
 
