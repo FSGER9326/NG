@@ -18,6 +18,17 @@
           ]
         },
         {
+          "text": "You look like you expected the caravan to vanish.",
+          "next": "renna_pressure_read",
+          "conditions": [
+            {
+              "type": "skill_check",
+              "skill_id": "perception",
+              "difficulty": 2
+            }
+          ]
+        },
+        {
           "text": "I am looking for work.",
           "next": "work_offer"
         },
@@ -27,6 +38,28 @@
         },
         {
           "text": "Nothing for now.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_pressure_read": {
+      "text": "Renna's eyes flick to the south gate before she answers. \"I expected trouble. That is different. A hungry village grows teeth, and not all of them point outward.\"",
+      "choices": [
+        {
+          "text": "Then someone inside Wolfpine may have helped.",
+          "next": "inside_help"
+        },
+        {
+          "text": "I will start with the road.",
+          "next": "end"
+        }
+      ]
+    },
+    "inside_help": {
+      "text": "\"Maybe. Ask quietly. If you accuse loudly and you are wrong, the guilty will run. If you are right, they may do worse.\"",
+      "choices": [
+        {
+          "text": "Understood.",
           "next": "end"
         }
       ]
