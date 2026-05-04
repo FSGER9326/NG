@@ -37,7 +37,7 @@
       "name": "Tag Tester",
       "origin": "Caravan Guard",
       "archetype": "Scout",
-      "background": "Caravan Guard",
+      "background": "background_caravan_guard",
       "class": "Scout",
       "trait": "Steady Under Fire",
       "tag": "background.caravan_guard"

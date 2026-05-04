@@ -62,7 +62,7 @@
       "ancestry": "Fair Young Elf",
       "origin": "Cloister Novice",
       "archetype": "Mage Apprentice",
-      "background": "Cloister Novice",
+      "background": "background_cloister_novice",
       "class": "Mage Apprentice",
       "trait": "Arcane Sensitive",
       "tag": "trait.arcane_sensitive"
