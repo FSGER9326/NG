@@ -1,0 +1,34 @@
+{
+  "id": "missing_caravan",
+  "title": "The Missing Caravan",
+  "start_stage": "not_started",
+  "description": "A supply caravan vanished on the road to Wolfpine. The village blames bandits, the guards blame smugglers, and the old shrine watches in silence.",
+  "stages": {
+    "not_started": {
+      "summary": "The party has not heard about the missing caravan."
+    },
+    "accepted": {
+      "summary": "Captain Renna asked the party to search the Wolfpine Road."
+    },
+    "found_wreck": {
+      "summary": "The party found signs of the caravan attack near the old shrine."
+    },
+    "accused_guards": {
+      "summary": "The party suspects Wolfpine's own guards are involved."
+    },
+    "exposed_smugglers": {
+      "summary": "The party exposed a smuggler route tied to the caravan's disappearance."
+    },
+    "resolved": {
+      "summary": "The missing caravan matter has been resolved."
+    }
+  },
+  "completion_flags": ["wolfpine_caravan_resolved"],
+  "rewards": {
+    "xp": 120,
+    "gold": 60,
+    "reputation": {
+      "wolfpine_guard": 2
+    }
+  }
+}
