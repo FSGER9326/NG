@@ -1,0 +1,4 @@
+NG validation failed:
+  - Missing referenced file in tests\scenarios\character_creator_ancestry_trait_tags.json: background -> Cloister Novice
+  - Missing referenced file in tests\scenarios\character_creator_recover_from_incompatible_combo.json: background -> Cloister Novice
+  - Missing referenced file in tests\scenarios\character_tags_renna_caravan_guard.json: background -> Caravan Guard
