@@ -59,6 +59,8 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 - [ ] Wolfpine Road playable
 - [x] Wolfpine Village stub
+- [x] Wolfpine Village art brief and layout constraints
+- [ ] Wolfpine Village final background plate
 - [ ] Collapsed Crypt stub
 - [ ] One companion recruitable
 - [ ] One quest completable
@@ -97,8 +99,16 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 2. Click `North Road` on Wolfpine Road.
 3. Wolfpine Village should load.
 
+## Art-generation path for Wolfpine Village
+
+1. Use `areas/wolfpine_village/layout_constraints.json` as the source of truth for walkable zones, required paths, doors, stairs, hotspots, and NPC zones.
+2. Use `areas/wolfpine_village/ART_BRIEF.md` for the visual target and rejection checklist.
+3. Generate or kitbash the village from the layout, not the other way around.
+4. Reject final art with hidden doors, stairs to windows, blocked paths, disconnected roads, or horror-dark village lighting.
+5. After final art is accepted, create matching background, occlusion, walkmask/collision, hotspot, and actor overlays.
+
 ## Next target
 
-Stabilize the menu/new-game/area-transition flow, then add save/load and a simple skill-check format.
+Stabilize the menu/new-game/area-transition flow, then add save/load and a simple skill-check format. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
 
 ## Always update this file when scope changes.
