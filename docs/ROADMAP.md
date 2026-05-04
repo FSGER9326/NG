@@ -14,6 +14,7 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Validation script
 - [x] Art bible
 - [x] Game design document
+- [x] Story bible
 
 ## Milestone 0.2 — Area prototype
 
@@ -72,6 +73,21 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [ ] Collapsed Crypt stub
 - [ ] One companion recruitable
 - [ ] One quest completable
+- [ ] Missing Caravan expanded from simple prototype into story-bible Act I structure
+- [ ] Old Shrine expanded with Road Peace clues, corpse-law evidence, and later-state consequences
+- [ ] Wolfpine Village populated with hunger, law, church, smuggler, and child-informant pressure
+- [ ] Brannoc upgraded from starter companion data to recruitable companion arc seed
+
+## Milestone 0.7 — Narrative systems and content depth
+
+- [ ] Add faction reputation IDs for Roadwardens, Grey Rangers, Ash Church, Blackfen Free Company, Sainted Lance, Baronial Houses, Rat Crown, and Borrowed
+- [ ] Add story flags for mercy, execution, corpse-law, food allocation, relic custody, and public-truth decisions
+- [ ] Add companion reaction flags for Brannoc, then reuse the pattern for ranger and paladin companions
+- [ ] Add at least one ranger NPC or companion seed grounded in realistic path law rather than generic nature mysticism
+- [ ] Add at least one paladin NPC or companion seed grounded in legal witness protection, mercy, and oath pressure
+- [ ] Add quest content tags from `docs/STORY_BIBLE.md` to future quest/dialogue data where useful
+- [ ] Add validation for unknown faction IDs once faction data files exist
+- [ ] Add scenario tests for at least one mercy consequence, one execution consequence, and one faction reputation consequence
 
 ## Current first playable test paths
 
@@ -133,6 +149,14 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 2. Click `North Road` on Wolfpine Road.
 3. Wolfpine Village should load.
 
+## Narrative expansion path for Wolfpine first playable
+
+1. Use `docs/STORY_BIBLE.md` as the source of truth for tone, campaign premise, factions, companion seeds, and the Missing Caravan story direction.
+2. Expand ordinary stakes first: food, lamp oil, tolls, dead animals, missing names, local panic, and practical crime.
+3. Add faction pressure second: Roadwardens, Ash Church, smugglers, rangers, and village officials should each have partial truths and useful sins.
+4. Add old-law clues third: Road Peace, corpse law, saint relics, mile-stones, shrine damage, and impossible toll evidence.
+5. Preserve modularity by keeping each clue, dialogue branch, quest stage, and consequence testable through flags and scenario files.
+
 ## Art-generation path for Wolfpine Village
 
 1. Use `areas/wolfpine_village/layout_constraints.json` as the source of truth for walkable zones, required paths, doors, stairs, hotspots, and NPC zones.
@@ -143,6 +167,6 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 ## Next target
 
-Stabilize the menu/new-game/area-transition/save-load flow, then expose ancestry and trait selection in the character creator UI with compatibility enforcement. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
+Stabilize the menu/new-game/area-transition/save-load flow, then expose ancestry and trait selection in the character creator UI with compatibility enforcement. For narrative content, expand Missing Caravan and Old Shrine from prototype beats into the Act I structure in `docs/STORY_BIBLE.md`. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
 
 ## Always update this file when scope changes.
