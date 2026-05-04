@@ -21,10 +21,13 @@ jobs:
       - name: Run headless scene smoke test
         run: ./Godot_v4.3-stable_linux.x86_64 --headless --path . --script res://tools/godot_smoke_test.gd
 
-      - name: Run scripted Wolfpine scenario
+      - name: Run scripted scenarios
         run: |
           mkdir -p debug/latest
-          NG_DEBUG_DIR="$PWD/debug/latest" ./Godot_v4.3-stable_linux.x86_64 --headless --path . --script res://tools/run_scenario_test.gd --scenario res://tests/scenarios/wolfpine_missing_caravan.json
+          for scenario in tests/scenarios/*.json; do
+            echo "===== Scenario: ${scenario} =====" | tee -a debug/latest/scenario.log
+            NG_DEBUG_DIR="$PWD/debug/latest" ./Godot_v4.3-stable_linux.x86_64 --headless --path . --script res://tools/run_scenario_test.gd --scenario "res://${scenario}" 2>&1 | tee -a debug/latest/scenario.log
+          done
 
       - name: Upload debug logs
         if: always()
