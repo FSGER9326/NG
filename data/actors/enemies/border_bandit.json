@@ -1,0 +1,19 @@
+{
+  "id": "border_bandit",
+  "name": "Border Bandit",
+  "kind": "enemy",
+  "faction": "road_bandits",
+  "sprite": "assets/sprites/enemies/border_bandit_placeholder.txt",
+  "tags": ["human", "bandit", "melee"],
+  "stats": {
+    "level": 1,
+    "hp": 18,
+    "ap": 8,
+    "melee": 4,
+    "ranged": 2,
+    "defense": 2,
+    "resolve": 3
+  },
+  "loot_table": "road_bandit_basic",
+  "description": "A hungry road thief with a dull blade and worse judgment."
+}
