@@ -414,9 +414,12 @@ def check_scenario_step(path: Path, step: dict[str, Any], step_type: str, step_i
         case "select_archetype":
             if step.get("archetype") not in ARCHETYPES:
                 errors.append(f"Scenario select_archetype has unknown archetype in {path.relative_to(ROOT)} step {step_index}: {step.get('archetype')}")
-        case "select_trait":
+        case "select_trait" | "assert_trait_available" | "assert_trait_unavailable":
             if step.get("trait") not in TRAITS:
-                errors.append(f"Scenario select_trait has unknown trait in {path.relative_to(ROOT)} step {step_index}: {step.get('trait')}")
+                errors.append(f"Scenario {step_type} has unknown trait in {path.relative_to(ROOT)} step {step_index}: {step.get('trait')}")
+        case "assert_creator_warning_contains":
+            if not isinstance(step.get("text"), str) or not step.get("text"):
+                errors.append(f"Scenario assert_creator_warning_contains missing text in {path.relative_to(ROOT)} step {step_index}")
         case "assert_player_profile":
             for field in ["name", "ancestry", "origin", "archetype", "background", "class", "trait", "tag"]:
                 if field in step and not isinstance(step.get(field), str):
