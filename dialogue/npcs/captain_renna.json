@@ -7,6 +7,17 @@
       "text": "Captain Renna watches the road with a hand resting near her sword. Rain beads on the iron rim of her cloak-pin.",
       "choices": [
         {
+          "text": "I found fresh wagon ruts by the old shrine.",
+          "next": "shrine_found_report",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag_id": "wolfpine_old_shrine_inspected",
+              "value": true
+            }
+          ]
+        },
+        {
           "text": "I am looking for work.",
           "next": "work_offer"
         },
@@ -54,6 +65,35 @@
       "choices": [
         {
           "text": "Then I will ask them quietly.",
+          "next": "end"
+        }
+      ]
+    },
+    "shrine_found_report": {
+      "text": "Renna's expression tightens. Fresh ruts by that shrine means the caravan left the road before it vanished. That was not panic. Someone guided it there.",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "reported_clue"
+        }
+      ],
+      "choices": [
+        {
+          "text": "Who knew the caravan route?",
+          "next": "route_knowledge"
+        },
+        {
+          "text": "I will keep digging.",
+          "next": "end"
+        }
+      ]
+    },
+    "route_knowledge": {
+      "text": "Too many. The drivers, my guard detail, the miller who counted the grain, and anyone drinking near the south gate. Start with those who look frightened, not guilty.",
+      "choices": [
+        {
+          "text": "Understood.",
           "next": "end"
         }
       ]
