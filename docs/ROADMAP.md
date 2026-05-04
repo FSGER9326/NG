@@ -20,16 +20,16 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Area scene controller
 - [x] Background loading placeholder
 - [x] Actor placement from JSON
-- [ ] Click-to-move prototype
+- [x] Click-to-move prototype
 - [x] Hotspot inspection
 - [x] Area transition stub/debug output
 
 ## Milestone 0.3 — Dialogue and quest prototype
 
-- [ ] Dialogue UI
-- [ ] Dialogue node navigation
-- [ ] Quest start effect
-- [ ] Quest stage update effect
+- [x] Dialogue UI prototype
+- [x] Dialogue node navigation
+- [x] Quest start effect debug handling
+- [ ] Quest stage update stored in game state
 - [ ] Flag checks
 - [ ] Skill check format
 
@@ -49,5 +49,9 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [ ] Collapsed Crypt stub
 - [ ] One companion recruitable
 - [ ] One quest completable
+
+## Next target
+
+Test the current Godot state. If it launches, the next practical task is storing quest state in `GameState` and wiring dialogue effects into that state rather than only printing debug text.
 
 ## Always update this file when scope changes.
