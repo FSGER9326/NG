@@ -1,7 +1,9 @@
+ M debug_reports/latest/actions.jsonl
  M debug_reports/latest/git_commit.txt
  M debug_reports/latest/git_status.txt
  D debug_reports/latest/test_exit_code.txt
  D debug_reports/latest/timestamp.txt
 ?? Godot_v4.6.2-stable_win64.exe
 ?? Godot_v4.6.2-stable_win64_console.exe
-?? debug_reports/latest/actions.jsonl
+?? debug_reports/latest/exit_timestamp.txt
+?? debug_reports/latest/launch_timestamp.txt
