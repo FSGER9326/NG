@@ -24,10 +24,13 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo Checking current git branch...
 for /f "delims=" %%B in ('git branch --show-current') do set CURRENT_BRANCH=%%B
 if "%CURRENT_BRANCH%"=="" set CURRENT_BRANCH=main
+
+for /f "delims=" %%T in ('powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Date -Format yyyyMMdd_HHmmss"') do set RUN_ID=%%T
+
 echo Branch: %CURRENT_BRANCH%
+echo Run: %RUN_ID%
 echo.
 
 echo Pulling latest changes from GitHub...
@@ -36,7 +39,6 @@ if errorlevel 1 (
   echo.
   echo Could not auto-update because git pull failed.
   echo This usually means there are local changes or a merge conflict.
-  echo Commit/stash local changes or ask ChatGPT to help from the git status output.
   git status --short
   pause
   exit /b 1
@@ -50,8 +52,10 @@ set TEST_EXIT=%ERRORLEVEL%
 set NG_NO_PAUSE=
 
 set REPORT_DIR=%CD%\debug_reports\latest
+set RUN_REPORT_DIR=%CD%\debug_reports\runs\%RUN_ID%_test
 if exist "%REPORT_DIR%" rmdir /s /q "%REPORT_DIR%"
 mkdir "%REPORT_DIR%"
+mkdir "%RUN_REPORT_DIR%"
 
 if exist "%CD%\debug\latest\validation.log" copy "%CD%\debug\latest\validation.log" "%REPORT_DIR%\validation.log" >nul
 if exist "%CD%\debug\latest\scenario.log" copy "%CD%\debug\latest\scenario.log" "%REPORT_DIR%\scenario.log" >nul
@@ -63,24 +67,26 @@ if exist "%CD%\debug\latest\state_after_scenario.json" copy "%CD%\debug\latest\s
 
 git rev-parse HEAD > "%REPORT_DIR%\git_commit.txt" 2>nul
 git status --short > "%REPORT_DIR%\git_status.txt" 2>nul
-
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Date -Format o" > "%REPORT_DIR%\timestamp.txt"
 echo %TEST_EXIT% > "%REPORT_DIR%\test_exit_code.txt"
+echo automated_test > "%REPORT_DIR%\report_type.txt"
+echo %RUN_ID% > "%REPORT_DIR%\run_id.txt"
+
+xcopy "%REPORT_DIR%" "%RUN_REPORT_DIR%" /E /I /Y >nul
 
 echo.
 echo Staging debug report files...
-git add debug_reports/latest
+git add -f debug_reports/latest debug_reports/runs/%RUN_ID%_test
 
 git diff --cached --quiet
 if not errorlevel 1 (
   echo No debug report changes to commit.
 ) else (
   echo Committing debug report...
-  git commit -m "Upload latest local debug report"
+  git commit -m "Upload local test report %RUN_ID%"
   if errorlevel 1 (
     echo.
     echo Could not commit debug report.
-    echo Check git user config or local repo state.
     git status --short
     pause
     exit /b 1
@@ -91,7 +97,6 @@ if not errorlevel 1 (
   if errorlevel 1 (
     echo.
     echo Could not push debug report.
-    echo You may need to sign into GitHub or resolve remote changes.
     git status --short
     pause
     exit /b 1
@@ -103,8 +108,9 @@ if "%TEST_EXIT%"=="0" (
   echo DONE: local files updated, tests passed, logs uploaded.
 ) else (
   echo DONE: local files updated, tests failed or Godot was missing, logs uploaded.
-  echo I can inspect debug_reports/latest in GitHub now.
 )
+echo Latest report: debug_reports/latest
+echo Archived report: debug_reports/runs/%RUN_ID%_test
 echo.
 pause
 exit /b %TEST_EXIT%
