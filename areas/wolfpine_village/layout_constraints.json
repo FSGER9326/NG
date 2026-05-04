@@ -1,0 +1,139 @@
+{
+  "area_id": "wolfpine_village",
+  "canvas_size": [1280, 720],
+  "camera": {
+    "projection": "pseudo_isometric_3_4",
+    "notes": "Fixed classic CRPG camera. Keep structures aligned to the same ground plane unless an explicit elevation connector exists."
+  },
+  "walkable_zones": [
+    {
+      "zone_id": "main_square",
+      "points": [[430, 360], [760, 330], [910, 455], [735, 590], [410, 560], [300, 450]],
+      "notes": "Central party movement and NPC gathering space around the village well."
+    },
+    {
+      "zone_id": "south_road",
+      "points": [[110, 610], [320, 540], [430, 560], [315, 690], [115, 700]],
+      "notes": "Entry from Wolfpine Road. Must remain visually clear."
+    },
+    {
+      "zone_id": "north_chapel_path",
+      "points": [[850, 270], [1130, 120], [1195, 175], [930, 350]],
+      "notes": "Exit toward chapel yard and old north lane."
+    },
+    {
+      "zone_id": "inn_front",
+      "points": [[390, 355], [525, 335], [545, 420], [430, 445]],
+      "notes": "Door approach for The Pine Hearth inn."
+    },
+    {
+      "zone_id": "forge_front",
+      "points": [[750, 390], [875, 375], [900, 470], [770, 500]],
+      "notes": "Door approach and work area for blacksmith."
+    }
+  ],
+  "required_paths": [
+    {"path_id": "south_road_to_well", "from": "south_road", "to": "main_square"},
+    {"path_id": "well_to_inn", "from": "main_square", "to": "inn_front"},
+    {"path_id": "well_to_blacksmith", "from": "main_square", "to": "forge_front"},
+    {"path_id": "well_to_chapel_path", "from": "main_square", "to": "north_chapel_path"}
+  ],
+  "buildings": [
+    {
+      "building_id": "pine_hearth_inn",
+      "type": "two_story_timber_inn",
+      "footprint": [[335, 185], [565, 160], [595, 380], [395, 420]],
+      "door_ids": ["door_inn_main"],
+      "style_notes": "Large warm inn, timber frame, stone lower foundation, mossy gray roof, visible ground-level entry."
+    },
+    {
+      "building_id": "blacksmith_forge",
+      "type": "stone_and_timber_forge",
+      "footprint": [[735, 245], [935, 230], [950, 430], [760, 465]],
+      "door_ids": ["door_blacksmith_main"],
+      "style_notes": "Forge with chimney, stacked firewood, anvil zone, but the front door and approach must stay readable."
+    },
+    {
+      "building_id": "storehouse",
+      "type": "guarded_storehouse",
+      "footprint": [[890, 430], [1085, 395], [1130, 560], [925, 605]],
+      "door_ids": ["door_storehouse_main"],
+      "style_notes": "Practical timber storehouse, guarded supplies, not a primary transition yet."
+    },
+    {
+      "building_id": "chapel_gate_arch",
+      "type": "stone_path_marker",
+      "footprint": [[1010, 95], [1160, 80], [1195, 185], [1045, 220]],
+      "door_ids": [],
+      "style_notes": "Small old-stone arch and path marker, not a walled building. Must point toward chapel path exit."
+    }
+  ],
+  "doors": [
+    {
+      "door_id": "door_inn_main",
+      "hotspot_id": "inn_door",
+      "position": [470, 395],
+      "faces": "south_east",
+      "requires_zone": "inn_front",
+      "must_be_visible": true,
+      "rule": "Ground-level door connected to inn_front. Do not replace with a window or hide behind barrels."
+    },
+    {
+      "door_id": "door_blacksmith_main",
+      "hotspot_id": "blacksmith_door",
+      "position": [805, 430],
+      "faces": "south_west",
+      "requires_zone": "forge_front",
+      "must_be_visible": true,
+      "rule": "Ground-level door connected to forge_front. Keep forge clutter beside, not in front of, the door."
+    },
+    {
+      "door_id": "door_storehouse_main",
+      "position": [980, 520],
+      "faces": "south_west",
+      "requires_zone": "main_square",
+      "must_be_visible": true,
+      "rule": "Visible but non-primary door. It can be locked later, but it must make architectural sense."
+    }
+  ],
+  "stairs": [
+    {
+      "stairs_id": "forge_step",
+      "bottom": [790, 450],
+      "top": [815, 425],
+      "connects": "ground_to_door_threshold",
+      "rule": "Short stone step only. No stairs should lead to windows or dead roof edges."
+    }
+  ],
+  "hotspot_access": [
+    {"hotspot_id": "village_well", "requires_zone": "main_square"},
+    {"hotspot_id": "notice_board", "requires_zone": "main_square"},
+    {"hotspot_id": "market_stall", "requires_zone": "main_square"},
+    {"hotspot_id": "inn_door", "requires_zone": "inn_front"},
+    {"hotspot_id": "blacksmith_door", "requires_zone": "forge_front"},
+    {"hotspot_id": "chapel_path", "requires_zone": "north_chapel_path"},
+    {"hotspot_id": "south_road_exit", "requires_zone": "south_road"}
+  ],
+  "npc_zones": [
+    {
+      "zone_id": "captain_renna_post",
+      "position": [620, 470],
+      "requires_zone": "main_square",
+      "notes": "Renna stands near the well with clear player approach space."
+    },
+    {
+      "zone_id": "merchant_stall_post",
+      "position": [735, 505],
+      "requires_zone": "main_square",
+      "notes": "Future merchant beside stall, not blocking the path."
+    }
+  ],
+  "forbidden_art_mistakes": [
+    "Do not place stairs that terminate at windows.",
+    "Do not block inn_door, blacksmith_door, chapel_path, or south_road_exit with props, roofs, trees, or foreground objects.",
+    "Do not draw disconnected roads or bridges.",
+    "Do not make second-floor windows look like usable ground-level exits.",
+    "Do not allow roofs or tree canopies to hide required hotspots.",
+    "Do not place market stalls across the only route from south_road to main_square."
+  ]
+}
