@@ -1,0 +1,2 @@
+Placeholder for future Wolfpine Road occlusion image.
+White/transparent overlay concept: trees, shrine roof fragments, and foreground rocks drawn above actors.
