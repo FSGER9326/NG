@@ -1,4 +1,10 @@
 {
   "area_id": "wolfpine_village",
-  "actors": []
+  "actors": [
+    {
+      "actor_id": "captain_renna",
+      "position": [620, 470],
+      "facing": "south_east"
+    }
+  ]
 }
