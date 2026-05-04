@@ -1,8 +1,8 @@
 {
   "id": "character_creator_incompatible_combo",
-  "name": "Character Creator Incompatible Combination Warning Data",
+  "name": "Character Creator Blocks Incompatible Combination",
   "root_scene": "main",
-  "description": "Builds a thematically incoherent Fair Young Elf / Mage Apprentice / Brawny profile so the profile builder records compatibility warnings while still keeping the run deterministic until UI enforcement is added.",
+  "description": "Verifies that a thematically incoherent Fair Young Elf / Mage Apprentice / Brawny build is blocked by creator compatibility enforcement and remains on the creator screen.",
   "steps": [
     {
       "type": "assert_screen",
@@ -41,25 +41,8 @@
       "button": "start_journey"
     },
     {
-      "type": "assert_player_profile",
-      "name": "Incompat Tester",
-      "ancestry": "Fair Young Elf",
-      "origin": "Cloister Novice",
-      "archetype": "Mage Apprentice",
-      "background": "Cloister Novice",
-      "class": "Mage Apprentice",
-      "trait": "Brawny",
-      "tag": "trait.brawny"
-    },
-    {
-      "type": "assert_player_tag",
-      "tag": "frame.slender",
-      "value": true
-    },
-    {
-      "type": "assert_player_tag",
-      "tag": "trait.brawny",
-      "value": true
+      "type": "assert_screen",
+      "screen": "character_creator"
     }
   ]
 }
