@@ -1,0 +1,19 @@
+{
+  "id": "wolfpine_road_to_village",
+  "name": "Wolfpine Road To Village Transition",
+  "description": "Verifies that the north road exit from Wolfpine Road loads the Wolfpine Village stub.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "north_exit"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_village"
+    }
+  ]
+}
