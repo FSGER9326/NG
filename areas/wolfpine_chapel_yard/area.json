@@ -1,0 +1,17 @@
+{
+  "id": "wolfpine_chapel_yard",
+  "name": "Wolfpine Chapel Yard",
+  "type": "village_edge",
+  "description": "A narrow chapel yard beyond the village pines, where old prayer trees lean over newer stone markers and the path back to Wolfpine is never quite dry.",
+  "background": "areas/wolfpine_chapel_yard/background_placeholder.txt",
+  "occlusion": "areas/wolfpine_chapel_yard/occlusion_placeholder.txt",
+  "walkmask": "areas/wolfpine_chapel_yard/walkmask_placeholder.txt",
+  "hotspots": "areas/wolfpine_chapel_yard/hotspots.json",
+  "actors": "areas/wolfpine_chapel_yard/actors.json",
+  "default_music": "music/village_wolfpine_low",
+  "entry_points": {
+    "west_path": [190, 560],
+    "prayer_tree": [665, 350],
+    "chapel_steps": [1010, 245]
+  }
+}
