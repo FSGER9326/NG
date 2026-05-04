@@ -42,8 +42,8 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Character creator first pass: name, origin, archetype
 - [x] Start Journey launches current area prototype
 - [x] Save/Load menu placeholders
-- [ ] Save game format
-- [ ] Load game flow
+- [x] Save game format
+- [x] Load game flow
 - [ ] Character stats and portrait selection
 
 ## Milestone 0.5 — Combat prototype
@@ -100,6 +100,16 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 3. The perception-gated dialogue choice `You look like you expected the caravan to vanish.` should be visible with the starter party's perception value.
 4. Choosing it should open Renna's pressure-read branch.
 
+### Save/load path
+
+1. Start a new game from the main menu.
+2. Create a character profile.
+3. Load Wolfpine Road.
+4. Accept `missing_caravan` from Captain Renna.
+5. Save the game.
+6. Load the game.
+7. Confirm the profile, current area, and quest stage are restored.
+
 ### Area transition path
 
 1. Start a new game.
@@ -116,6 +126,6 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 ## Next target
 
-Stabilize the menu/new-game/area-transition flow, then add save/load and character stats/portrait selection. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
+Stabilize the menu/new-game/area-transition/save-load flow, then add character stats and portrait selection. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
 
 ## Always update this file when scope changes.
