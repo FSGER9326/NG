@@ -5,6 +5,7 @@ cd /d "%~dp0\.."
 set DEBUG_DIR=%CD%\debug\latest
 set BUNDLE_DIR=%CD%\debug\bundle
 set ZIP_PATH=%CD%\debug\NG_debug_latest.zip
+set NG_NO_PAUSE=1
 
 call tools\run_debug_tests.bat
 set TEST_EXIT=%ERRORLEVEL%
