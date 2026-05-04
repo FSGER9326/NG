@@ -1,0 +1,23 @@
+{
+  "id": "brannoc",
+  "name": "Brannoc of the Black Pines",
+  "kind": "companion",
+  "faction": "none",
+  "portrait": "assets/portraits/brannoc_placeholder.txt",
+  "dialogue": "dialogue/companions/brannoc.json",
+  "tags": ["companion", "woodsman", "frontier"],
+  "approval_axes": {
+    "mercy": 0,
+    "pragmatism": 0,
+    "old_faith": 0
+  },
+  "stats": {
+    "level": 1,
+    "resolve": 5,
+    "melee": 4,
+    "ranged": 5,
+    "survival": 6
+  },
+  "starting_items": ["border_iron_sword"],
+  "description": "A quiet woodsman with a hunter's patience and a long memory for broken promises."
+}
