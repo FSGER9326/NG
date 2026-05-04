@@ -266,11 +266,11 @@ func _update_creator_compatibility(_selected_index: int = -1) -> void:
 	)
 	var warnings: Array = preview_profile.get("compatibility_warnings", [])
 	if warnings.is_empty():
-		var unavailable_traits := _get_unavailable_trait_names()
-		if unavailable_traits.is_empty():
+		var unavailable_trait_explanations := _get_unavailable_trait_explanations()
+		if unavailable_trait_explanations.is_empty():
 			compatibility_warning_label.text = "Theme check: coherent."
 		else:
-			compatibility_warning_label.text = "Theme check: coherent. Unavailable traits for this build: %s" % ", ".join(unavailable_traits)
+			compatibility_warning_label.text = "Theme check: coherent.\nUnavailable traits for this build:\n- %s" % "\n- ".join(unavailable_trait_explanations)
 		start_journey_button.disabled = false
 	else:
 		_show_creator_warnings(warnings)
@@ -331,13 +331,20 @@ func _collect_creator_base_tags() -> Array:
 				tags.append(tag_id)
 	return tags
 
-func _get_unavailable_trait_names() -> Array[String]:
+func _get_unavailable_trait_explanations() -> Array[String]:
 	var result: Array[String] = []
-	if trait_options == null:
+	if character_creation_data.is_empty():
 		return result
-	for index in range(trait_options.get_item_count()):
-		if trait_options.is_item_disabled(index):
-			result.append(trait_options.get_item_text(index))
+	var traits: Array = character_creation_data.get("traits", [])
+	if traits.is_empty():
+		return result
+	var base_tags := _collect_creator_base_tags()
+	for trait in traits:
+		if typeof(trait) != TYPE_DICTIONARY:
+			continue
+		var reasons := CharacterProfileBuilder.get_item_unavailable_reasons(base_tags, trait)
+		if not reasons.is_empty():
+			result.append(" ".join(reasons))
 	return result
 
 func _start_game() -> void:
