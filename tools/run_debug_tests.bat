@@ -22,16 +22,20 @@ set GODOT_EXE=
 where godot >nul 2>nul
 if not errorlevel 1 set GODOT_EXE=godot
 
-if "%GODOT_EXE%"=="" if exist "%CD%\Godot_v4.3-stable_win64.exe" set GODOT_EXE=%CD%\Godot_v4.3-stable_win64.exe
 if "%GODOT_EXE%"=="" if exist "%CD%\Godot.exe" set GODOT_EXE=%CD%\Godot.exe
+if "%GODOT_EXE%"=="" if exist "%CD%\Godot_v4.3-stable_win64.exe" set GODOT_EXE=%CD%\Godot_v4.3-stable_win64.exe
+if "%GODOT_EXE%"=="" for %%G in ("%CD%\Godot_v*-stable_win64.exe") do if exist "%%~fG" set GODOT_EXE=%%~fG
+if "%GODOT_EXE%"=="" for %%G in ("%CD%\Godot_*_win64.exe") do if exist "%%~fG" set GODOT_EXE=%%~fG
 
 if "%GODOT_EXE%"=="" (
   echo Could not find Godot on PATH or in repo root.
-  echo Put Godot.exe in this folder or add Godot to PATH, then retry.
+  echo Put Godot.exe or Godot_v*-stable_win64.exe in this folder or add Godot to PATH, then retry.
   echo Validation still passed; no scenario tests were run. > "%DEBUG_DIR%\scenario.log"
   if not "%NG_NO_PAUSE%"=="1" pause
   exit /b 2
 )
+
+echo Using Godot: %GODOT_EXE%
 
 set NG_DEBUG_DIR=%DEBUG_DIR%
 set SCENARIO_LOG=%DEBUG_DIR%\scenario.log
