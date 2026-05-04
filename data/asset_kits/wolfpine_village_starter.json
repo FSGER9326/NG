@@ -1,0 +1,359 @@
+{
+  "id": "wolfpine_village_starter_kit",
+  "name": "Wolfpine Village Starter Kit",
+  "style_family": "wolfpine",
+  "version": 1,
+  "purpose": "Canonical reusable starter asset list for BG2/Pillars-like Wolfpine settlement scenes.",
+  "camera": "pseudo_isometric_3_4",
+  "lighting": "late_afternoon_soft",
+  "target_area": "wolfpine_village",
+  "source_policy": {
+    "preferred": ["generated_isolated_asset", "cc0_external_asset_modified", "hand_painted_project_asset"],
+    "avoid_as_primary": ["raw_full_scene_cutout", "unclear_license", "noncommercial_asset"],
+    "notes": "Generated full-scene art may be used for concept reference or selective salvage, but canonical kit pieces should usually be generated or prepared as isolated assets."
+  },
+  "global_acceptance_checks": [
+    "Fixed pseudo-isometric 3/4 CRPG camera.",
+    "Painted or pre-rendered look, not pixel art.",
+    "Muted natural Wolfpine palette with readable warm daylight.",
+    "Consistent contact shadow direction.",
+    "No text or UI baked into the asset.",
+    "No impossible architecture.",
+    "Readable silhouette at game scale.",
+    "Source and license/generation notes are recorded before production use."
+  ],
+  "assets": [
+    {
+      "id": "wolfpine_inn_facade_01",
+      "display_name": "The Pine Hearth Inn Facade",
+      "category": "buildings",
+      "subcategory": "facade",
+      "asset_type": "canonical_semi_modular",
+      "priority": 1,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/buildings/wolfpine_inn_facade_01.png",
+      "scale_class": "large_building",
+      "tags": ["inn", "building", "timber", "plaster", "village_hub"],
+      "placement_rules": [
+        "Must face a walkable path or square.",
+        "Must include one clearly visible ground-level door.",
+        "Door approach must remain free of blocking props.",
+        "Can include warm window light, but not horror lighting."
+      ],
+      "acceptance_checks": [
+        "Ground-level door is readable.",
+        "Windows cannot be mistaken for doors.",
+        "Roof and foundation are structurally believable.",
+        "Facade can be reused in more than one village scene."
+      ]
+    },
+    {
+      "id": "wolfpine_blacksmith_facade_01",
+      "display_name": "Wolfpine Blacksmith Facade",
+      "category": "buildings",
+      "subcategory": "facade",
+      "asset_type": "canonical_semi_modular",
+      "priority": 2,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/buildings/wolfpine_blacksmith_facade_01.png",
+      "scale_class": "large_building",
+      "tags": ["blacksmith", "forge", "building", "chimney", "tools"],
+      "placement_rules": [
+        "Must face a walkable path or work yard.",
+        "Forge clutter must sit beside the door, not in front of it.",
+        "Chimney and work area should identify the building without labels."
+      ],
+      "acceptance_checks": [
+        "Ground-level door is visible and reachable.",
+        "Forge identity is clear at game scale.",
+        "No stairs or platforms lead to invalid windows."
+      ]
+    },
+    {
+      "id": "wolfpine_storehouse_facade_01",
+      "display_name": "Guarded Storehouse Facade",
+      "category": "buildings",
+      "subcategory": "facade",
+      "asset_type": "canonical_semi_modular",
+      "priority": 3,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/buildings/wolfpine_storehouse_facade_01.png",
+      "scale_class": "large_building",
+      "tags": ["storehouse", "supplies", "building", "timber", "guarded"],
+      "placement_rules": [
+        "Should read as practical storage rather than noble housing.",
+        "Visible main door required even if locked in gameplay.",
+        "May include stacked sacks/crates only if they do not block the door."
+      ],
+      "acceptance_checks": [
+        "Door exists and makes architectural sense.",
+        "Building reads as a storehouse from silhouette and props.",
+        "No critical access hidden by clutter."
+      ]
+    },
+    {
+      "id": "wolfpine_well_01",
+      "display_name": "Stone Village Well",
+      "category": "props",
+      "subcategory": "village_core",
+      "asset_type": "canonical_modular",
+      "priority": 4,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_well_01.png",
+      "scale_class": "medium_prop",
+      "tags": ["well", "stone", "village", "centerpiece"],
+      "placement_rules": [
+        "Place in or near a village square clearing.",
+        "Keep actor approach space on at least two sides.",
+        "Do not make the roof/crossbeam so large it becomes an occluder."
+      ],
+      "acceptance_checks": [
+        "Readable as a well at game scale.",
+        "Has usable contact shadow.",
+        "Can act as a hotspot focal object."
+      ]
+    },
+    {
+      "id": "wolfpine_market_stall_01",
+      "display_name": "Village Market Stall",
+      "category": "props",
+      "subcategory": "market",
+      "asset_type": "canonical_modular",
+      "priority": 5,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_market_stall_01.png",
+      "scale_class": "medium_prop",
+      "tags": ["market", "stall", "awning", "produce", "merchant"],
+      "placement_rules": [
+        "Place along the edge of a path, never across the only route.",
+        "Must leave a readable customer-facing side.",
+        "Awning may be an occluder only if it does not hide hotspots."
+      ],
+      "acceptance_checks": [
+        "Stall direction is clear.",
+        "Produce/clutter reads without becoming visual noise.",
+        "Footprint is easy to block in collision."
+      ]
+    },
+    {
+      "id": "wolfpine_notice_board_01",
+      "display_name": "Damp Village Notice Board",
+      "category": "props",
+      "subcategory": "quest_board",
+      "asset_type": "canonical_modular",
+      "priority": 6,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_notice_board_01.png",
+      "scale_class": "small_prop",
+      "tags": ["notice_board", "quest", "village", "wood"],
+      "placement_rules": [
+        "Place near a wall, square, or crossroads.",
+        "Do not include readable real text; use marks and parchment shapes only.",
+        "Must have clear interaction side."
+      ],
+      "acceptance_checks": [
+        "Reads as a notice board without legible text.",
+        "Not confused with a door or signpost.",
+        "Good hotspot silhouette."
+      ]
+    },
+    {
+      "id": "wolfpine_door_heavy_01",
+      "display_name": "Heavy Dark Wooden Door",
+      "category": "architecture",
+      "subcategory": "door",
+      "asset_type": "canonical_modular",
+      "priority": 7,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_door_heavy_01.png",
+      "scale_class": "architecture_piece",
+      "tags": ["door", "wood", "iron", "entry"],
+      "placement_rules": [
+        "Use only at ground level unless explicit stairs/platform exist.",
+        "Must visually connect to a walkable threshold.",
+        "Should support inn/storehouse use."
+      ],
+      "acceptance_checks": [
+        "Reads as a door, not a window.",
+        "Has believable hinges/latch.",
+        "Perspective matches building facades."
+      ]
+    },
+    {
+      "id": "wolfpine_window_shuttered_01",
+      "display_name": "Small Shuttered Window",
+      "category": "architecture",
+      "subcategory": "window",
+      "asset_type": "canonical_modular",
+      "priority": 8,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_window_shuttered_01.png",
+      "scale_class": "architecture_piece",
+      "tags": ["window", "shutters", "timber", "plaster"],
+      "placement_rules": [
+        "Must be smaller than doors.",
+        "Do not place at ground level in a way that reads as an entrance.",
+        "Can be lit warm but should not dominate the facade."
+      ],
+      "acceptance_checks": [
+        "Clearly reads as a window.",
+        "Does not imply player access.",
+        "Matches Wolfpine timber/plaster style."
+      ]
+    },
+    {
+      "id": "wolfpine_fence_segment_01",
+      "display_name": "Rough Timber Fence Segment",
+      "category": "architecture",
+      "subcategory": "fence",
+      "asset_type": "canonical_modular",
+      "priority": 9,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_fence_segment_01.png",
+      "scale_class": "small_architecture",
+      "tags": ["fence", "wood", "boundary", "village"],
+      "placement_rules": [
+        "Use to frame paths, not block required routes.",
+        "Can be repeated with small variation and decals.",
+        "Should have collision if placed across movement."
+      ],
+      "acceptance_checks": [
+        "Repeats without obvious seams.",
+        "Perspective matches ground plane.",
+        "Not too visually heavy for path edges."
+      ]
+    },
+    {
+      "id": "wolfpine_firewood_stack_01",
+      "display_name": "Firewood Stack",
+      "category": "props",
+      "subcategory": "work_props",
+      "asset_type": "canonical_modular",
+      "priority": 10,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_firewood_stack_01.png",
+      "scale_class": "small_prop",
+      "tags": ["firewood", "wood", "forge", "cottage"],
+      "placement_rules": [
+        "Place beside buildings or forge work areas.",
+        "Do not block doors or hotspot approach arcs.",
+        "Can be combined with crates/barrels for clutter clusters."
+      ],
+      "acceptance_checks": [
+        "Reads as woodpile at small scale.",
+        "Has a grounded contact shadow.",
+        "Works beside both cottage and blacksmith facades."
+      ]
+    },
+    {
+      "id": "wolfpine_barrel_01",
+      "display_name": "Weathered Barrel",
+      "category": "clutter",
+      "subcategory": "storage",
+      "asset_type": "canonical_modular",
+      "priority": 11,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/clutter/wolfpine_barrel_01.png",
+      "scale_class": "small_clutter",
+      "tags": ["barrel", "storage", "wood", "clutter"],
+      "placement_rules": [
+        "Use in small groups or beside buildings.",
+        "Do not place directly over important doors/hotspots.",
+        "Can be mirrored/varied with decals."
+      ],
+      "acceptance_checks": [
+        "Readable round form in pseudo-isometric view.",
+        "Does not look like a modern object.",
+        "Small enough for repeated dressing."
+      ]
+    },
+    {
+      "id": "wolfpine_crate_01",
+      "display_name": "Weathered Wooden Crate",
+      "category": "clutter",
+      "subcategory": "storage",
+      "asset_type": "canonical_modular",
+      "priority": 12,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/clutter/wolfpine_crate_01.png",
+      "scale_class": "small_clutter",
+      "tags": ["crate", "storage", "wood", "clutter"],
+      "placement_rules": [
+        "Use near storehouse, stall, or inn service side.",
+        "Can stack in small groups if silhouette stays readable.",
+        "Do not block required paths."
+      ],
+      "acceptance_checks": [
+        "Perspective matches the ground plane.",
+        "Edges are readable but not pixel-sharp.",
+        "Works with barrel/sack clutter."
+      ]
+    },
+    {
+      "id": "wolfpine_grass_clump_01",
+      "display_name": "Village Edge Grass Clump",
+      "category": "vegetation",
+      "subcategory": "ground_edge",
+      "asset_type": "canonical_modular",
+      "priority": 13,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/vegetation/wolfpine_grass_clump_01.png",
+      "scale_class": "small_decal_prop",
+      "tags": ["grass", "weeds", "ground", "edge_blend"],
+      "placement_rules": [
+        "Use to soften road, wall, and path edges.",
+        "Should not imply collision unless used densely.",
+        "Palette should be natural green, not neon."
+      ],
+      "acceptance_checks": [
+        "Blends with mud/cobble edges.",
+        "Not too contrasty at game scale.",
+        "Can repeat without obvious pattern."
+      ]
+    },
+    {
+      "id": "wolfpine_mud_rut_decal_01",
+      "display_name": "Muddy Wheel Rut Decal",
+      "category": "decals",
+      "subcategory": "road",
+      "asset_type": "canonical_modular",
+      "priority": 14,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/decals/wolfpine_mud_rut_decal_01.png",
+      "scale_class": "ground_decal",
+      "tags": ["mud", "ruts", "road", "wagon", "decal"],
+      "placement_rules": [
+        "Use to blend roads and village square edges.",
+        "Must not obscure walkability readability.",
+        "Prefer transparent decal-like treatment."
+      ],
+      "acceptance_checks": [
+        "Works over cobble, dirt, and road bases.",
+        "Does not look like a hard-edged sticker.",
+        "Supports path direction visually."
+      ]
+    },
+    {
+      "id": "wolfpine_branch_occluder_01",
+      "display_name": "Foreground Pine Branch Occluder",
+      "category": "occluders",
+      "subcategory": "foreground_depth",
+      "asset_type": "canonical_modular",
+      "priority": 15,
+      "status": "planned",
+      "intended_file": "assets/kits/wolfpine_village/occluders/wolfpine_branch_occluder_01.png",
+      "scale_class": "foreground_occluder",
+      "tags": ["pine", "branch", "foreground", "occlusion", "depth"],
+      "placement_rules": [
+        "Use only on foreground layer.",
+        "Never hide doors, exits, or required hotspots.",
+        "Can frame the scene edges and add depth."
+      ],
+      "acceptance_checks": [
+        "Looks like a foreground element, not a ground prop.",
+        "Soft enough to avoid distracting from gameplay.",
+        "Does not cover important interaction points."
+      ]
+    }
+  ]
+}
