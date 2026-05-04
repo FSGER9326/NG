@@ -50,6 +50,17 @@
           ]
         },
         {
+          "text": "You keep looking at my hands. Is it the magic?",
+          "next": "arcane_suspicion",
+          "conditions": [
+            {
+              "type": "player_tag",
+              "tag": "magic.arcane",
+              "value": true
+            }
+          ]
+        },
+        {
           "text": "I have walked caravan roads. Tell me where yours broke pattern.",
           "next": "caravan_guard_read",
           "conditions": [
@@ -81,6 +92,28 @@
         },
         {
           "text": "Nothing for now.",
+          "next": "end"
+        }
+      ]
+    },
+    "arcane_suspicion": {
+      "text": "Renna does not deny it. \"It is the villages magic leaves behind. Burned barns, missing children, saints with iron in their mouths. If you can help without making Wolfpine fear you more than the road, then help. If you cannot, keep your hands quiet.\"",
+      "choices": [
+        {
+          "text": "I am here to solve the road, not frighten your village.",
+          "next": "arcane_suspicion_softened"
+        },
+        {
+          "text": "Then point me at the problem and keep your iron charm.",
+          "next": "end"
+        }
+      ]
+    },
+    "arcane_suspicion_softened": {
+      "text": "\"Good answer. Better if it stays true after dark. The old shrine is where fear has started gathering. Begin there if you want to be useful.\"",
+      "choices": [
+        {
+          "text": "I will start at the shrine.",
           "next": "end"
         }
       ]
