@@ -1,0 +1,16 @@
+{
+  "area_id": "wolfpine_road",
+  "actors": [
+    {
+      "actor_id": "captain_renna",
+      "position": [520, 430],
+      "facing": "south_east"
+    },
+    {
+      "actor_id": "border_bandit",
+      "position": [860, 300],
+      "facing": "south_west",
+      "encounter_id": "wolfpine_road_bandit_warning"
+    }
+  ]
+}
