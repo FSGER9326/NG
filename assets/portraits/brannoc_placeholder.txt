@@ -1,0 +1,2 @@
+Portrait placeholder: Brannoc.
+Future asset target: 256x256 painted low-fantasy CRPG portrait.
