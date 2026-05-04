@@ -1,0 +1,17 @@
+{
+  "id": "captain_renna",
+  "name": "Captain Renna",
+  "kind": "npc",
+  "faction": "wolfpine_guard",
+  "portrait": "assets/portraits/captain_renna_placeholder.txt",
+  "dialogue": "dialogue/npcs/captain_renna.json",
+  "tags": ["guard", "quest_giver", "border_veteran"],
+  "stats": {
+    "level": 4,
+    "resolve": 7,
+    "melee": 6,
+    "ranged": 2,
+    "lore": 2
+  },
+  "description": "A hard-eyed border captain whose loyalty to Wolfpine is stronger than her loyalty to distant lords."
+}
