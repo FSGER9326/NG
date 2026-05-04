@@ -31,7 +31,8 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Quest start effect stored in game state
 - [x] Quest stage update stored in game state
 - [x] Basic flag-setting effect
-- [ ] Flag checks
+- [x] Reusable dialogue flag and quest-stage checks
+- [x] Dialogue condition validation
 - [ ] Skill check format
 
 ## Milestone 0.4 — Combat prototype
@@ -51,7 +52,9 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [ ] One companion recruitable
 - [ ] One quest completable
 
-## Current first playable test path
+## Current first playable test paths
+
+### Basic quest path
 
 1. Launch the game in Godot.
 2. Click `@ captain_renna`.
@@ -60,8 +63,16 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 5. Click `Old Road Shrine`.
 6. Quest tracker should show `missing_caravan: found_wreck`.
 
+### Flag-gated dialogue path
+
+1. Click `Old Road Shrine`.
+2. Click `@ captain_renna`.
+3. The dialogue choice `I found fresh wagon ruts by the old shrine.` should be visible.
+4. Choose it.
+5. Quest tracker should show `missing_caravan: reported_clue`.
+
 ## Next target
 
-Test the current Godot state. If it launches, the next practical task is either adding dialogue flag/skill checks or building the first tiny combat prototype.
+Add a simple skill-check format to the same dialogue condition/effect system, then build the first tiny combat prototype.
 
 ## Always update this file when scope changes.
