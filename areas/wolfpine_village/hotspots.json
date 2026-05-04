@@ -1,0 +1,65 @@
+{
+  "area_id": "wolfpine_village",
+  "hotspots": [
+    {
+      "id": "village_well",
+      "name": "Village Well",
+      "type": "inspect",
+      "position": [640, 455],
+      "radius": 52,
+      "description": "A stone well at the center of Wolfpine. Fresh rope cuts mark the rim, and villagers have left covered buckets nearby."
+    },
+    {
+      "id": "inn_door",
+      "name": "The Pine Hearth",
+      "type": "exit",
+      "position": [470, 395],
+      "radius": 48,
+      "target_area": "wolfpine_inn_common_room",
+      "target_entry": "front_door"
+    },
+    {
+      "id": "blacksmith_door",
+      "name": "Blacksmith's Forge",
+      "type": "exit",
+      "position": [805, 430],
+      "radius": 48,
+      "target_area": "wolfpine_blacksmith",
+      "target_entry": "front_door"
+    },
+    {
+      "id": "chapel_path",
+      "name": "Chapel Path",
+      "type": "exit",
+      "position": [1085, 175],
+      "radius": 64,
+      "target_area": "wolfpine_chapel_yard",
+      "target_entry": "west_path"
+    },
+    {
+      "id": "south_road_exit",
+      "name": "South Road",
+      "type": "exit",
+      "position": [190, 625],
+      "radius": 64,
+      "target_area": "wolfpine_road",
+      "target_entry": "north_road"
+    },
+    {
+      "id": "notice_board",
+      "name": "Notice Board",
+      "type": "inspect",
+      "position": [565, 415],
+      "radius": 40,
+      "description": "A damp board nailed to old posts. Most notices are water-blurred, but reward marks and guard seals remain visible."
+    },
+    {
+      "id": "market_stall",
+      "name": "Market Stall",
+      "type": "inspect",
+      "position": [735, 505],
+      "radius": 44,
+      "description": "A striped awning covers onions, dried fish, tallow candles, and a few guarded bundles of cloth."
+    }
+  ]
+}
