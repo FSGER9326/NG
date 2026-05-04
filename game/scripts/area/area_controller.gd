@@ -5,6 +5,8 @@ const DataLoader = preload("res://game/scripts/core/data_loader.gd")
 const GameState = preload("res://game/scripts/core/game_state.gd")
 const QuestSystem = preload("res://game/scripts/systems/quest_system.gd")
 const CrpgTheme = preload("res://game/scripts/ui/crpg_theme.gd")
+const GameLog = preload("res://game/scripts/core/game_log.gd")
+const DebugStateDump = preload("res://game/scripts/core/debug_state_dump.gd")
 
 @export var area_id: String = "wolfpine_road"
 @export var player_speed: float = 260.0
@@ -35,12 +37,15 @@ var dialogue_text_label: RichTextLabel
 var dialogue_choices_box: VBoxContainer
 
 func _ready() -> void:
+	GameLog.start_session("area_controller")
+	GameLog.info("BOOT", "AreaController ready", {"area_id": area_id})
 	data_loader = DataLoader.new()
 	game_state = GameState.new()
 	quest_system = QuestSystem.new()
 	_build_runtime_nodes()
 	load_area(area_id)
 	_update_quest_tracker()
+	write_debug_state("state_initial.json")
 
 func _process(delta: float) -> void:
 	_update_player_movement(delta)
@@ -48,9 +53,11 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if dialogue_panel != null and dialogue_panel.visible:
+			GameLog.event("input_ignored", {"reason": "dialogue_open", "position": _vec2_to_array(event.position)})
 			return
 		move_target = event.position
 		has_move_target = true
+		GameLog.info("INPUT", "Ground click move target %s" % str(move_target.round()), {"position": _vec2_to_array(move_target)})
 		_set_debug("Moving to %s" % str(move_target.round()))
 
 func _build_runtime_nodes() -> void:
@@ -91,6 +98,7 @@ func _build_runtime_nodes() -> void:
 
 	_build_quest_panel()
 	_build_dialogue_panel()
+	GameLog.event("runtime_nodes_built", {})
 
 func _build_quest_panel() -> void:
 	quest_panel = PanelContainer.new()
@@ -125,7 +133,7 @@ func _build_dialogue_panel() -> void:
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 14)
 	margin.add_theme_constant_override("margin_top", 12)
-	margin.add_theme_constant_override("margin_right", 14)
+	margin.add_theme_constant_override("margin_right", 12)
 	margin.add_theme_constant_override("margin_bottom", 12)
 	dialogue_panel.add_child(margin)
 
@@ -156,8 +164,10 @@ func _build_dialogue_panel() -> void:
 func load_area(next_area_id: String) -> void:
 	area_id = next_area_id
 	var area_path := "res://areas/%s/area.json" % area_id
+	GameLog.info("AREA", "Loading area: %s" % area_id, {"area_id": area_id, "path": area_path})
 	area_data = data_loader.load_json_file(area_path)
 	if area_data.is_empty():
+		GameLog.error("AREA", "Failed to load area: %s" % area_id, {"area_id": area_id})
 		_set_debug("Failed to load area: %s" % area_id)
 		return
 
@@ -165,6 +175,11 @@ func load_area(next_area_id: String) -> void:
 	actors_data = data_loader.load_json_file(_to_res_path(String(area_data.get("actors", ""))))
 	actor_definitions = _load_actor_definitions()
 	_render_area()
+	GameLog.info("AREA", "Area loaded: %s" % area_id, {
+		"area_id": area_id,
+		"hotspot_count": hotspots_data.get("hotspots", []).size(),
+		"actor_count": actors_data.get("actors", []).size()
+	})
 
 func _load_actor_definitions() -> Dictionary:
 	var result := {}
@@ -178,6 +193,7 @@ func _load_actor_definitions() -> Dictionary:
 		var actor_id := String(actor_data.get("id", ""))
 		if not actor_id.is_empty():
 			result[actor_id] = actor_data
+			GameLog.event("actor_definition_loaded", {"actor_id": actor_id, "path": path})
 	return result
 
 func _render_area() -> void:
@@ -193,6 +209,7 @@ func _render_area() -> void:
 	_draw_hotspots()
 	_draw_actors()
 	_place_player_at_entry("south_road")
+	GameLog.event("area_rendered", {"area_id": area_id, "area_name": area_name})
 
 func _draw_area_title(area_name: String) -> void:
 	var title := Label.new()
@@ -215,6 +232,7 @@ func _draw_hotspots() -> void:
 		CrpgTheme.apply_button(marker)
 		marker.pressed.connect(_on_hotspot_pressed.bind(hotspot))
 		hotspot_layer.add_child(marker)
+		GameLog.event("hotspot_placed", {"hotspot_id": String(hotspot.get("id", "")), "position": _vec2_to_array(pos)})
 
 func _draw_actors() -> void:
 	for actor in actors_data.get("actors", []):
@@ -224,11 +242,13 @@ func _draw_actors() -> void:
 		var marker := Button.new()
 		marker.name = "Actor_%s" % actor_id
 		marker.text = "@ %s" % actor_id
-		marker.position = _array_to_vec2(actor.get("position", [0, 0]))
+		var pos := _array_to_vec2(actor.get("position", [0, 0]))
+		marker.position = pos
 		marker.size = Vector2(190, 34)
 		CrpgTheme.apply_button(marker)
 		marker.pressed.connect(_on_actor_pressed.bind(actor_id))
 		actor_layer.add_child(marker)
+		GameLog.event("actor_placed", {"actor_id": actor_id, "position": _vec2_to_array(pos)})
 
 func _place_player_at_entry(entry_id: String) -> void:
 	var entries: Dictionary = area_data.get("entry_points", {})
@@ -236,6 +256,7 @@ func _place_player_at_entry(entry_id: String) -> void:
 		player_marker.position = _array_to_vec2(entries[entry_id])
 		move_target = player_marker.position
 		has_move_target = false
+		GameLog.info("AREA", "Player placed at entry %s" % entry_id, {"entry_id": entry_id, "position": _vec2_to_array(player_marker.position)})
 
 func _update_player_movement(delta: float) -> void:
 	if not has_move_target:
@@ -246,27 +267,34 @@ func _update_player_movement(delta: float) -> void:
 	if distance <= 4.0:
 		player_marker.position = move_target
 		has_move_target = false
+		GameLog.info("MOVE", "Party reached %s" % str(move_target.round()), {"position": _vec2_to_array(move_target)})
 		_set_debug("Party reached %s" % str(move_target.round()))
 		return
 	player_marker.position = current + offset.normalized() * min(player_speed * delta, distance)
 
 func _on_hotspot_pressed(hotspot: Dictionary) -> void:
+	var hotspot_id := String(hotspot.get("id", "unknown"))
 	var hotspot_type := String(hotspot.get("type", "inspect"))
+	GameLog.info("HOTSPOT", "Clicked %s" % hotspot_id, {"hotspot_id": hotspot_id, "hotspot_type": hotspot_type})
 	if hotspot_type == "exit":
 		var target_area := String(hotspot.get("target_area", ""))
 		_set_debug("Exit hotspot selected: %s -> %s" % [String(hotspot.get("name", "Exit")), target_area])
+		GameLog.event("area_exit_selected", {"hotspot_id": hotspot_id, "target_area": target_area, "target_entry": String(hotspot.get("target_entry", ""))})
 	else:
 		_set_debug("Inspect: %s\n%s" % [String(hotspot.get("name", "Hotspot")), String(hotspot.get("description", ""))])
-		_apply_effects(hotspot.get("effects", []), "hotspot:%s" % String(hotspot.get("id", "unknown")))
+		_apply_effects(hotspot.get("effects", []), "hotspot:%s" % hotspot_id)
 
 func _on_actor_pressed(actor_id: String) -> void:
+	GameLog.info("ACTOR", "Clicked %s" % actor_id, {"actor_id": actor_id})
 	var actor_data: Dictionary = actor_definitions.get(actor_id, {})
 	if actor_data.is_empty():
 		_set_debug("Actor selected: %s" % actor_id)
+		GameLog.warning("ACTOR", "Actor has no definition: %s" % actor_id, {"actor_id": actor_id})
 		return
 	var dialogue_path := String(actor_data.get("dialogue", ""))
 	if dialogue_path.is_empty():
 		_set_debug("Actor has no dialogue: %s" % actor_id)
+		GameLog.warning("DIALOGUE", "Actor has no dialogue: %s" % actor_id, {"actor_id": actor_id})
 		return
 	_start_dialogue(actor_data, dialogue_path)
 
@@ -274,22 +302,26 @@ func _start_dialogue(actor_data: Dictionary, dialogue_path: String) -> void:
 	active_dialogue = data_loader.load_json_file(_to_res_path(dialogue_path))
 	if active_dialogue.is_empty():
 		_set_debug("Failed to load dialogue: %s" % dialogue_path)
+		GameLog.error("DIALOGUE", "Failed to load dialogue: %s" % dialogue_path, {"dialogue_path": dialogue_path})
 		return
 	active_dialogue_node_id = String(active_dialogue.get("start_node", "start"))
 	dialogue_speaker_label.text = String(actor_data.get("name", active_dialogue.get("speaker", "Speaker")))
 	dialogue_panel.visible = true
+	GameLog.info("DIALOGUE", "Opened dialogue %s" % dialogue_path, {"dialogue_path": dialogue_path, "start_node": active_dialogue_node_id})
 	_show_dialogue_node(active_dialogue_node_id)
 
 func _show_dialogue_node(node_id: String) -> void:
 	var nodes: Dictionary = active_dialogue.get("nodes", {})
 	if not nodes.has(node_id):
 		_set_debug("Dialogue node missing: %s" % node_id)
+		GameLog.error("DIALOGUE", "Dialogue node missing: %s" % node_id, {"node_id": node_id})
 		_hide_dialogue()
 		return
 	active_dialogue_node_id = node_id
 	var node: Dictionary = nodes[node_id]
 	dialogue_text_label.text = String(node.get("text", ""))
 	_clear_layer(dialogue_choices_box)
+	GameLog.info("DIALOGUE", "Entered node %s" % node_id, {"node_id": node_id, "choice_count": node.get("choices", []).size()})
 	_apply_effects(node.get("effects", []), "dialogue:%s" % node_id)
 
 	var choices: Array = node.get("choices", [])
@@ -312,6 +344,7 @@ func _show_dialogue_node(node_id: String) -> void:
 
 func _on_dialogue_choice_pressed(choice: Dictionary) -> void:
 	var next_node := String(choice.get("next", "end"))
+	GameLog.info("DIALOGUE_CHOICE", "%s -> %s" % [String(choice.get("text", "...")), next_node], {"choice_text": String(choice.get("text", "...")), "next": next_node})
 	if next_node == "end":
 		_hide_dialogue()
 		return
@@ -323,11 +356,13 @@ func _apply_effects(effects: Variant, source: String) -> void:
 	for effect in effects:
 		_apply_effect(effect, source)
 	_update_quest_tracker()
+	write_debug_state("state_latest.json")
 
 func _apply_effect(effect: Variant, source: String) -> void:
 	if typeof(effect) != TYPE_DICTIONARY:
 		return
 	var effect_type := String(effect.get("type", ""))
+	GameLog.event("effect_applied", {"effect_type": effect_type, "source": source, "effect": effect})
 	match effect_type:
 		"start_quest":
 			var quest_id := String(effect.get("quest_id", ""))
@@ -350,6 +385,7 @@ func _apply_effect(effect: Variant, source: String) -> void:
 				_set_debug("Flag set: %s from %s" % [flag_id, source])
 		_:
 			_set_debug("Unhandled effect: %s from %s" % [effect_type, source])
+			GameLog.warning("EFFECT", "Unhandled effect: %s" % effect_type, {"source": source, "effect": effect})
 
 func _update_quest_tracker() -> void:
 	if quest_tracker_label != null and game_state != null:
@@ -358,13 +394,74 @@ func _update_quest_tracker() -> void:
 func _hide_dialogue() -> void:
 	if dialogue_panel != null:
 		dialogue_panel.visible = false
+	GameLog.info("DIALOGUE", "Closed dialogue", {"last_node": active_dialogue_node_id})
 	active_dialogue = {}
 	active_dialogue_node_id = ""
+
+func write_debug_state(file_name: String = "state_latest.json") -> void:
+	GameLog.write_state_dump(file_name, DebugStateDump.from_area_controller(self))
+
+func run_debug_action(action: Dictionary) -> bool:
+	var action_type := String(action.get("type", ""))
+	GameLog.info("SCENARIO", "Running action %s" % action_type, {"action": action})
+	match action_type:
+		"load_area":
+			load_area(String(action.get("area_id", area_id)))
+			return true
+		"click_actor":
+			_on_actor_pressed(String(action.get("actor_id", "")))
+			return true
+		"choose_dialogue":
+			return choose_dialogue_by_text(String(action.get("text", "")))
+		"click_hotspot":
+			return click_hotspot_by_id(String(action.get("hotspot_id", "")))
+		"assert_quest_stage":
+			var quest_id := String(action.get("quest_id", ""))
+			var expected := String(action.get("stage", ""))
+			var actual := game_state.get_quest_stage(quest_id)
+			if actual != expected:
+				GameLog.error("ASSERT", "Quest stage mismatch: %s expected %s got %s" % [quest_id, expected, actual], {"quest_id": quest_id, "expected": expected, "actual": actual})
+				return false
+			GameLog.info("ASSERT", "Quest stage OK: %s=%s" % [quest_id, expected])
+			return true
+		"assert_flag":
+			var flag_id := String(action.get("flag_id", ""))
+			var expected_flag := bool(action.get("value", true))
+			var actual_flag := game_state.has_flag(flag_id)
+			if actual_flag != expected_flag:
+				GameLog.error("ASSERT", "Flag mismatch: %s expected %s got %s" % [flag_id, expected_flag, actual_flag], {"flag_id": flag_id, "expected": expected_flag, "actual": actual_flag})
+				return false
+			GameLog.info("ASSERT", "Flag OK: %s=%s" % [flag_id, expected_flag])
+			return true
+		_:
+			GameLog.error("SCENARIO", "Unknown action type: %s" % action_type, {"action": action})
+			return false
+
+func choose_dialogue_by_text(choice_text: String) -> bool:
+	var nodes: Dictionary = active_dialogue.get("nodes", {})
+	if active_dialogue_node_id.is_empty() or not nodes.has(active_dialogue_node_id):
+		GameLog.error("SCENARIO", "No active dialogue node for choice: %s" % choice_text)
+		return false
+	var node: Dictionary = nodes[active_dialogue_node_id]
+	for choice in node.get("choices", []):
+		if typeof(choice) == TYPE_DICTIONARY and String(choice.get("text", "")) == choice_text:
+			_on_dialogue_choice_pressed(choice)
+			return true
+	GameLog.error("SCENARIO", "Choice text not found: %s" % choice_text, {"node_id": active_dialogue_node_id})
+	return false
+
+func click_hotspot_by_id(hotspot_id: String) -> bool:
+	for hotspot in hotspots_data.get("hotspots", []):
+		if typeof(hotspot) == TYPE_DICTIONARY and String(hotspot.get("id", "")) == hotspot_id:
+			_on_hotspot_pressed(hotspot)
+			return true
+	GameLog.error("SCENARIO", "Hotspot not found: %s" % hotspot_id)
+	return false
 
 func _set_debug(text: String) -> void:
 	if debug_label != null:
 		debug_label.text = text
-	print(text)
+	GameLog.info("DEBUG", text)
 
 func _clear_layer(layer: Node) -> void:
 	for child in layer.get_children():
@@ -381,3 +478,6 @@ func _array_to_vec2(value: Variant) -> Vector2:
 	if typeof(value) == TYPE_ARRAY and value.size() >= 2:
 		return Vector2(float(value[0]), float(value[1]))
 	return Vector2.ZERO
+
+func _vec2_to_array(value: Vector2) -> Array:
+	return [value.x, value.y]
