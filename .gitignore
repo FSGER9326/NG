@@ -30,6 +30,11 @@ builds/
 exports/
 dist/
 
+# Local debug output bundles
+debug/
+logs/
+*.log
+
 # Large raw AI/source files should not be committed by accident
 asset_sources/raw/
 asset_sources/tmp/
