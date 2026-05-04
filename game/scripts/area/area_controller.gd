@@ -2,11 +2,15 @@ extends Node2D
 class_name AreaController
 
 const DataLoader = preload("res://game/scripts/core/data_loader.gd")
+const GameState = preload("res://game/scripts/core/game_state.gd")
+const QuestSystem = preload("res://game/scripts/systems/quest_system.gd")
 
 @export var area_id: String = "wolfpine_road"
 @export var player_speed: float = 260.0
 
 var data_loader: DataLoader
+var game_state: GameState
+var quest_system: QuestSystem
 var area_data: Dictionary = {}
 var hotspots_data: Dictionary = {}
 var actors_data: Dictionary = {}
@@ -22,6 +26,7 @@ var player_marker: Label
 var move_target: Vector2 = Vector2.ZERO
 var has_move_target: bool = false
 var debug_label: Label
+var quest_tracker_label: Label
 var dialogue_panel: PanelContainer
 var dialogue_speaker_label: Label
 var dialogue_text_label: RichTextLabel
@@ -29,8 +34,11 @@ var dialogue_choices_box: VBoxContainer
 
 func _ready() -> void:
 	data_loader = DataLoader.new()
+	game_state = GameState.new()
+	quest_system = QuestSystem.new()
 	_build_runtime_nodes()
 	load_area(area_id)
+	_update_quest_tracker()
 
 func _process(delta: float) -> void:
 	_update_player_movement(delta)
@@ -75,6 +83,13 @@ func _build_runtime_nodes() -> void:
 	debug_label.position = Vector2(24, 24)
 	debug_label.text = "NG area prototype"
 	add_child(debug_label)
+
+	quest_tracker_label = Label.new()
+	quest_tracker_label.name = "QuestTracker"
+	quest_tracker_label.position = Vector2(900, 24)
+	quest_tracker_label.custom_minimum_size = Vector2(340, 140)
+	quest_tracker_label.text = "Quests: none"
+	add_child(quest_tracker_label)
 
 	_build_dialogue_panel()
 
@@ -217,6 +232,7 @@ func _on_hotspot_pressed(hotspot: Dictionary) -> void:
 		_set_debug("Exit hotspot selected: %s -> %s" % [String(hotspot.get("name", "Exit")), target_area])
 	else:
 		_set_debug("Inspect: %s\n%s" % [String(hotspot.get("name", "Hotspot")), String(hotspot.get("description", ""))])
+		_apply_effects(hotspot.get("effects", []), "hotspot:%s" % String(hotspot.get("id", "unknown")))
 
 func _on_actor_pressed(actor_id: String) -> void:
 	var actor_data: Dictionary = actor_definitions.get(actor_id, {})
@@ -249,9 +265,7 @@ func _show_dialogue_node(node_id: String) -> void:
 	var node: Dictionary = nodes[node_id]
 	dialogue_text_label.text = String(node.get("text", ""))
 	_clear_layer(dialogue_choices_box)
-
-	for effect in node.get("effects", []):
-		_apply_dialogue_effect(effect)
+	_apply_effects(node.get("effects", []), "dialogue:%s" % node_id)
 
 	var choices: Array = node.get("choices", [])
 	if choices.is_empty():
@@ -276,17 +290,43 @@ func _on_dialogue_choice_pressed(choice: Dictionary) -> void:
 		return
 	_show_dialogue_node(next_node)
 
-func _apply_dialogue_effect(effect: Variant) -> void:
+func _apply_effects(effects: Variant, source: String) -> void:
+	if typeof(effects) != TYPE_ARRAY:
+		return
+	for effect in effects:
+		_apply_effect(effect, source)
+	_update_quest_tracker()
+
+func _apply_effect(effect: Variant, source: String) -> void:
 	if typeof(effect) != TYPE_DICTIONARY:
 		return
 	var effect_type := String(effect.get("type", ""))
 	match effect_type:
 		"start_quest":
-			_set_debug("Quest started: %s -> %s" % [String(effect.get("quest_id", "")), String(effect.get("stage", "accepted"))])
+			var quest_id := String(effect.get("quest_id", ""))
+			var stage := String(effect.get("stage", "accepted"))
+			if not quest_id.is_empty():
+				quest_system.start_quest(quest_id, stage)
+				game_state.start_quest(quest_id, stage)
+				_set_debug("Quest started: %s -> %s" % [quest_id, stage])
 		"set_quest_stage":
-			_set_debug("Quest updated: %s -> %s" % [String(effect.get("quest_id", "")), String(effect.get("stage", ""))])
+			var quest_id := String(effect.get("quest_id", ""))
+			var stage := String(effect.get("stage", ""))
+			if not quest_id.is_empty() and not stage.is_empty():
+				quest_system.set_stage(quest_id, stage)
+				game_state.set_quest_stage(quest_id, stage)
+				_set_debug("Quest updated: %s -> %s" % [quest_id, stage])
+		"set_flag":
+			var flag_id := String(effect.get("flag_id", ""))
+			if not flag_id.is_empty():
+				game_state.set_flag(flag_id, bool(effect.get("value", true)))
+				_set_debug("Flag set: %s from %s" % [flag_id, source])
 		_:
-			_set_debug("Unhandled dialogue effect: %s" % effect_type)
+			_set_debug("Unhandled effect: %s from %s" % [effect_type, source])
+
+func _update_quest_tracker() -> void:
+	if quest_tracker_label != null and game_state != null:
+		quest_tracker_label.text = game_state.get_debug_summary()
 
 func _hide_dialogue() -> void:
 	if dialogue_panel != null:
