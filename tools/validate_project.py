@@ -2,7 +2,7 @@
 """Validate NG project data.
 
 Dependency-free Python validation for JSON data, common references, dialogue links,
-area actor placements, encounter IDs, and quest-stage references.
+area actor placements, encounter IDs, quest-stage references, and scripted test scenarios.
 """
 
 from __future__ import annotations
@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-JSON_ROOTS = [ROOT / "data", ROOT / "areas", ROOT / "dialogue"]
+JSON_ROOTS = [ROOT / "data", ROOT / "areas", ROOT / "dialogue", ROOT / "tests"]
 
 REFERENCE_KEYS = {
     "background",
@@ -34,6 +34,9 @@ class ProjectIndex:
         self.quests: dict[str, set[str]] = {}
         self.encounters: set[str] = set()
         self.factions: set[str] = set()
+        self.areas: set[str] = set()
+        self.hotspots: set[str] = set()
+        self.dialogue_choice_texts: set[str] = set()
 
 
 def load_json(path: Path) -> Any:
@@ -63,11 +66,21 @@ def collect_ids(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -
                 index.actors.add(item_id)
             if "encounters" in path.parts:
                 index.encounters.add(item_id)
+            if path.name == "area.json" and "areas" in path.parts:
+                index.areas.add(item_id)
 
         if path.match("*/data/quests/**/*.json") and isinstance(item_id, str):
             stages = data.get("stages", {})
             if isinstance(stages, dict):
                 index.quests[item_id] = set(stages.keys())
+
+        if path.name == "hotspots.json" and "areas" in path.parts:
+            for hotspot in data.get("hotspots", []):
+                if isinstance(hotspot, dict) and isinstance(hotspot.get("id"), str):
+                    index.hotspots.add(hotspot["id"])
+
+        if "dialogue" in path.parts:
+            collect_dialogue_choice_texts(data, index)
 
         faction_list = data.get("factions")
         if isinstance(faction_list, list):
@@ -80,6 +93,20 @@ def collect_ids(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -
     elif isinstance(data, list):
         for value in data:
             collect_ids(path, value, index, errors)
+
+
+def collect_dialogue_choice_texts(data: Any, index: ProjectIndex) -> None:
+    if not isinstance(data, dict):
+        return
+    nodes = data.get("nodes")
+    if not isinstance(nodes, dict):
+        return
+    for node in nodes.values():
+        if not isinstance(node, dict):
+            continue
+        for choice in node.get("choices", []):
+            if isinstance(choice, dict) and isinstance(choice.get("text"), str):
+                index.dialogue_choice_texts.add(choice["text"])
 
 
 def check_references(path: Path, data: Any, errors: list[str]) -> None:
@@ -147,6 +174,9 @@ def check_effects(path: Path, effects: Any, index: ProjectIndex, errors: list[st
             stage = effect.get("stage")
             if isinstance(stage, str) and stage not in index.quests[quest_id]:
                 errors.append(f"Effect references missing quest stage in {path.relative_to(ROOT)}: {quest_id}.{stage}")
+        elif effect_type == "set_flag":
+            if not isinstance(effect.get("flag_id"), str) or not effect.get("flag_id"):
+                errors.append(f"set_flag effect missing flag_id in {path.relative_to(ROOT)}")
 
 
 def check_quest_references(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -> None:
@@ -154,6 +184,52 @@ def check_quest_references(path: Path, data: Any, index: ProjectIndex, errors: l
         return
     check_effects(path, data.get("victory_effects", []), index, errors)
     check_effects(path, data.get("effects", []), index, errors)
+
+
+def check_scenario(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -> None:
+    if "tests" not in path.parts or "scenarios" not in path.parts or not isinstance(data, dict):
+        return
+    steps = data.get("steps")
+    if not isinstance(steps, list):
+        errors.append(f"Scenario missing steps list in {path.relative_to(ROOT)}")
+        return
+    for step_index, step in enumerate(steps, start=1):
+        if not isinstance(step, dict):
+            errors.append(f"Scenario step is not object in {path.relative_to(ROOT)} step {step_index}")
+            continue
+        step_type = step.get("type")
+        if not isinstance(step_type, str):
+            errors.append(f"Scenario step missing type in {path.relative_to(ROOT)} step {step_index}")
+            continue
+        match step_type:
+            case "load_area":
+                area_id = step.get("area_id")
+                if not isinstance(area_id, str) or area_id not in index.areas:
+                    errors.append(f"Scenario references missing area in {path.relative_to(ROOT)} step {step_index}: {area_id}")
+            case "click_actor":
+                actor_id = step.get("actor_id")
+                if not isinstance(actor_id, str) or actor_id not in index.actors:
+                    errors.append(f"Scenario references missing actor in {path.relative_to(ROOT)} step {step_index}: {actor_id}")
+            case "choose_dialogue":
+                text = step.get("text")
+                if not isinstance(text, str) or text not in index.dialogue_choice_texts:
+                    errors.append(f"Scenario references missing dialogue choice in {path.relative_to(ROOT)} step {step_index}: {text}")
+            case "click_hotspot":
+                hotspot_id = step.get("hotspot_id")
+                if not isinstance(hotspot_id, str) or hotspot_id not in index.hotspots:
+                    errors.append(f"Scenario references missing hotspot in {path.relative_to(ROOT)} step {step_index}: {hotspot_id}")
+            case "assert_quest_stage":
+                quest_id = step.get("quest_id")
+                stage = step.get("stage")
+                if not isinstance(quest_id, str) or quest_id not in index.quests:
+                    errors.append(f"Scenario references missing quest in {path.relative_to(ROOT)} step {step_index}: {quest_id}")
+                elif not isinstance(stage, str) or stage not in index.quests[quest_id]:
+                    errors.append(f"Scenario references missing quest stage in {path.relative_to(ROOT)} step {step_index}: {quest_id}.{stage}")
+            case "assert_flag":
+                if not isinstance(step.get("flag_id"), str) or not step.get("flag_id"):
+                    errors.append(f"Scenario assert_flag missing flag_id in {path.relative_to(ROOT)} step {step_index}")
+            case _:
+                errors.append(f"Scenario has unknown step type in {path.relative_to(ROOT)} step {step_index}: {step_type}")
 
 
 def to_repo_path(value: str) -> Path:
@@ -169,7 +245,7 @@ def main() -> int:
     files = walk_json_files()
 
     if not files:
-        errors.append("No JSON files found under data/, areas/, or dialogue/.")
+        errors.append("No JSON files found under data/, areas/, dialogue/, or tests/.")
 
     for path in files:
         try:
@@ -185,6 +261,7 @@ def main() -> int:
         check_dialogue(path, data, index, errors)
         check_area_actor_placements(path, data, index, errors)
         check_quest_references(path, data, index, errors)
+        check_scenario(path, data, index, errors)
 
     if errors:
         print("NG validation failed:")
@@ -195,7 +272,8 @@ def main() -> int:
     print(
         "NG validation passed: "
         f"{len(files)} JSON files, {len(index.ids)} IDs, "
-        f"{len(index.actors)} actors, {len(index.quests)} quests."
+        f"{len(index.actors)} actors, {len(index.quests)} quests, "
+        f"{len(index.hotspots)} hotspots."
     )
     return 0
 
