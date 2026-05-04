@@ -6,6 +6,13 @@ const GameLog = preload("res://game/scripts/core/game_log.gd")
 var flags: Dictionary = {}
 var faction_reputation: Dictionary = {}
 var party_member_ids: Array[String] = []
+var party_skills: Dictionary = {
+	"perception": 2,
+	"survival": 1,
+	"resolve": 1,
+	"lore": 1,
+	"stealth": 1
+}
 var active_quest_ids: Array[String] = []
 var quest_stages: Dictionary = {}
 
@@ -20,6 +27,21 @@ func set_flag(flag_id: String, value: bool = true) -> void:
 
 func has_flag(flag_id: String) -> bool:
 	return bool(flags.get(flag_id, false))
+
+func set_party_skill(skill_id: String, value: int) -> void:
+	if skill_id.is_empty():
+		GameLog.warning("SKILL", "Ignored empty skill id", {"value": value})
+		return
+	var old_value := get_party_skill(skill_id)
+	party_skills[skill_id] = value
+	GameLog.info("SKILL", "%s %s -> %s" % [skill_id, old_value, value], {
+		"skill_id": skill_id,
+		"from": old_value,
+		"to": value
+	})
+
+func get_party_skill(skill_id: String) -> int:
+	return int(party_skills.get(skill_id, 0))
 
 func modify_reputation(faction_id: String, amount: int) -> void:
 	var old_value := int(faction_reputation.get(faction_id, 0))
@@ -77,6 +99,7 @@ func to_debug_dict() -> Dictionary:
 		"flags": flags.duplicate(true),
 		"faction_reputation": faction_reputation.duplicate(true),
 		"party_member_ids": party_member_ids.duplicate(true),
+		"party_skills": party_skills.duplicate(true),
 		"active_quest_ids": active_quest_ids.duplicate(true),
 		"quest_stages": quest_stages.duplicate(true)
 	}
