@@ -41,16 +41,18 @@ The repo currently contains:
 - starter area: `wolfpine_road`
 - transition destination stub: `wolfpine_village`
 - Wolfpine Village art brief and layout constraints for BG2/Pillars-like village generation
-- Wolfpine Village starter asset kit README, metadata manifest, and generation specs
+- Wolfpine Village starter asset kit README, metadata manifest, generation specs, prompt exporter, and validator
 - starter NPC: `captain_renna`
 - starter companion: `brannoc`
 - starter enemy: `border_bandit`
 - starter item: `border_iron_sword`
 - starter quest: `missing_caravan`
 - validation script: `tools/validate_project.py`
+- asset-kit validation script: `tools/validate_asset_kits.py`
+- asset prompt exporter: `tools/export_asset_prompts.py`
 - debug/scenario runner: `tools/run_scenario_test.gd`
 - local debug bundle scripts
-- GitHub validation workflow
+- GitHub validation workflow, including asset-kit manifest validation
 
 ## Current testable build target
 
@@ -85,6 +87,8 @@ Expected Wolfpine Village planning state:
 - `assets/kits/wolfpine_village/README.md` defines the canonical kit folder policy and promotion rule.
 - `assets/kits/wolfpine_village/GENERATION_SPECS.md` defines prompt and acceptance specs for the first 15 reusable assets.
 - `data/asset_kits/wolfpine_village_starter.json` is the machine-readable starter manifest for those assets.
+- `tools/export_asset_prompts.py` can export per-asset prompt cards from the manifest.
+- `tools/validate_asset_kits.py` validates asset-kit manifests and is wired into CI.
 - Village exterior art should be closer to classic BG2/Pillars-style settlement plates than horror-dark wilderness art.
 - Final village art should be generated from the constraints and kit, not used as the source of truth for paths and architecture.
 
@@ -121,6 +125,7 @@ Run from repo root:
 
 ```bash
 python tools/validate_project.py
+python tools/validate_asset_kits.py
 ```
 
 The validator currently checks:
@@ -134,6 +139,7 @@ The validator currently checks:
 - area actor placements
 - scenario step references
 - main-menu scenario step shapes
+- asset-kit manifest structure and accepted asset file references
 
 ## Debug bundle
 
@@ -161,6 +167,7 @@ Bring the testable build to a clean local pass:
 4. Fix any GDScript runtime errors found in the menu/new-game/area/dialogue paths.
 5. Continue toward save/load and a simple skill-check format after the boot path is stable.
 6. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
+7. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
 
 ## Working rule
 
