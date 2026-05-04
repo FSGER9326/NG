@@ -7,6 +7,14 @@ var quest_states: Dictionary = {}
 
 func start_quest(quest_id: String, start_stage: String = "accepted") -> void:
 	var old_stage := get_stage(quest_id)
+	if old_stage != "not_started":
+		GameLog.info("QUEST_SYSTEM", "Quest already has progress; start_quest did not overwrite %s" % quest_id, {
+			"quest_id": quest_id,
+			"existing_stage": old_stage,
+			"requested_stage": start_stage,
+			"operation": "start_quest_no_overwrite"
+		})
+		return
 	quest_states[quest_id] = start_stage
 	GameLog.info("QUEST_SYSTEM", "%s %s -> %s" % [quest_id, old_stage, start_stage], {
 		"quest_id": quest_id,
