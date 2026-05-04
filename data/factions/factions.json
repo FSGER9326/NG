@@ -1,0 +1,19 @@
+{
+  "factions": [
+    {
+      "id": "wolfpine_guard",
+      "name": "Wolfpine Guard",
+      "description": "The underpaid, underfed guard of a starving border village."
+    },
+    {
+      "id": "road_bandits",
+      "name": "Road Bandits",
+      "description": "Loose bands of deserters, thieves, and starving villagers preying on border roads."
+    },
+    {
+      "id": "old_faith",
+      "name": "The Old Faith",
+      "description": "A half-forgotten rural faith tied to shrines, groves, and buried imperial saints."
+    }
+  ]
+}
