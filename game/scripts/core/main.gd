@@ -293,7 +293,7 @@ func _select_option_by_text(option_button: OptionButton, text: String, label: St
 	if option_button == null:
 		GameLog.error("SCENARIO", "Cannot select %s; control is missing" % label)
 		return false
-	for index in range(option_button.item_count):
+	for index in range(option_button.get_item_count()):
 		if option_button.get_item_text(index) == text:
 			option_button.select(index)
 			GameLog.info("SCENARIO", "Selected %s: %s" % [label, text])
