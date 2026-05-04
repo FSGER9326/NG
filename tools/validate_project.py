@@ -2,7 +2,8 @@
 """Validate NG project data.
 
 Dependency-free Python validation for JSON data, common references, dialogue links,
-area actor placements, encounter IDs, quest-stage references, and scripted test scenarios.
+area actor placements, encounter IDs, quest-stage references, dialogue conditions,
+and scripted test scenarios.
 """
 
 from __future__ import annotations
@@ -25,6 +26,8 @@ REFERENCE_KEYS = {
     "sprite",
     "icon",
 }
+
+CONDITION_TYPES = {"flag", "quest_stage", "not", "all", "any"}
 
 
 class ProjectIndex:
@@ -136,12 +139,14 @@ def check_dialogue(path: Path, data: Any, index: ProjectIndex, errors: list[str]
         if not isinstance(node, dict):
             errors.append(f"Dialogue node is not an object in {path.relative_to(ROOT)}: {node_id}")
             continue
+        check_conditions(path, node.get("conditions", []), index, errors, f"node {node_id}")
         for choice in node.get("choices", []):
             if not isinstance(choice, dict):
                 continue
             next_node = choice.get("next")
             if isinstance(next_node, str) and next_node != "end" and next_node not in node_ids:
                 errors.append(f"Dialogue missing next node in {path.relative_to(ROOT)}: {node_id} -> {next_node}")
+            check_conditions(path, choice.get("conditions", []), index, errors, f"choice '{choice.get('text', '')}' in node {node_id}")
         check_effects(path, node.get("effects", []), index, errors)
 
 
@@ -177,6 +182,46 @@ def check_effects(path: Path, effects: Any, index: ProjectIndex, errors: list[st
         elif effect_type == "set_flag":
             if not isinstance(effect.get("flag_id"), str) or not effect.get("flag_id"):
                 errors.append(f"set_flag effect missing flag_id in {path.relative_to(ROOT)}")
+
+
+def check_conditions(path: Path, conditions: Any, index: ProjectIndex, errors: list[str], context: str) -> None:
+    if conditions in (None, []):
+        return
+    if not isinstance(conditions, list):
+        errors.append(f"Conditions must be a list in {path.relative_to(ROOT)} at {context}")
+        return
+    for condition in conditions:
+        check_condition(path, condition, index, errors, context)
+
+
+def check_condition(path: Path, condition: Any, index: ProjectIndex, errors: list[str], context: str) -> None:
+    if not isinstance(condition, dict):
+        errors.append(f"Condition must be object in {path.relative_to(ROOT)} at {context}")
+        return
+    condition_type = condition.get("type")
+    if condition_type not in CONDITION_TYPES:
+        errors.append(f"Unknown condition type in {path.relative_to(ROOT)} at {context}: {condition_type}")
+        return
+    if condition_type == "flag":
+        if not isinstance(condition.get("flag_id"), str) or not condition.get("flag_id"):
+            errors.append(f"flag condition missing flag_id in {path.relative_to(ROOT)} at {context}")
+        if "value" in condition and not isinstance(condition.get("value"), bool):
+            errors.append(f"flag condition value must be boolean in {path.relative_to(ROOT)} at {context}")
+    elif condition_type == "quest_stage":
+        quest_id = condition.get("quest_id")
+        stage = condition.get("stage")
+        if not isinstance(quest_id, str) or quest_id not in index.quests:
+            errors.append(f"quest_stage condition references missing quest in {path.relative_to(ROOT)} at {context}: {quest_id}")
+        elif not isinstance(stage, str) or stage not in index.quests[quest_id]:
+            errors.append(f"quest_stage condition references missing stage in {path.relative_to(ROOT)} at {context}: {quest_id}.{stage}")
+    elif condition_type == "not":
+        check_condition(path, condition.get("condition"), index, errors, f"{context} > not")
+    elif condition_type in {"all", "any"}:
+        nested = condition.get("conditions")
+        if not isinstance(nested, list) or not nested:
+            errors.append(f"{condition_type} condition needs non-empty conditions list in {path.relative_to(ROOT)} at {context}")
+        else:
+            check_conditions(path, nested, index, errors, f"{context} > {condition_type}")
 
 
 def check_quest_references(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -> None:
