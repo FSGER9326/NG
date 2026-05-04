@@ -1,0 +1,22 @@
+name: Godot smoke test
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  godot-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Download Godot
+        run: |
+          curl -L -o godot.zip https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          unzip godot.zip
+          chmod +x Godot_v4.3-stable_linux.x86_64
+
+      - name: Run headless smoke test
+        run: ./Godot_v4.3-stable_linux.x86_64 --headless --path . --script res://tools/godot_smoke_test.gd
