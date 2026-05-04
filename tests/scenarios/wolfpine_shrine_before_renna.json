@@ -1,0 +1,38 @@
+{
+  "id": "wolfpine_shrine_before_renna",
+  "name": "Wolfpine Shrine Before Renna Edge Case",
+  "description": "Verifies that finding the shrine clue before formally accepting Renna's job does not regress the quest back to accepted later.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "old_shrine"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_wreck"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_old_shrine_inspected",
+      "value": true
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I am looking for work."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_wreck"
+    }
+  ]
+}
