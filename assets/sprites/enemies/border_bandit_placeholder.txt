@@ -1,0 +1,2 @@
+Sprite placeholder: Border Bandit.
+Future asset target: small pseudo-isometric animated enemy sprite sheet.
