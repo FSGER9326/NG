@@ -22,6 +22,7 @@ var actors_data: Dictionary = {}
 var actor_definitions: Dictionary = {}
 var active_dialogue: Dictionary = {}
 var active_dialogue_node_id: String = ""
+var pending_player_profile: Dictionary = {}
 
 var background_layer: ColorRect
 var label_layer: Node2D
@@ -38,6 +39,13 @@ var dialogue_speaker_label: Label
 var dialogue_text_label: RichTextLabel
 var dialogue_choices_box: VBoxContainer
 
+func setup_player_profile(profile: Dictionary) -> void:
+	pending_player_profile = profile.duplicate(true)
+	if game_state != null:
+		game_state.apply_player_profile(pending_player_profile)
+		_update_quest_tracker()
+		write_debug_state("state_latest.json")
+
 func _ready() -> void:
 	if not GameLog.is_started():
 		GameLog.start_session("area_controller")
@@ -46,6 +54,8 @@ func _ready() -> void:
 	GameLog.info("BOOT", "AreaController ready", {"area_id": area_id})
 	data_loader = DataLoader.new()
 	game_state = GameState.new()
+	if not pending_player_profile.is_empty():
+		game_state.apply_player_profile(pending_player_profile)
 	quest_system = QuestSystem.new()
 	dialogue_condition_evaluator = DialogueConditionEvaluator.new()
 	dialogue_condition_evaluator.setup(game_state)
@@ -488,6 +498,33 @@ func run_debug_action(action: Dictionary) -> bool:
 				GameLog.error("ASSERT", "Flag mismatch: %s expected %s got %s" % [flag_id, expected_flag, actual_flag], {"flag_id": flag_id, "expected": expected_flag, "actual": actual_flag})
 				return false
 			GameLog.info("ASSERT", "Flag OK: %s=%s" % [flag_id, expected_flag])
+			return true
+		"assert_player_tag":
+			var tag_id := String(action.get("tag", ""))
+			var expected_tag := bool(action.get("value", true))
+			var actual_tag := game_state.has_player_tag(tag_id)
+			if actual_tag != expected_tag:
+				GameLog.error("ASSERT", "Player tag mismatch: %s expected %s got %s" % [tag_id, expected_tag, actual_tag], {"tag": tag_id, "expected": expected_tag, "actual": actual_tag})
+				return false
+			GameLog.info("ASSERT", "Player tag OK: %s=%s" % [tag_id, expected_tag])
+			return true
+		"assert_party_skill":
+			var skill_id := String(action.get("skill_id", ""))
+			var expected_skill := int(action.get("value", -999))
+			var actual_skill := game_state.get_party_skill(skill_id)
+			if actual_skill != expected_skill:
+				GameLog.error("ASSERT", "Party skill mismatch: %s expected %s got %s" % [skill_id, expected_skill, actual_skill], {"skill_id": skill_id, "expected": expected_skill, "actual": actual_skill})
+				return false
+			GameLog.info("ASSERT", "Party skill OK: %s=%s" % [skill_id, expected_skill])
+			return true
+		"assert_player_attribute":
+			var attribute_id := String(action.get("attribute_id", ""))
+			var expected_attribute := int(action.get("value", -999))
+			var actual_attribute := game_state.get_player_attribute(attribute_id)
+			if actual_attribute != expected_attribute:
+				GameLog.error("ASSERT", "Player attribute mismatch: %s expected %s got %s" % [attribute_id, expected_attribute, actual_attribute], {"attribute_id": attribute_id, "expected": expected_attribute, "actual": actual_attribute})
+				return false
+			GameLog.info("ASSERT", "Player attribute OK: %s=%s" % [attribute_id, expected_attribute])
 			return true
 		_:
 			GameLog.error("SCENARIO", "Unknown action type: %s" % action_type, {"action": action})
