@@ -42,6 +42,7 @@ The repo currently contains:
 - transition destination stub: `wolfpine_village`
 - Wolfpine Village art brief and layout constraints for BG2/Pillars-like village generation
 - Wolfpine Village starter asset kit README, metadata manifest, generation specs, prompt exporter, and validator
+- reusable quest seed bank: `docs/QUEST_SEEDS.md`
 - starter NPC: `captain_renna`
 - starter companion: `brannoc`
 - starter enemy: `border_bandit`
@@ -168,6 +169,7 @@ Bring the testable build to a clean local pass:
 5. Continue toward save/load and a simple skill-check format after the boot path is stable.
 6. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
 7. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
+8. Convert the best `docs/QUEST_SEEDS.md` entries into JSON quests only after choosing a small first implementation target and adding matching scenario coverage.
 
 ## Working rule
 
