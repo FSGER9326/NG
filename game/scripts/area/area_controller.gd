@@ -7,6 +7,7 @@ const QuestSystem = preload("res://game/scripts/systems/quest_system.gd")
 const CrpgTheme = preload("res://game/scripts/ui/crpg_theme.gd")
 const GameLog = preload("res://game/scripts/core/game_log.gd")
 const DebugStateDump = preload("res://game/scripts/core/debug_state_dump.gd")
+const DialogueConditionEvaluator = preload("res://game/scripts/dialogue/dialogue_condition_evaluator.gd")
 
 @export var area_id: String = "wolfpine_road"
 @export var player_speed: float = 260.0
@@ -14,6 +15,7 @@ const DebugStateDump = preload("res://game/scripts/core/debug_state_dump.gd")
 var data_loader: DataLoader
 var game_state: GameState
 var quest_system: QuestSystem
+var dialogue_condition_evaluator: DialogueConditionEvaluator
 var area_data: Dictionary = {}
 var hotspots_data: Dictionary = {}
 var actors_data: Dictionary = {}
@@ -45,6 +47,7 @@ func _ready() -> void:
 	data_loader = DataLoader.new()
 	game_state = GameState.new()
 	quest_system = QuestSystem.new()
+	dialogue_condition_evaluator = DialogueConditionEvaluator.new(game_state)
 	_build_runtime_nodes()
 	load_area(area_id)
 	_update_quest_tracker()
@@ -417,34 +420,10 @@ func _get_visible_choices(choices: Variant) -> Array:
 	return visible
 
 func _passes_conditions(data: Dictionary) -> bool:
-	var conditions: Variant = data.get("conditions", [])
-	if typeof(conditions) != TYPE_ARRAY:
-		return true
-	for condition in conditions:
-		if not _condition_passes(condition):
-			return false
-	return true
-
-func _condition_passes(condition: Variant) -> bool:
-	if typeof(condition) != TYPE_DICTIONARY:
+	if dialogue_condition_evaluator == null:
+		GameLog.warning("DIALOGUE", "Condition evaluator missing; failing conditions safely", {"data": data})
 		return false
-	var condition_type := String(condition.get("type", ""))
-	match condition_type:
-		"flag":
-			var flag_id := String(condition.get("flag_id", ""))
-			var expected := bool(condition.get("value", true))
-			var actual := game_state.has_flag(flag_id)
-			GameLog.event("condition_checked", {"type": condition_type, "flag_id": flag_id, "expected": expected, "actual": actual})
-			return actual == expected
-		"quest_stage":
-			var quest_id := String(condition.get("quest_id", ""))
-			var expected_stage := String(condition.get("stage", ""))
-			var actual_stage := game_state.get_quest_stage(quest_id)
-			GameLog.event("condition_checked", {"type": condition_type, "quest_id": quest_id, "expected": expected_stage, "actual": actual_stage})
-			return actual_stage == expected_stage
-		_:
-			GameLog.warning("DIALOGUE", "Unknown condition type: %s" % condition_type, {"condition": condition})
-			return false
+	return dialogue_condition_evaluator.passes_data_conditions(data)
 
 func _update_quest_tracker() -> void:
 	if quest_tracker_label != null and game_state != null:
