@@ -1,0 +1,31 @@
+{
+  "id": "ng_starter_portraits",
+  "name": "NG Starter Portraits",
+  "description": "Text-first starter portrait choices for the character creator. These are portrait IDs and descriptions, not final painted portrait assets yet.",
+  "portraits": [
+    {
+      "id": "portrait_weathered_drifter_01",
+      "name": "Weathered Drifter",
+      "summary": "A road-worn traveler with a rain-dark cloak, tired eyes, and the look of someone who counts exits before greetings.",
+      "tags": ["portrait.road_worn", "mood.guarded", "region.border"]
+    },
+    {
+      "id": "portrait_disgraced_squire_01",
+      "name": "Disgraced Squire",
+      "summary": "A young fighter with battered manners, an old bruise near the jaw, and a cloak pin from a house that no longer claims them.",
+      "tags": ["portrait.former_squire", "mood.ashamed", "training.martial"]
+    },
+    {
+      "id": "portrait_village_outcast_01",
+      "name": "Village Outcast",
+      "summary": "A sharp-eyed local with uneven-cut hair, wary posture, and the stubborn expression of someone used to being blamed first.",
+      "tags": ["portrait.outcast", "mood.defiant", "social.shunned"]
+    },
+    {
+      "id": "portrait_caravan_guard_01",
+      "name": "Caravan Guard",
+      "summary": "A practical guard with weathered leather, a hood against road rain, and eyes trained to search treelines and crowd edges.",
+      "tags": ["portrait.guard", "mood.watchful", "labor.guard"]
+    }
+  ]
+}
