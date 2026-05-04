@@ -4,11 +4,25 @@
   "start_node": "start",
   "nodes": {
     "start": {
-      "text": "Brannoc adjusts the strap of his bow and studies the tree line more than your face.",
+      "text": "Brannoc keeps one hand near his bowstring and watches the treeline more than your face.",
       "choices": [
         {
           "text": "You know these woods?",
           "next": "woods"
+        },
+        {
+          "text": "I could use a hunter who knows the border roads.",
+          "next": "recruit_offer",
+          "conditions": [
+            {
+              "type": "not",
+              "condition": {
+                "type": "party_member",
+                "actor_id": "brannoc",
+                "value": true
+              }
+            }
+          ]
         },
         {
           "text": "Stay sharp.",
@@ -20,10 +34,52 @@
       "text": "I know where the wolves drink, where the old stones sink, and where honest men stop walking after dusk.",
       "choices": [
         {
+          "text": "Then walk with me. I need someone who can read the wilds.",
+          "next": "recruit_offer",
+          "conditions": [
+            {
+              "type": "not",
+              "condition": {
+                "type": "party_member",
+                "actor_id": "brannoc",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
           "text": "Useful knowledge.",
           "next": "end"
         }
       ]
+    },
+    "recruit_offer": {
+      "text": "Brannoc studies you for a long moment. 'If this road leads to the missing caravan, I have reasons of my own to see it found.'",
+      "choices": [
+        {
+          "text": "Then we travel together.",
+          "next": "joined"
+        },
+        {
+          "text": "Not yet.",
+          "next": "end"
+        }
+      ]
+    },
+    "joined": {
+      "text": "He gives a small nod, checks the fletching on three black-feathered arrows, and falls in beside the party.",
+      "effects": [
+        {
+          "type": "add_party_member",
+          "actor_id": "brannoc"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "brannoc_recruited",
+          "value": true
+        }
+      ],
+      "choices": []
     },
     "end": {
       "text": "He gives a small nod and falls quiet.",
