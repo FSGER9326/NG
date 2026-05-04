@@ -1,0 +1,41 @@
+{
+  "id": "brannoc_toll_disc_reaction",
+  "name": "Brannoc Toll Disc Reaction",
+  "description": "Verifies that Brannoc reacts to the Old Shrine toll-disc clue and sets the first guilt arc hint flag.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "old_shrine"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_shrine_seen_toll_disc",
+      "value": true
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "brannoc"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "You saw the mule at the shrine. The toll disc in its eye."
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "brannoc_guilt_hint_1",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "You sound like you have seen travelers left behind before."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "That sounds like confession, not advice."
+    }
+  ]
+}
