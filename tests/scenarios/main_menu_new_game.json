@@ -1,0 +1,50 @@
+{
+  "id": "main_menu_new_game",
+  "name": "Main Menu New Game Flow",
+  "root_scene": "main",
+  "description": "Verifies that the game boots to the main menu, opens the character creator, stores a simple profile, and starts the Wolfpine Road prototype.",
+  "steps": [
+    {
+      "type": "assert_screen",
+      "screen": "main_menu"
+    },
+    {
+      "type": "press_menu",
+      "button": "new_game"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "character_creator"
+    },
+    {
+      "type": "set_character_name",
+      "name": "Test Wanderer"
+    },
+    {
+      "type": "select_origin",
+      "origin": "Caravan Guard"
+    },
+    {
+      "type": "select_archetype",
+      "archetype": "Scout"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "game"
+    },
+    {
+      "type": "assert_player_profile",
+      "name": "Test Wanderer",
+      "origin": "Caravan Guard",
+      "archetype": "Scout"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_road"
+    }
+  ]
+}
