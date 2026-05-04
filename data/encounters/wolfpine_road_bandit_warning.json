@@ -1,0 +1,25 @@
+{
+  "id": "wolfpine_road_bandit_warning",
+  "area_id": "wolfpine_road",
+  "type": "combat",
+  "description": "A lone bandit blocks the road near the old shrine.",
+  "party_start": [420, 520],
+  "enemy_groups": [
+    {
+      "id": "bandit_pair_placeholder",
+      "actors": [
+        {
+          "actor_id": "border_bandit",
+          "position": [840, 300]
+        }
+      ]
+    }
+  ],
+  "victory_effects": [
+    {
+      "type": "set_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_wreck"
+    }
+  ]
+}
