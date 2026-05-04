@@ -31,12 +31,17 @@ The repo currently contains:
 - main scene that boots into a main menu
 - main menu shell
 - New Game flow into a simple character creator
-- first-pass character creator: name, origin, archetype
+- first-pass character creator UI: name, background/origin, class/archetype
+- data-driven character creation rules in `data/character_creation/character_creation.json`
+- character profile builder with tags, attributes, skills, and compatibility warnings
+- player profile/tag/attribute storage in `GameState`
+- player-tag and attribute dialogue conditions for NPC reactions and passive checks
+- Renna caravan-guard reaction branch gated by `background.caravan_guard`
 - Start Journey flow into the Wolfpine Road area prototype
 - JSON data loader
-- game-state stub with flags, quest stages, party IDs, and faction reputation
+- game-state stub with flags, quest stages, party IDs, faction reputation, player profile, tags, attributes, and skills
 - quest-system stub
-- `AreaController` scene/script prototype
+- `AreaController` scene/script prototype and active runtime area controller
 - reusable dialogue condition evaluator
 - starter area: `wolfpine_road`
 - transition destination stub: `wolfpine_village`
@@ -48,6 +53,7 @@ The repo currently contains:
 - starter item: `border_iron_sword`
 - starter quest: `missing_caravan`
 - validation script: `tools/validate_project.py`
+- character creation validation script: `tools/validate_character_creation.py`
 - asset-kit validation script: `tools/validate_asset_kits.py`
 - asset prompt exporter: `tools/export_asset_prompts.py`
 - debug/scenario runner: `tools/run_scenario_test.gd`
@@ -62,8 +68,16 @@ Expected boot behavior:
 
 - Main menu appears.
 - `New Game` opens the character creator.
-- Character creator allows name/origin/archetype selection.
-- `Start Journey` loads the Wolfpine Road prototype.
+- Character creator allows name/background/class selection through the old origin/archetype scenario controls.
+- `Start Journey` builds a tagged player profile and loads the Wolfpine Road prototype.
+
+Expected character creation behavior:
+
+- Character creation data is loaded from `data/character_creation/character_creation.json`.
+- Background and class choices contribute tags, attributes, and skills through `CharacterProfileBuilder`.
+- The current UI defaults ancestry to `Border Human` and trait to `Steady Under Fire` until ancestry/trait UI is added.
+- Old scenario fields `origin` and `archetype` remain mapped to `background` and `class` for compatibility.
+- Invalid or incoherent combinations are represented through tag requirements/blocks in data, with full UI enforcement planned next.
 
 Expected Wolfpine Road behavior:
 
@@ -78,7 +92,8 @@ Expected Wolfpine Road behavior:
 - Clicking `captain_renna` opens a JSON-driven dialogue panel.
 - Dialogue choices can move between nodes.
 - Dialogue effects can start quests, set quest stages, and set flags.
-- Dialogue choices can be gated by reusable flag/quest-stage conditions.
+- Dialogue choices can be gated by reusable flag/quest-stage/skill/player-tag/attribute conditions.
+- A Caravan Guard player can access Renna's caravan-road reaction branch.
 
 Expected Wolfpine Village planning state:
 
@@ -104,6 +119,7 @@ Important current scenarios:
 
 ```text
 tests/scenarios/main_menu_new_game.json
+tests/scenarios/character_tags_renna_caravan_guard.json
 tests/scenarios/wolfpine_missing_caravan.json
 tests/scenarios/wolfpine_shrine_before_renna.json
 tests/scenarios/wolfpine_report_shrine_to_renna.json
@@ -113,6 +129,8 @@ tests/scenarios/wolfpine_road_to_village.json
 These are intended to test:
 
 - main menu to character creator to new game
+- tagged player profile creation from background/class choices
+- player-tag based Renna NPC reaction
 - Renna quest acceptance
 - shrine inspection quest update
 - shrine-before-Renna quest regression protection
@@ -125,20 +143,22 @@ Run from repo root:
 
 ```bash
 python tools/validate_project.py
+python tools/validate_character_creation.py
 python tools/validate_asset_kits.py
 ```
 
-The validator currently checks:
+The validators currently check:
 
 - JSON syntax
 - duplicate IDs
 - common referenced files
 - dialogue next-node references
-- dialogue conditions
+- dialogue conditions, including skill, attribute, player-tag, and party-member checks
 - quest and quest-stage references
 - area actor placements
 - scenario step references
 - main-menu scenario step shapes
+- character creation option IDs, tags, modifiers, and compatibility references
 - asset-kit manifest structure and accepted asset file references
 
 ## Debug bundle
@@ -165,9 +185,10 @@ Bring the testable build to a clean local pass:
 2. Run `tools\collect_debug_bundle.bat`.
 3. Inspect `validation.log` and `scenario.log`.
 4. Fix any GDScript runtime errors found in the menu/new-game/area/dialogue paths.
-5. Continue toward save/load and a simple skill-check format after the boot path is stable.
-6. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
-7. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
+5. Expand the character creator UI to expose ancestry and trait selection, then enforce compatibility blocks in the UI.
+6. Continue toward save/load hardening and broader passive skill/tag-check content after the boot path is stable.
+7. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
+8. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
 
 ## Working rule
 
@@ -179,3 +200,4 @@ If a future AI chat loses context, read this file first, then:
 4. `docs/ASSET_POLICY.md`
 5. `docs/GAME_DESIGN.md`
 6. `docs/ART_BIBLE.md`
+7. `docs/CHARACTER_CREATION.md`
