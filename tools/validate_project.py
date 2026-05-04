@@ -29,7 +29,7 @@ REFERENCE_KEYS = {
 
 CONDITION_TYPES = {"flag", "quest_stage", "skill_check", "not", "all", "any"}
 SKILLS = {"perception", "survival", "resolve", "lore", "stealth"}
-MENU_BUTTONS = {"new_game", "start_journey"}
+MENU_BUTTONS = {"new_game", "start_journey", "load_game"}
 SCREENS = {"main_menu", "character_creator", "game"}
 ORIGINS = {"Border Drifter", "Failed Squire", "Village Outcast", "Caravan Guard"}
 ARCHETYPES = {"Mercenary", "Scout", "Hedge Knight", "Cunning Speaker"}
@@ -300,6 +300,8 @@ def check_scenario_step(path: Path, step: dict[str, Any], step_type: str, step_i
         case "press_menu":
             if step.get("button") not in MENU_BUTTONS:
                 errors.append(f"Scenario press_menu has unknown button in {path.relative_to(ROOT)} step {step_index}: {step.get('button')}")
+        case "save_game" | "load_game":
+            pass
         case "set_character_name":
             if not isinstance(step.get("name"), str):
                 errors.append(f"Scenario set_character_name missing name in {path.relative_to(ROOT)} step {step_index}")
