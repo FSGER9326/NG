@@ -6,6 +6,7 @@ This file is the main handoff point for future chats and AI agents.
 
 - Repo: `FSGER9326/NG`
 - Working title: **NG / New Game**
+- Narrative working title: **No Gods in the Pines**
 - Genre: low-spec pseudo-isometric party CRPG
 - Engine target: Godot 4.x, 2D, Compatibility renderer
 - Main implementation style: text-first, data-driven, AI-maintainable
@@ -22,6 +23,19 @@ Original dark low-fantasy CRPG with:
 - turn-based AP combat first
 - extendable content files
 - testable scenario-driven content paths
+- a rich but modular campaign story built from local crimes, faction pressure, and old-law mythic consequences
+
+## Story target
+
+The campaign premise now lives in `docs/STORY_BIBLE.md`.
+
+Core story direction:
+
+- A small party of dangerous nobodies enters the starving Wolfpine March.
+- The first practical problem is a missing supply caravan on Wolfpine Road.
+- The larger mystery is the failing **Road Peace**, an old compact that keeps roads, shrines, ledgers, ranger paths, saint relics, and corpse law functioning.
+- The tone should be mundane and epic at once: hunger, tolls, crime, village panic, paladin oaths, ranger rites, saint lies, old debts, and violence with consequences.
+- Paladins, rangers, criminals, priests, soldiers, and villagers should be grounded people with useful virtues, private sins, and believable limits rather than simple archetypes.
 
 ## Current technical state
 
@@ -52,6 +66,7 @@ The repo currently contains:
 - starter enemy: `border_bandit`
 - starter item: `border_iron_sword`
 - starter quest: `missing_caravan`
+- narrative story bible: `docs/STORY_BIBLE.md`
 - validation script: `tools/validate_project.py`
 - character creation validation script: `tools/validate_character_creation.py`
 - asset-kit validation script: `tools/validate_asset_kits.py`
@@ -106,6 +121,13 @@ Expected Wolfpine Village planning state:
 - `tools/validate_asset_kits.py` validates asset-kit manifests and is wired into CI.
 - Village exterior art should be closer to classic BG2/Pillars-style settlement plates than horror-dark wilderness art.
 - Final village art should be generated from the constraints and kit, not used as the source of truth for paths and architecture.
+
+Expected story planning state:
+
+- `docs/STORY_BIBLE.md` defines the campaign premise, tone pillars, expandable story layers, Road Peace mystery, major factions, antagonists, companion concepts, and first playable module story target.
+- Future quest work should start from ordinary pressure first, then connect to faction pressure and the old-law layer.
+- Future companion work should prefer concrete moral flags and story consequences over a single generic approval meter.
+- Future Wolfpine Road and Wolfpine Village dialogue should support the missing-caravan mystery, Renna's hard choices, Brannoc's guilt, ranger/paladin realism, local hunger, and early Road Peace failure signs.
 
 ## Automated scenario coverage
 
@@ -187,8 +209,9 @@ Bring the testable build to a clean local pass:
 4. Fix any GDScript runtime errors found in the menu/new-game/area/dialogue paths.
 5. Expand the character creator UI to expose ancestry and trait selection, then enforce compatibility blocks in the UI.
 6. Continue toward save/load hardening and broader passive skill/tag-check content after the boot path is stable.
-7. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
-8. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
+7. Expand Wolfpine Road and Wolfpine Village content using `docs/STORY_BIBLE.md`, especially the missing caravan, Road Peace, Renna, Brannoc, hunger pressure, and early old-shrine clues.
+8. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
+9. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
 
 ## Working rule
 
@@ -199,5 +222,6 @@ If a future AI chat loses context, read this file first, then:
 3. `docs/BUGFIXING.md`
 4. `docs/ASSET_POLICY.md`
 5. `docs/GAME_DESIGN.md`
-6. `docs/ART_BIBLE.md`
-7. `docs/CHARACTER_CREATION.md`
+6. `docs/STORY_BIBLE.md`
+7. `docs/ART_BIBLE.md`
+8. `docs/CHARACTER_CREATION.md`
