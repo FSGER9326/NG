@@ -1,0 +1,22 @@
+{
+  "area_id": "wolfpine_road",
+  "hotspots": [
+    {
+      "id": "old_shrine",
+      "name": "Old Road Shrine",
+      "type": "inspect",
+      "position": [650, 380],
+      "radius": 48,
+      "description": "A cracked roadside shrine. The old sun emblem has been scratched away."
+    },
+    {
+      "id": "north_exit",
+      "name": "North Road",
+      "type": "exit",
+      "position": [1100, 165],
+      "radius": 64,
+      "target_area": "wolfpine_village",
+      "target_entry": "south_road"
+    }
+  ]
+}
