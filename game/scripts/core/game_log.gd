@@ -5,7 +5,10 @@ static var _started: bool = false
 static var _start_msec: int = 0
 static var _log_dir: String = ""
 
-static func start_session(session_name: String = "manual") -> void:
+static func start_session(session_name: String = "manual", reset_existing: bool = true) -> void:
+	if _started and not reset_existing:
+		info("BOOT", "NG log session already active; keeping existing session for: %s" % session_name, {"session": session_name, "log_dir": _log_dir})
+		return
 	_start_msec = Time.get_ticks_msec()
 	_log_dir = _resolve_log_dir()
 	_ensure_dir(_log_dir)
@@ -13,6 +16,9 @@ static func start_session(session_name: String = "manual") -> void:
 	_write_file(_path("actions.jsonl"), "")
 	_started = true
 	info("BOOT", "NG log session started: %s" % session_name, {"session": session_name, "log_dir": _log_dir})
+
+static func is_started() -> bool:
+	return _started
 
 static func info(category: String, message: String, data: Dictionary = {}) -> void:
 	_ensure_started()
