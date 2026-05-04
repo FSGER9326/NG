@@ -10,6 +10,12 @@ The canonical machine-readable data lives in:
 data/character_creation/character_creation.json
 ```
 
+Starter portrait metadata lives in:
+
+```text
+data/character_creation/portraits.json
+```
+
 ## Creator pillars
 
 The character creator is built from four layers:
@@ -26,6 +32,48 @@ Each layer contributes:
 - optional `skills` modifiers
 - optional `requires_any_tags`
 - optional `blocked_by_tags`
+
+## Current profile fields
+
+The built player profile currently carries:
+
+```text
+name
+ancestry
+ancestry_id
+background
+background_id
+class
+class_id
+trait
+trait_id
+origin
+archetype
+portrait_id
+portrait
+tags
+attributes
+skills
+compatibility_warnings
+```
+
+`origin` and `archetype` are legacy aliases for older content/scenarios. New content should prefer `background`, `background_id`, `class`, and `class_id` where possible.
+
+## Portrait metadata
+
+Portrait support is currently text-first. The builder assigns a starter `portrait_id` and display `portrait` name from the selected background. This gives save/load and future UI a durable field before final portrait art exists.
+
+Current starter mapping:
+
+```text
+Border Drifter -> portrait_weathered_drifter_01
+Failed Squire -> portrait_disgraced_squire_01
+Village Outcast -> portrait_village_outcast_01
+Caravan Guard -> portrait_caravan_guard_01
+Other backgrounds -> portrait_weathered_drifter_01 fallback
+```
+
+This is not yet a full manual portrait-selection UI. The next UI step is to expose portrait choices explicitly and let the player override the background-derived default.
 
 ## Tags
 
@@ -226,4 +274,5 @@ The first implementation should stay text-first:
 - Keep compatibility rules in JSON through tags.
 - Keep runtime checks in small GDScript helpers.
 - Add validation when new condition types are added.
-- Avoid adding portraits or large UI assets until the data model is stable.
+- Keep portrait IDs text-first until final portrait assets are ready.
+- Do not block character creation on portrait art availability.
