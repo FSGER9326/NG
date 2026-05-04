@@ -1,7 +1,6 @@
 extends SceneTree
 
 const GameLog = preload("res://game/scripts/core/game_log.gd")
-const DebugStateDump = preload("res://game/scripts/core/debug_state_dump.gd")
 
 func _initialize() -> void:
 	GameLog.start_session("scenario_test")
@@ -14,45 +13,31 @@ func _initialize() -> void:
 		quit(1)
 		return
 
-	var area_scene := load("res://game/scenes/area/area_scene.tscn")
-	if area_scene == null:
-		GameLog.error("SCENARIO", "Could not load area scene")
+	var target_scene_path := _get_target_scene_path(scenario)
+	var target_scene := load(target_scene_path)
+	if target_scene == null:
+		GameLog.error("SCENARIO", "Could not load target scene: %s" % target_scene_path)
 		quit(1)
 		return
 
-	var area_instance = area_scene.instantiate()
-	if area_instance == null:
-		GameLog.error("SCENARIO", "Could not instantiate area scene")
+	var target_instance = target_scene.instantiate()
+	if target_instance == null:
+		GameLog.error("SCENARIO", "Could not instantiate target scene: %s" % target_scene_path)
 		quit(1)
 		return
-	if not area_instance.has_method("run_debug_action"):
-		GameLog.error("SCENARIO", "Area scene does not expose run_debug_action().")
+	if not target_instance.has_method("run_debug_action"):
+		GameLog.error("SCENARIO", "Target scene does not expose run_debug_action().", {"target_scene": target_scene_path})
 		quit(1)
 		return
 
-	root.add_child(area_instance)
+	root.add_child(target_instance)
 	await process_frame
 	await process_frame
 
-	var success := true
-	var step_index := 0
-	for step in scenario.get("steps", []):
-		step_index += 1
-		if typeof(step) != TYPE_DICTIONARY:
-			GameLog.error("SCENARIO", "Invalid step at index %s" % step_index, {"step_index": step_index})
-			success = false
-			break
-		GameLog.info("SCENARIO", "Step %s: %s" % [step_index, String(step.get("type", ""))], {"step_index": step_index, "step": step})
-		if not area_instance.run_debug_action(step):
-			GameLog.error("SCENARIO", "Step failed: %s" % step_index, {"step_index": step_index, "step": step})
-			success = false
-			break
-		await process_frame
+	var success := await _run_steps(target_instance, scenario.get("steps", []))
 
-	if area_instance.has_method("write_debug_state"):
-		area_instance.write_debug_state("state_after_scenario.json")
-	else:
-		GameLog.write_state_dump("state_after_scenario.json", DebugStateDump.from_area_controller(area_instance))
+	if target_instance.has_method("write_debug_state"):
+		target_instance.write_debug_state("state_after_scenario.json")
 
 	if success:
 		GameLog.info("SCENARIO", "Scenario passed: %s" % String(scenario.get("id", scenario_path)))
@@ -60,6 +45,37 @@ func _initialize() -> void:
 	else:
 		GameLog.error("SCENARIO", "Scenario failed: %s" % String(scenario.get("id", scenario_path)))
 		quit(1)
+
+func _run_steps(target_instance: Node, steps: Variant) -> bool:
+	if typeof(steps) != TYPE_ARRAY:
+		GameLog.error("SCENARIO", "Scenario steps must be a list")
+		return false
+	var step_index := 0
+	for step in steps:
+		step_index += 1
+		if typeof(step) != TYPE_DICTIONARY:
+			GameLog.error("SCENARIO", "Invalid step at index %s" % step_index, {"step_index": step_index})
+			return false
+		GameLog.info("SCENARIO", "Step %s: %s" % [step_index, String(step.get("type", ""))], {"step_index": step_index, "step": step})
+		if not target_instance.run_debug_action(step):
+			GameLog.error("SCENARIO", "Step failed: %s" % step_index, {"step_index": step_index, "step": step})
+			return false
+		await process_frame
+		await process_frame
+	return true
+
+func _get_target_scene_path(scenario: Dictionary) -> String:
+	var root_scene := String(scenario.get("root_scene", "area"))
+	match root_scene:
+		"main":
+			return "res://game/scenes/main.tscn"
+		"area":
+			return "res://game/scenes/area/area_scene.tscn"
+		_:
+			if root_scene.begins_with("res://"):
+				return root_scene
+			GameLog.warning("SCENARIO", "Unknown root_scene, defaulting to area scene: %s" % root_scene)
+			return "res://game/scenes/area/area_scene.tscn"
 
 func _get_scenario_path() -> String:
 	var args := OS.get_cmdline_args()
