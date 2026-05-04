@@ -1,7 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://ng_area_scene"]
+[gd_scene load_steps=3 format=3 uid="uid://ng_area_scene"]
 
 [ext_resource type="Script" path="res://game/scripts/area/area_controller.gd" id="1_area_controller"]
+[ext_resource type="Script" path="res://game/scripts/area/iso_placeholder_map.gd" id="2_iso_placeholder"]
 
 [node name="AreaController" type="Node2D"]
 script = ExtResource("1_area_controller")
 area_id = "wolfpine_road"
+
+[node name="IsoPlaceholderMap" type="Node2D" parent="."]
+script = ExtResource("2_iso_placeholder")
