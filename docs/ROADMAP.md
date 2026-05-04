@@ -22,7 +22,7 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Actor placement from JSON
 - [x] Click-to-move prototype
 - [x] Hotspot inspection
-- [x] Area transition stub/debug output
+- [x] Real area transition support
 
 ## Milestone 0.3 — Dialogue and quest prototype
 
@@ -35,7 +35,18 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Dialogue condition validation
 - [ ] Skill check format
 
-## Milestone 0.4 — Combat prototype
+## Milestone 0.4 — Frontend shell
+
+- [x] Main menu shell
+- [x] New Game starts character creator
+- [x] Character creator first pass: name, origin, archetype
+- [x] Start Journey launches current area prototype
+- [x] Save/Load menu placeholders
+- [ ] Save game format
+- [ ] Load game flow
+- [ ] Character stats and portrait selection
+
+## Milestone 0.5 — Combat prototype
 
 - [ ] Combat scene
 - [ ] Party and enemy placement
@@ -44,19 +55,28 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [ ] Melee attack
 - [ ] Victory/defeat result
 
-## Milestone 0.5 — First playable module
+## Milestone 0.6 — First playable module
 
 - [ ] Wolfpine Road playable
-- [ ] Wolfpine Village stub
+- [x] Wolfpine Village stub
 - [ ] Collapsed Crypt stub
 - [ ] One companion recruitable
 - [ ] One quest completable
 
 ## Current first playable test paths
 
-### Basic quest path
+### Boot and new-game path
 
 1. Launch the game in Godot.
+2. Main menu should appear.
+3. Choose `New Game`.
+4. Character creator should appear.
+5. Enter a name, choose origin/archetype, and choose `Start Journey`.
+6. Wolfpine Road prototype should load.
+
+### Basic quest path
+
+1. Start a new game.
 2. Click `@ captain_renna`.
 3. Choose the work dialogue option.
 4. Quest tracker should show `missing_caravan: accepted`.
@@ -71,8 +91,14 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 4. Choose it.
 5. Quest tracker should show `missing_caravan: reported_clue`.
 
+### Area transition path
+
+1. Start a new game.
+2. Click `North Road` on Wolfpine Road.
+3. Wolfpine Village should load.
+
 ## Next target
 
-Add a simple skill-check format to the same dialogue condition/effect system, then build the first tiny combat prototype.
+Stabilize the menu/new-game/area-transition flow, then add save/load and a simple skill-check format.
 
 ## Always update this file when scope changes.
