@@ -15,12 +15,9 @@
           "next": "recruit_offer",
           "conditions": [
             {
-              "type": "not",
-              "condition": {
-                "type": "party_member",
-                "actor_id": "brannoc",
-                "value": true
-              }
+              "type": "flag",
+              "flag_id": "brannoc_recruited",
+              "value": false
             }
           ]
         },
@@ -38,12 +35,9 @@
           "next": "recruit_offer",
           "conditions": [
             {
-              "type": "not",
-              "condition": {
-                "type": "party_member",
-                "actor_id": "brannoc",
-                "value": true
-              }
+              "type": "flag",
+              "flag_id": "brannoc_recruited",
+              "value": false
             }
           ]
         },
