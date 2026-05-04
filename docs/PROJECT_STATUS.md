@@ -67,6 +67,7 @@ The repo currently contains:
 - starter item: `border_iron_sword`
 - starter quest: `missing_caravan`
 - narrative story bible: `docs/STORY_BIBLE.md`
+- story implementation backlog: `docs/STORY_IMPLEMENTATION_BACKLOG.md`
 - validation script: `tools/validate_project.py`
 - character creation validation script: `tools/validate_character_creation.py`
 - asset-kit validation script: `tools/validate_asset_kits.py`
@@ -102,13 +103,14 @@ Expected Wolfpine Road behavior:
 - Clicking the ground moves the party marker directly toward the clicked point.
 - Hotspot buttons appear for the old shrine and north road.
 - Actor buttons appear for `captain_renna` and `border_bandit`.
-- Clicking the old shrine updates debug text, sets a flag, and advances `missing_caravan` to `found_wreck`.
+- Clicking the old shrine updates debug text, sets `wolfpine_old_shrine_inspected`, sets dead-mule/toll-disc/Road-Peace flags, and advances `missing_caravan` to `found_wreck`.
 - Clicking the north road transitions to `wolfpine_village`.
 - Clicking `captain_renna` opens a JSON-driven dialogue panel.
 - Dialogue choices can move between nodes.
 - Dialogue effects can start quests, set quest stages, and set flags.
 - Dialogue choices can be gated by reusable flag/quest-stage/skill/player-tag/attribute conditions.
 - A Caravan Guard player can access Renna's caravan-road reaction branch.
+- If the toll-disc clue was found, Renna exposes a gated branch: `Someone pressed a toll disc into a dead mule's eye.` This sets `missing_caravan` to `found_shrine_clue` and `wolfpine_renna_knows_toll_disc`.
 
 Expected Wolfpine Village planning state:
 
@@ -125,6 +127,7 @@ Expected Wolfpine Village planning state:
 Expected story planning state:
 
 - `docs/STORY_BIBLE.md` defines the campaign premise, tone pillars, expandable story layers, Road Peace mystery, major factions, antagonists, companion concepts, and first playable module story target.
+- `docs/STORY_IMPLEMENTATION_BACKLOG.md` converts the story bible into small first-playable content tasks, flags, quest stages, scenario ideas, and writing constraints.
 - Future quest work should start from ordinary pressure first, then connect to faction pressure and the old-law layer.
 - Future companion work should prefer concrete moral flags and story consequences over a single generic approval meter.
 - Future Wolfpine Road and Wolfpine Village dialogue should support the missing-caravan mystery, Renna's hard choices, Brannoc's guilt, ranger/paladin realism, local hunger, and early Road Peace failure signs.
@@ -145,6 +148,7 @@ tests/scenarios/character_tags_renna_caravan_guard.json
 tests/scenarios/wolfpine_missing_caravan.json
 tests/scenarios/wolfpine_shrine_before_renna.json
 tests/scenarios/wolfpine_report_shrine_to_renna.json
+tests/scenarios/wolfpine_shrine_toll_disc.json
 tests/scenarios/wolfpine_road_to_village.json
 ```
 
@@ -157,6 +161,7 @@ These are intended to test:
 - shrine inspection quest update
 - shrine-before-Renna quest regression protection
 - flag-gated Renna dialogue
+- toll-disc Road Peace clue flags and Renna's toll-disc branch
 - Wolfpine Road to Wolfpine Village transition
 
 ## Validation
