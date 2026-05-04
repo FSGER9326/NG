@@ -37,6 +37,56 @@
       ]
     },
     {
+      "id": "wounded_dog_tracks",
+      "name": "Wounded Dog Tracks",
+      "type": "inspect",
+      "position": [390, 505],
+      "radius": 44,
+      "description": "A mud-caked dog has limped across the road more than once. Blood darkens the pine needles where it turned back toward the trees, and a torn strip of caravan cloth clings to a thorn branch.",
+      "effects": [
+        {
+          "type": "start_quest",
+          "quest_id": "dog_knew_road",
+          "stage": "found_blood_marker"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "dog_followed",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "dog_blood_marker_found",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "dog_vigil_hollow",
+      "name": "Dog's Vigil Hollow",
+      "type": "inspect",
+      "position": [520, 455],
+      "radius": 44,
+      "description": "The dog waits beside a fallen carter in a hollow of wet pine roots. The man is long past saving, but his hand still grips the dog's torn collar. A shallow grave here would be kinder than another night under the rain.",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "dog_knew_road",
+          "stage": "buried_master"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "dog_master_found",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "dog_vigil_ended",
+          "value": true
+        }
+      ]
+    },
+    {
       "id": "north_exit",
       "name": "North Road",
       "type": "exit",

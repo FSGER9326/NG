@@ -1,0 +1,37 @@
+{
+  "id": "dog_knew_road",
+  "title": "The Dog That Knew the Road",
+  "start_stage": "not_started",
+  "description": "A wounded dog appears on the Wolfpine Road at dawn, then limps back toward the pines as if trying to lead wiser creatures to something they missed.",
+  "stages": {
+    "not_started": {
+      "summary": "The party has not noticed the wounded dog on the road."
+    },
+    "accepted": {
+      "summary": "The party chose to follow the wounded dog."
+    },
+    "found_blood_marker": {
+      "summary": "The dog led the party to blood on the roadside stones and a torn strip of caravan cloth."
+    },
+    "found_master": {
+      "summary": "The party found the person the dog was trying to reach."
+    },
+    "saved_survivor": {
+      "summary": "The party saved the dog's surviving master."
+    },
+    "buried_master": {
+      "summary": "The party buried the dog's dead master and ended its vigil."
+    },
+    "resolved": {
+      "summary": "The dog's road vigil has ended."
+    }
+  },
+  "completion_flags": ["dog_vigil_ended"],
+  "rewards": {
+    "xp": 60,
+    "gold": 0,
+    "reputation": {
+      "old_faith": 1
+    }
+  }
+}

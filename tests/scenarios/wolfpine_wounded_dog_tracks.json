@@ -1,0 +1,49 @@
+{
+  "id": "wolfpine_wounded_dog_tracks",
+  "name": "Wolfpine Wounded Dog Tracks",
+  "description": "Verifies that inspecting the wounded dog tracks starts The Dog That Knew the Road, then following the trail resolves the road vigil.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "wounded_dog_tracks"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "dog_knew_road",
+      "stage": "found_blood_marker"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "dog_followed",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "dog_blood_marker_found",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "dog_vigil_hollow"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "dog_knew_road",
+      "stage": "buried_master"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "dog_master_found",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "dog_vigil_ended",
+      "value": true
+    }
+  ]
+}

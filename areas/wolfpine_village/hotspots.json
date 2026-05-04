@@ -51,7 +51,19 @@
       "type": "inspect",
       "position": [565, 415],
       "radius": 40,
-      "description": "A damp board nailed to old posts. Most notices are water-blurred, but reward marks and guard seals remain visible."
+      "description": "A damp board nailed to old posts. Most notices are water-blurred, but one fresh notice bears a guard seal: all mill tallies are to be checked against emergency grain tithes before the next bake.",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "black_bread_tithe",
+          "stage": "found_guard_tithe"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "black_bread_guard_tithe_known",
+          "value": true
+        }
+      ]
     },
     {
       "id": "market_stall",
@@ -59,7 +71,19 @@
       "type": "inspect",
       "position": [735, 505],
       "radius": 44,
-      "description": "A striped awning covers onions, dried fish, tallow candles, and a few guarded bundles of cloth."
+      "description": "A striped awning covers onions, dried fish, tallow candles, and a basket of black, gritty loaves. The stallkeeper has cut one open to show the ash-colored crumb and the husks hidden inside.",
+      "effects": [
+        {
+          "type": "start_quest",
+          "quest_id": "black_bread_tithe",
+          "stage": "checked_market"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "black_bread_market_checked",
+          "value": true
+        }
+      ]
     }
   ]
 }

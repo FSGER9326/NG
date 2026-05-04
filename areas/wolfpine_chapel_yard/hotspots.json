@@ -1,0 +1,62 @@
+{
+  "area_id": "wolfpine_chapel_yard",
+  "hotspots": [
+    {
+      "id": "west_path_exit",
+      "name": "West Path",
+      "type": "exit",
+      "position": [190, 560],
+      "radius": 64,
+      "target_area": "wolfpine_village",
+      "target_entry": "north_gate"
+    },
+    {
+      "id": "burned_prayer_tree",
+      "name": "Burned Prayer Tree",
+      "type": "inspect",
+      "position": [665, 350],
+      "radius": 52,
+      "description": "Black knots cling to the branches where red prayer cloths used to hang. The lower bark is smoke-stained, but one strip of cloth survived beneath wet leaves, marked with ash in a careful hand.",
+      "effects": [
+        {
+          "type": "start_quest",
+          "quest_id": "soot_prayer_cloth",
+          "stage": "found_unburned_cloth"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "soot_cloth_found",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "ash_signal_mark",
+      "name": "Ash Signal Mark",
+      "type": "inspect",
+      "position": [725, 365],
+      "radius": 40,
+      "description": "The mark is not random soot. Three short strokes cross a longer line, angled toward the village road. Someone used a sacred tree as a message post and burned the rest to hide it.",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "soot_prayer_cloth",
+          "stage": "revealed_mark"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "soot_signal_revealed",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "chapel_steps",
+      "name": "Chapel Steps",
+      "type": "inspect",
+      "position": [1010, 245],
+      "radius": 48,
+      "description": "The chapel steps are swept clean, except for a thin trail of gray ash caught in the cracks between stones. No one has claimed the broom."
+    }
+  ]
+}
