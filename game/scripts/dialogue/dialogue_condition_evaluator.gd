@@ -32,6 +32,8 @@ func passes_condition(condition: Variant) -> bool:
 			return _passes_flag_condition(condition)
 		"quest_stage":
 			return _passes_quest_stage_condition(condition)
+		"skill_check":
+			return _passes_skill_check_condition(condition)
 		"not":
 			return not passes_condition(condition.get("condition", {}))
 		"all":
@@ -67,6 +69,23 @@ func _passes_quest_stage_condition(condition: Dictionary) -> bool:
 		"passed": actual_stage == expected_stage
 	})
 	return actual_stage == expected_stage
+
+func _passes_skill_check_condition(condition: Dictionary) -> bool:
+	var skill_id := String(condition.get("skill_id", ""))
+	var difficulty := int(condition.get("difficulty", 0))
+	if skill_id.is_empty():
+		GameLog.warning("DIALOGUE", "skill_check condition missing skill_id", {"condition": condition})
+		return false
+	var actual := game_state.get_party_skill(skill_id)
+	var passed := actual >= difficulty
+	GameLog.event("condition_checked", {
+		"type": "skill_check",
+		"skill_id": skill_id,
+		"difficulty": difficulty,
+		"actual": actual,
+		"passed": passed
+	})
+	return passed
 
 func _passes_any_condition(conditions: Variant) -> bool:
 	if typeof(conditions) != TYPE_ARRAY:
