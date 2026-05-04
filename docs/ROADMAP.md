@@ -50,9 +50,10 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Save/Load menu placeholders
 - [x] Save game format
 - [x] Load game flow
-- [ ] Expose ancestry selection in the creator UI
-- [ ] Expose trait selection in the creator UI
-- [ ] Enforce compatibility blocks and requirements in the creator UI
+- [x] Expose ancestry selection in the creator UI
+- [x] Expose trait selection in the creator UI
+- [x] Enforce compatibility blocks and requirements in the creator UI
+- [ ] Add richer compatibility explanation and option filtering in the creator UI
 - [ ] Character portrait selection
 
 ## Milestone 0.5 — Combat prototype
@@ -97,7 +98,7 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 2. Main menu should appear.
 3. Choose `New Game`.
 4. Character creator should appear.
-5. Enter a name, choose background/class, and choose `Start Journey`.
+5. Enter a name, choose ancestry/background/class/trait, and choose `Start Journey`.
 6. Wolfpine Road prototype should load with a tagged player profile.
 
 ### Character-tag NPC reaction path
@@ -108,6 +109,13 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 4. Click `@ captain_renna`.
 5. The dialogue choice `I have walked caravan roads. Tell me where yours broke pattern.` should be visible.
 6. Choosing it should open Renna's caravan-road reaction branch.
+
+### Character compatibility path
+
+1. Start a new game.
+2. Choose Fair Young Elf / Cloister Novice / Mage Apprentice / Brawny.
+3. The creator should show a theme conflict and stay on the character creator screen if `Start Journey` is requested.
+4. Choose a coherent trait such as Arcane Sensitive to proceed.
 
 ### Basic quest path
 
@@ -167,6 +175,6 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 ## Next target
 
-Stabilize the menu/new-game/area-transition/save-load flow, then expose ancestry and trait selection in the character creator UI with compatibility enforcement. For narrative content, expand Missing Caravan and Old Shrine from prototype beats into the Act I structure in `docs/STORY_BIBLE.md`. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
+Stabilize the menu/new-game/area-transition/save-load flow, then add richer compatibility explanations, option filtering, and portrait selection to the character creator UI. For narrative content, expand Missing Caravan and Old Shrine from prototype beats into the Act I structure in `docs/STORY_BIBLE.md`. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
 
 ## Always update this file when scope changes.
