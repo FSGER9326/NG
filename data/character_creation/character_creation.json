@@ -1,0 +1,325 @@
+{
+  "id": "ng_character_creation",
+  "name": "NG Character Creation Rules",
+  "description": "Data-driven character creation taxonomy. Every ancestry, background, class, and trait contributes tags for passive skill checks, NPC reactions, faction prejudice, and dialogue gates.",
+  "base_attributes": {
+    "might": 1,
+    "finesse": 1,
+    "resolve": 1,
+    "wits": 1,
+    "presence": 1,
+    "occult": 0
+  },
+  "base_skills": {
+    "perception": 1,
+    "survival": 1,
+    "resolve": 1,
+    "lore": 0,
+    "stealth": 0,
+    "athletics": 0,
+    "medicine": 0,
+    "streetwise": 0,
+    "arcana": 0,
+    "command": 0
+  },
+  "ancestries": [
+    {
+      "id": "ancestry_border_human",
+      "name": "Border Human",
+      "summary": "Hard-lived folk from the wet border roads, used to suspicion, hunger, and practical bargains.",
+      "tags": ["ancestry.human", "region.border", "culture.roadwise", "social.common"],
+      "modifiers": {
+        "skills": {"survival": 1, "streetwise": 1}
+      }
+    },
+    {
+      "id": "ancestry_fair_young_elf",
+      "name": "Fair Young Elf",
+      "summary": "A pale, long-lived youth from a fading elven household; graceful, watched closely, and often underestimated.",
+      "tags": ["ancestry.elf", "age.young", "appearance.fair", "frame.slender", "culture.elven", "social.outsider"],
+      "modifiers": {
+        "attributes": {"finesse": 1, "occult": 1},
+        "skills": {"perception": 1, "arcana": 1}
+      }
+    },
+    {
+      "id": "ancestry_ashen_dwarf",
+      "name": "Ashen Dwarf",
+      "summary": "A tunnel-born exile whose clan marks were burned away after debt, defeat, or oathbreaking.",
+      "tags": ["ancestry.dwarf", "culture.clanbound", "frame.stout", "social.exile", "hardship.industrial"],
+      "modifiers": {
+        "attributes": {"might": 1, "resolve": 1},
+        "skills": {"athletics": 1}
+      }
+    },
+    {
+      "id": "ancestry_mire_halfling",
+      "name": "Mire Halfling",
+      "summary": "Small folk of reed villages and drowned lanes, quick to vanish when nobles or soldiers come asking questions.",
+      "tags": ["ancestry.halfling", "region.mire", "frame.small", "culture.wetland", "social.common"],
+      "modifiers": {
+        "attributes": {"finesse": 1},
+        "skills": {"stealth": 1, "survival": 1}
+      }
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": "background_border_drifter",
+      "name": "Border Drifter",
+      "summary": "You survived by reading roads, weather, campfires, and desperate faces.",
+      "tags": ["background.drifter", "region.border", "survival.road", "social.rootless", "reputation.unknown"],
+      "modifiers": {
+        "skills": {"survival": 1, "perception": 1}
+      }
+    },
+    {
+      "id": "background_failed_squire",
+      "name": "Failed Squire",
+      "summary": "You learned banners, blades, etiquette, and shame before being cast out of a knightly household.",
+      "tags": ["background.failed_squire", "training.martial", "social.disgraced", "nobility.adjacent", "code.chivalric"],
+      "modifiers": {
+        "skills": {"athletics": 1, "command": 1}
+      }
+    },
+    {
+      "id": "background_village_outcast",
+      "name": "Village Outcast",
+      "summary": "Your own people decided you were unlucky, dangerous, cursed, or simply too useful to treat kindly.",
+      "tags": ["background.outcast", "social.shunned", "hardship.social", "reputation.unlucky"],
+      "modifiers": {
+        "skills": {"stealth": 1, "streetwise": 1}
+      }
+    },
+    {
+      "id": "background_caravan_guard",
+      "name": "Caravan Guard",
+      "summary": "You walked beside wagons through rain, mud, toll gates, and ambush country.",
+      "tags": ["background.caravan_guard", "training.martial", "survival.road", "labor.guard", "reputation.practical"],
+      "modifiers": {
+        "skills": {"perception": 1, "survival": 1, "athletics": 1}
+      }
+    },
+    {
+      "id": "background_war_veteran",
+      "name": "War Veteran",
+      "summary": "You came home from a lord's war with habits that peace cannot easily tolerate.",
+      "tags": ["background.veteran", "combat.veteran", "training.martial", "trauma.war", "reputation.dangerous"],
+      "modifiers": {
+        "attributes": {"resolve": 1},
+        "skills": {"athletics": 1, "command": 1, "resolve": 1}
+      }
+    },
+    {
+      "id": "background_cloister_novice",
+      "name": "Cloister Novice",
+      "summary": "You copied forbidden marginalia, learned old doctrine, and left before vows could become chains.",
+      "tags": ["background.cloister", "education.formal", "faith.trained", "social.sheltered", "reputation.bookish"],
+      "modifiers": {
+        "skills": {"lore": 2, "medicine": 1}
+      }
+    },
+    {
+      "id": "background_mill_born_laborer",
+      "name": "Mill-Born Laborer",
+      "summary": "You know the weight of wet grain, split timber, broken gears, and masters who count every breath.",
+      "tags": ["background.laborer", "labor.heavy", "frame.work_hardened", "social.common", "hardship.poverty"],
+      "modifiers": {
+        "attributes": {"might": 1},
+        "skills": {"athletics": 2}
+      }
+    },
+    {
+      "id": "background_exiled_noble",
+      "name": "Exiled Noble",
+      "summary": "Your name once opened doors. Now it opens old debts, old knives, and old expectations.",
+      "tags": ["background.noble", "social.noble", "social.exile", "education.formal", "reputation.political"],
+      "modifiers": {
+        "attributes": {"presence": 1},
+        "skills": {"lore": 1, "command": 1}
+      }
+    },
+    {
+      "id": "background_street_informant",
+      "name": "Street Informant",
+      "summary": "You traded secrets before you were old enough to understand how many secrets trade back.",
+      "tags": ["background.informant", "social.underworld", "reputation.untrustworthy", "stealth.social"],
+      "modifiers": {
+        "skills": {"streetwise": 2, "stealth": 1}
+      }
+    }
+  ],
+  "classes": [
+    {
+      "id": "class_mercenary",
+      "name": "Mercenary",
+      "summary": "A paid blade who treats survival as the only contract that never lies.",
+      "tags": ["class.mercenary", "combat.martial", "combat.pragmatic", "armor.medium"],
+      "modifiers": {
+        "attributes": {"might": 1},
+        "skills": {"athletics": 1, "resolve": 1}
+      }
+    },
+    {
+      "id": "class_scout",
+      "name": "Scout",
+      "summary": "A pathfinder, skirmisher, and lookout trained to notice trouble before trouble notices the party.",
+      "tags": ["class.scout", "combat.ranged", "stealth.field", "survival.tracker"],
+      "modifiers": {
+        "attributes": {"wits": 1},
+        "skills": {"perception": 1, "stealth": 1, "survival": 1}
+      }
+    },
+    {
+      "id": "class_hedge_knight",
+      "name": "Hedge Knight",
+      "summary": "A poor oath-bearer with battered mail, old manners, and a blade that must answer for both.",
+      "tags": ["class.hedge_knight", "combat.martial", "code.chivalric", "armor.heavy", "reputation.formal"],
+      "modifiers": {
+        "attributes": {"might": 1, "presence": 1},
+        "skills": {"athletics": 1, "command": 1}
+      }
+    },
+    {
+      "id": "class_cunning_speaker",
+      "name": "Cunning Speaker",
+      "summary": "A negotiator, liar, mediator, and knife-smile survivor who wins fights before steel leaves the sheath.",
+      "tags": ["class.speaker", "social.manipulator", "diplomacy.cunning", "combat.light"],
+      "modifiers": {
+        "attributes": {"presence": 1, "wits": 1},
+        "skills": {"streetwise": 1, "resolve": 1}
+      }
+    },
+    {
+      "id": "class_mage_apprentice",
+      "name": "Mage Apprentice",
+      "summary": "A half-trained arcanist with more theory than control and enough power to make villagers nervous.",
+      "tags": ["class.mage", "magic.arcane", "training.apprentice", "education.formal", "combat.fragile"],
+      "blocked_by_tags": ["labor.heavy", "combat.veteran"],
+      "modifiers": {
+        "attributes": {"occult": 2, "wits": 1},
+        "skills": {"arcana": 2, "lore": 1}
+      }
+    },
+    {
+      "id": "class_barber_surgeon",
+      "name": "Barber-Surgeon",
+      "summary": "A field sawbones who knows how bodies fail, how fear smells, and how much pain buys truth.",
+      "tags": ["class.surgeon", "medicine.field", "labor.bloody", "reputation.useful"],
+      "modifiers": {
+        "attributes": {"wits": 1},
+        "skills": {"medicine": 2, "perception": 1}
+      }
+    },
+    {
+      "id": "class_oathbound_warden",
+      "name": "Oathbound Warden",
+      "summary": "A defensive fighter sworn to keep gates, roads, bridges, or people standing when others break.",
+      "tags": ["class.warden", "combat.defensive", "code.oathbound", "armor.heavy", "reputation.reliable"],
+      "modifiers": {
+        "attributes": {"resolve": 1, "might": 1},
+        "skills": {"resolve": 1, "command": 1}
+      }
+    }
+  ],
+  "traits": [
+    {
+      "id": "trait_steady_under_fire",
+      "name": "Steady Under Fire",
+      "summary": "You do not move quickly, but panic has to work hard to move you at all.",
+      "tags": ["trait.steady", "temperament.calm", "morale.resistant"],
+      "modifiers": {
+        "attributes": {"resolve": 1},
+        "skills": {"resolve": 1}
+      }
+    },
+    {
+      "id": "trait_quick_eyed",
+      "name": "Quick-Eyed",
+      "summary": "You catch small movements, false smiles, fresh tracks, and the twitch before a blade comes out.",
+      "tags": ["trait.quick_eyed", "sense.alert", "temperament.watchful"],
+      "modifiers": {
+        "skills": {"perception": 2}
+      }
+    },
+    {
+      "id": "trait_silver_tongued",
+      "name": "Silver-Tongued",
+      "summary": "You learned that a soft voice can open locks that steel only ruins.",
+      "tags": ["trait.silver_tongued", "social.charming", "diplomacy.polished"],
+      "blocked_by_tags": ["reputation.untrustworthy"],
+      "modifiers": {
+        "attributes": {"presence": 1},
+        "skills": {"streetwise": 1, "resolve": 1}
+      }
+    },
+    {
+      "id": "trait_scarred_veteran",
+      "name": "Scarred Veteran",
+      "summary": "Old wounds make you credible to soldiers and frightening to civilians.",
+      "tags": ["trait.scarred", "combat.veteran", "appearance.marked", "reputation.dangerous"],
+      "requires_any_tags": ["background.veteran", "combat.martial", "training.martial"],
+      "blocked_by_tags": ["age.young", "social.sheltered"],
+      "modifiers": {
+        "attributes": {"resolve": 1},
+        "skills": {"command": 1}
+      }
+    },
+    {
+      "id": "trait_scholarly",
+      "name": "Scholarly",
+      "summary": "You reach for memory, doctrine, and precedent before instinct or violence.",
+      "tags": ["trait.scholar", "education.formal", "temperament.methodical", "reputation.bookish"],
+      "requires_any_tags": ["education.formal", "background.cloister", "class.mage", "social.noble"],
+      "blocked_by_tags": ["background.veteran", "combat.veteran", "labor.heavy", "background.caravan_guard"],
+      "modifiers": {
+        "skills": {"lore": 2, "arcana": 1}
+      }
+    },
+    {
+      "id": "trait_brawny",
+      "name": "Brawny",
+      "summary": "You were built by labor, hunger, and heavy work rather than lecture halls or silk rooms.",
+      "tags": ["trait.brawny", "frame.brawny", "labor.heavy", "presence.physical"],
+      "requires_any_tags": ["labor.heavy", "frame.stout", "combat.martial", "background.laborer"],
+      "blocked_by_tags": ["ancestry.elf", "age.young", "frame.slender", "class.mage", "combat.fragile", "social.sheltered"],
+      "modifiers": {
+        "attributes": {"might": 2},
+        "skills": {"athletics": 1}
+      }
+    },
+    {
+      "id": "trait_delicate_bearing",
+      "name": "Delicate Bearing",
+      "summary": "You look gentle, refined, or sheltered enough that cruel people misjudge you and careful people notice.",
+      "tags": ["trait.delicate", "appearance.fair", "frame.slender", "social.refined"],
+      "requires_any_tags": ["appearance.fair", "frame.slender", "social.noble", "social.sheltered"],
+      "blocked_by_tags": ["labor.heavy", "frame.brawny", "combat.veteran"],
+      "modifiers": {
+        "attributes": {"presence": 1},
+        "skills": {"lore": 1}
+      }
+    },
+    {
+      "id": "trait_arcane_sensitive",
+      "name": "Arcane Sensitive",
+      "summary": "Old stones hum, charms itch under your skin, and the wrong dreams sometimes answer back.",
+      "tags": ["trait.arcane_sensitive", "magic.sensitive", "occult.marked"],
+      "requires_any_tags": ["magic.arcane", "ancestry.elf", "occult.marked", "class.mage"],
+      "blocked_by_tags": ["labor.heavy", "temperament.calm"],
+      "modifiers": {
+        "attributes": {"occult": 1},
+        "skills": {"arcana": 1, "perception": 1}
+      }
+    },
+    {
+      "id": "trait_hard_to_read",
+      "name": "Hard to Read",
+      "summary": "Your face gives little away; priests call it restraint, thieves call it good practice.",
+      "tags": ["trait.hard_to_read", "social.guarded", "temperament.controlled"],
+      "modifiers": {
+        "skills": {"resolve": 1, "streetwise": 1}
+      }
+    }
+  ]
+}
