@@ -208,6 +208,7 @@ func _show_character_creator() -> void:
 	CrpgTheme.apply_button(start_journey_button)
 	start_journey_button.pressed.connect(_start_new_game_from_creator.bind(character_name_edit, ancestry_options, origin_options, archetype_options, trait_options))
 	buttons.add_child(start_journey_button)
+	_refresh_trait_options(String(player_profile.get("trait", "Steady Under Fire")))
 	_update_creator_compatibility()
 	GameLog.info("MENU", "Character creator shown")
 
@@ -265,7 +266,11 @@ func _update_creator_compatibility(_selected_index: int = -1) -> void:
 	)
 	var warnings: Array = preview_profile.get("compatibility_warnings", [])
 	if warnings.is_empty():
-		compatibility_warning_label.text = "Theme check: coherent."
+		var unavailable_traits := _get_unavailable_trait_names()
+		if unavailable_traits.is_empty():
+			compatibility_warning_label.text = "Theme check: coherent."
+		else:
+			compatibility_warning_label.text = "Theme check: coherent. Unavailable traits for this build: %s" % ", ".join(unavailable_traits)
 		start_journey_button.disabled = false
 	else:
 		_show_creator_warnings(warnings)
@@ -277,7 +282,63 @@ func _show_creator_warnings(warnings: Array) -> void:
 		start_journey_button.disabled = true
 
 func _on_creator_selection_changed(_selected_index: int = -1) -> void:
+	_refresh_trait_options(_get_selected_option_text(trait_options))
 	_update_creator_compatibility(_selected_index)
+
+func _refresh_trait_options(preferred_trait: String = "") -> void:
+	if trait_options == null:
+		return
+	var traits: Array = character_creation_data.get("traits", [])
+	if traits.is_empty():
+		return
+	var wanted_trait := preferred_trait
+	if wanted_trait.is_empty():
+		wanted_trait = _get_selected_option_text(trait_options)
+	trait_options.clear()
+	var base_tags := _collect_creator_base_tags()
+	var first_enabled_index := -1
+	var preferred_index := -1
+	for trait in traits:
+		if typeof(trait) != TYPE_DICTIONARY:
+			continue
+		var trait_name := String(trait.get("name", "Unnamed"))
+		var index := trait_options.get_item_count()
+		trait_options.add_item(trait_name)
+		var is_available := CharacterProfileBuilder.is_item_available(base_tags, trait)
+		trait_options.set_item_disabled(index, not is_available)
+		if is_available and first_enabled_index == -1:
+			first_enabled_index = index
+		if is_available and trait_name == wanted_trait:
+			preferred_index = index
+	if preferred_index != -1:
+		trait_options.select(preferred_index)
+	elif first_enabled_index != -1:
+		trait_options.select(first_enabled_index)
+	elif trait_options.get_item_count() > 0:
+		trait_options.select(0)
+
+func _collect_creator_base_tags() -> Array:
+	var tags: Array = []
+	if character_creation_data.is_empty() or ancestry_options == null or origin_options == null or archetype_options == null:
+		return tags
+	var ancestry := _find_option_by_name(character_creation_data.get("ancestries", []), _get_selected_option_text(ancestry_options))
+	var background := _find_option_by_name(character_creation_data.get("backgrounds", []), _get_selected_option_text(origin_options))
+	var character_class := _find_option_by_name(character_creation_data.get("classes", []), _get_selected_option_text(archetype_options))
+	for item in [ancestry, background, character_class]:
+		for tag in item.get("tags", []):
+			var tag_id := String(tag)
+			if not tag_id.is_empty() and not tags.has(tag_id):
+				tags.append(tag_id)
+	return tags
+
+func _get_unavailable_trait_names() -> Array[String]:
+	var result: Array[String] = []
+	if trait_options == null:
+		return result
+	for index in range(trait_options.get_item_count()):
+		if trait_options.is_item_disabled(index):
+			result.append(trait_options.get_item_text(index))
+	return result
 
 func _start_game() -> void:
 	_clear_current_screen()
@@ -382,20 +443,27 @@ func run_debug_action(action: Dictionary) -> bool:
 			return true
 		"select_ancestry":
 			var ancestry_ok := _select_option_by_text(ancestry_options, String(action.get("ancestry", "")), "ancestry")
+			_refresh_trait_options(_get_selected_option_text(trait_options))
 			_update_creator_compatibility()
 			return ancestry_ok
 		"select_origin":
 			var origin_ok := _select_option_by_text(origin_options, String(action.get("origin", "")), "origin")
+			_refresh_trait_options(_get_selected_option_text(trait_options))
 			_update_creator_compatibility()
 			return origin_ok
 		"select_archetype":
 			var archetype_ok := _select_option_by_text(archetype_options, String(action.get("archetype", "")), "archetype")
+			_refresh_trait_options(_get_selected_option_text(trait_options))
 			_update_creator_compatibility()
 			return archetype_ok
 		"select_trait":
 			var trait_ok := _select_option_by_text(trait_options, String(action.get("trait", "")), "trait")
 			_update_creator_compatibility()
 			return trait_ok
+		"assert_trait_available":
+			return _assert_trait_availability(String(action.get("trait", "")), true)
+		"assert_trait_unavailable":
+			return _assert_trait_availability(String(action.get("trait", "")), false)
 		"assert_creator_warning_contains":
 			return _assert_creator_warning_contains(String(action.get("text", "")))
 		"assert_player_profile":
@@ -458,6 +526,21 @@ func _assert_creator_warning_contains(expected_text: String) -> bool:
 	GameLog.info("ASSERT", "Creator warning contains: %s" % expected_text)
 	return true
 
+func _assert_trait_availability(trait_name: String, expected_available: bool) -> bool:
+	if trait_options == null:
+		GameLog.error("ASSERT", "Trait options are missing")
+		return false
+	for index in range(trait_options.get_item_count()):
+		if trait_options.get_item_text(index) == trait_name:
+			var actual_available := not trait_options.is_item_disabled(index)
+			if actual_available != expected_available:
+				GameLog.error("ASSERT", "Trait availability mismatch for %s: expected %s got %s" % [trait_name, expected_available, actual_available])
+				return false
+			GameLog.info("ASSERT", "Trait availability OK: %s -> %s" % [trait_name, actual_available])
+			return true
+	GameLog.error("ASSERT", "Trait option not found: %s" % trait_name)
+	return false
+
 func _get_current_screen() -> String:
 	if current_area != null:
 		return "game"
@@ -487,11 +570,19 @@ func _select_option_by_text(option_button: OptionButton, text: String, label: St
 		return false
 	for index in range(option_button.get_item_count()):
 		if option_button.get_item_text(index) == text:
+			if option_button.is_item_disabled(index):
+				GameLog.warning("SCENARIO", "Cannot select disabled %s option: %s" % [label, text])
+				return false
 			option_button.select(index)
 			GameLog.info("SCENARIO", "Selected %s: %s" % [label, text])
 			return true
 	GameLog.error("SCENARIO", "Could not find %s option: %s" % [label, text])
 	return false
+
+func _get_selected_option_text(option_button: OptionButton) -> String:
+	if option_button == null or option_button.get_item_count() == 0:
+		return ""
+	return option_button.get_item_text(option_button.selected)
 
 func _populate_option_button(option_button: OptionButton, data_items: Variant, fallback_names: Array) -> void:
 	if typeof(data_items) == TYPE_ARRAY and not data_items.is_empty():
