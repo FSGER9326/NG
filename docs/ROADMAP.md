@@ -17,12 +17,12 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 ## Milestone 0.2 — Area prototype
 
-- [ ] Area scene controller
-- [ ] Background loading
-- [ ] Actor placement from JSON
+- [x] Area scene controller
+- [x] Background loading placeholder
+- [x] Actor placement from JSON
 - [ ] Click-to-move prototype
-- [ ] Hotspot inspection
-- [ ] Area transition stub
+- [x] Hotspot inspection
+- [x] Area transition stub/debug output
 
 ## Milestone 0.3 — Dialogue and quest prototype
 
