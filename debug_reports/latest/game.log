@@ -1,9 +1,0 @@
-[0000.004] BOOT: NG log session started: main_menu
-[0000.007] BOOT: NG booting
-[0000.022] DATA: Loading bootstrap data
-[0000.127] DATA: Bootstrap data loaded
-[0000.139] BOOT: Loaded bootstrap data
-[0000.170] MENU: Main menu shown
-[0001.562] MENU: Character creator shown
-[0002.817] CHARACTER: Created player profile
-[0002.821] GAME: Started new game
