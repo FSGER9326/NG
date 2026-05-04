@@ -1,0 +1,39 @@
+{
+  "id": "wolfpine_black_bread_tithe",
+  "name": "Wolfpine Black Bread Tithe",
+  "description": "Verifies that the Wolfpine Village market and notice board advance the Black Bread Tithe quest through its first evidence path.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_village"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "market_stall"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "black_bread_tithe",
+      "stage": "checked_market"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "black_bread_market_checked",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "notice_board"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "black_bread_tithe",
+      "stage": "found_guard_tithe"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "black_bread_guard_tithe_known",
+      "value": true
+    }
+  ]
+}
