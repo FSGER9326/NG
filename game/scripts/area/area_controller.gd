@@ -4,6 +4,7 @@ class_name AreaController
 const DataLoader = preload("res://game/scripts/core/data_loader.gd")
 const GameState = preload("res://game/scripts/core/game_state.gd")
 const QuestSystem = preload("res://game/scripts/systems/quest_system.gd")
+const CrpgTheme = preload("res://game/scripts/ui/crpg_theme.gd")
 
 @export var area_id: String = "wolfpine_road"
 @export var player_speed: float = 260.0
@@ -26,6 +27,7 @@ var player_marker: Label
 var move_target: Vector2 = Vector2.ZERO
 var has_move_target: bool = false
 var debug_label: Label
+var quest_panel: PanelContainer
 var quest_tracker_label: Label
 var dialogue_panel: PanelContainer
 var dialogue_speaker_label: Label
@@ -54,7 +56,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _build_runtime_nodes() -> void:
 	background_layer = ColorRect.new()
 	background_layer.name = "PlaceholderBackground"
-	background_layer.color = Color(0.12, 0.14, 0.12, 1.0)
+	background_layer.color = Color(0.035, 0.045, 0.035, 1.0)
 	background_layer.position = Vector2.ZERO
 	background_layer.size = Vector2(1280, 720)
 	add_child(background_layer)
@@ -76,22 +78,40 @@ func _build_runtime_nodes() -> void:
 	player_marker.text = "◆ party"
 	player_marker.position = Vector2(180, 540)
 	player_marker.add_theme_font_size_override("font_size", 18)
+	CrpgTheme.apply_label(player_marker, true)
 	add_child(player_marker)
 
 	debug_label = Label.new()
 	debug_label.name = "DebugLabel"
 	debug_label.position = Vector2(24, 24)
+	debug_label.custom_minimum_size = Vector2(620, 80)
 	debug_label.text = "NG area prototype"
+	CrpgTheme.apply_label(debug_label)
 	add_child(debug_label)
+
+	_build_quest_panel()
+	_build_dialogue_panel()
+
+func _build_quest_panel() -> void:
+	quest_panel = PanelContainer.new()
+	quest_panel.name = "QuestPanel"
+	quest_panel.position = Vector2(900, 24)
+	quest_panel.size = Vector2(340, 140)
+	CrpgTheme.apply_dark_panel(quest_panel)
+	add_child(quest_panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_right", 10)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	quest_panel.add_child(margin)
 
 	quest_tracker_label = Label.new()
 	quest_tracker_label.name = "QuestTracker"
-	quest_tracker_label.position = Vector2(900, 24)
-	quest_tracker_label.custom_minimum_size = Vector2(340, 140)
 	quest_tracker_label.text = "Quests: none"
-	add_child(quest_tracker_label)
-
-	_build_dialogue_panel()
+	CrpgTheme.apply_label(quest_tracker_label)
+	margin.add_child(quest_tracker_label)
 
 func _build_dialogue_panel() -> void:
 	dialogue_panel = PanelContainer.new()
@@ -99,12 +119,13 @@ func _build_dialogue_panel() -> void:
 	dialogue_panel.position = Vector2(24, 430)
 	dialogue_panel.size = Vector2(760, 260)
 	dialogue_panel.visible = false
+	CrpgTheme.apply_panel(dialogue_panel)
 	add_child(dialogue_panel)
 
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 12)
+	margin.add_theme_constant_override("margin_left", 14)
 	margin.add_theme_constant_override("margin_top", 12)
-	margin.add_theme_constant_override("margin_right", 12)
+	margin.add_theme_constant_override("margin_right", 14)
 	margin.add_theme_constant_override("margin_bottom", 12)
 	dialogue_panel.add_child(margin)
 
@@ -116,7 +137,7 @@ func _build_dialogue_panel() -> void:
 	dialogue_speaker_label = Label.new()
 	dialogue_speaker_label.name = "Speaker"
 	dialogue_speaker_label.text = "Speaker"
-	dialogue_speaker_label.add_theme_font_size_override("font_size", 18)
+	CrpgTheme.apply_label(dialogue_speaker_label, true)
 	root.add_child(dialogue_speaker_label)
 
 	dialogue_text_label = RichTextLabel.new()
@@ -124,6 +145,7 @@ func _build_dialogue_panel() -> void:
 	dialogue_text_label.custom_minimum_size = Vector2(720, 92)
 	dialogue_text_label.fit_content = true
 	dialogue_text_label.scroll_active = false
+	CrpgTheme.apply_rich_text(dialogue_text_label)
 	root.add_child(dialogue_text_label)
 
 	dialogue_choices_box = VBoxContainer.new()
@@ -176,7 +198,8 @@ func _draw_area_title(area_name: String) -> void:
 	var title := Label.new()
 	title.name = "AreaTitle"
 	title.text = area_name
-	title.position = Vector2(24, 64)
+	title.position = Vector2(24, 92)
+	CrpgTheme.apply_label(title, true)
 	label_layer.add_child(title)
 
 func _draw_hotspots() -> void:
@@ -189,6 +212,7 @@ func _draw_hotspots() -> void:
 		var pos := _array_to_vec2(hotspot.get("position", [0, 0]))
 		marker.position = pos
 		marker.size = Vector2(180, 34)
+		CrpgTheme.apply_button(marker)
 		marker.pressed.connect(_on_hotspot_pressed.bind(hotspot))
 		hotspot_layer.add_child(marker)
 
@@ -202,6 +226,7 @@ func _draw_actors() -> void:
 		marker.text = "@ %s" % actor_id
 		marker.position = _array_to_vec2(actor.get("position", [0, 0]))
 		marker.size = Vector2(190, 34)
+		CrpgTheme.apply_button(marker)
 		marker.pressed.connect(_on_actor_pressed.bind(actor_id))
 		actor_layer.add_child(marker)
 
@@ -271,6 +296,7 @@ func _show_dialogue_node(node_id: String) -> void:
 	if choices.is_empty():
 		var close_button := Button.new()
 		close_button.text = "Continue"
+		CrpgTheme.apply_button(close_button)
 		close_button.pressed.connect(_hide_dialogue)
 		dialogue_choices_box.add_child(close_button)
 		return
@@ -280,6 +306,7 @@ func _show_dialogue_node(node_id: String) -> void:
 			continue
 		var choice_button := Button.new()
 		choice_button.text = String(choice.get("text", "..."))
+		CrpgTheme.apply_button(choice_button)
 		choice_button.pressed.connect(_on_dialogue_choice_pressed.bind(choice))
 		dialogue_choices_box.add_child(choice_button)
 
