@@ -5,7 +5,7 @@ const GameLog = preload("res://game/scripts/core/game_log.gd")
 
 var game_state: GameState
 
-func _init(state: GameState) -> void:
+func setup(state: GameState) -> void:
 	game_state = state
 
 func passes_data_conditions(data: Dictionary) -> bool:
@@ -23,6 +23,9 @@ func passes_conditions(conditions: Variant) -> bool:
 	return true
 
 func passes_condition(condition: Variant) -> bool:
+	if game_state == null:
+		GameLog.warning("DIALOGUE", "Condition evaluator has no game state", {"condition": condition})
+		return false
 	if typeof(condition) != TYPE_DICTIONARY:
 		GameLog.warning("DIALOGUE", "Condition is not an object", {"condition": condition})
 		return false
