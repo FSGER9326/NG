@@ -5,7 +5,7 @@ const DebugStateDump = preload("res://game/scripts/core/debug_state_dump.gd")
 
 func _initialize() -> void:
 	GameLog.start_session("scenario_test")
-	var scenario_path := _get_scenario_path()
+	var scenario_path := _normalize_res_path(_get_scenario_path())
 	GameLog.info("SCENARIO", "Loading scenario: %s" % scenario_path, {"scenario_path": scenario_path})
 
 	var scenario := _load_json(scenario_path)
@@ -23,6 +23,10 @@ func _initialize() -> void:
 	var area_instance = area_scene.instantiate()
 	if area_instance == null:
 		GameLog.error("SCENARIO", "Could not instantiate area scene")
+		quit(1)
+		return
+	if not area_instance.has_method("run_debug_action"):
+		GameLog.error("SCENARIO", "Area scene does not expose run_debug_action().")
 		quit(1)
 		return
 
@@ -63,6 +67,12 @@ func _get_scenario_path() -> String:
 		if args[index] == "--scenario" and index + 1 < args.size():
 			return args[index + 1]
 	return "res://tests/scenarios/wolfpine_missing_caravan.json"
+
+func _normalize_res_path(path: String) -> String:
+	var normalized := path.replace("\\", "/")
+	if normalized.begins_with("res://"):
+		return normalized
+	return "res://%s" % normalized
 
 func _load_json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
