@@ -1,0 +1,56 @@
+{
+  "id": "wolfpine_shrine_toll_disc",
+  "name": "Wolfpine Shrine Toll Disc Clue",
+  "description": "Verifies that inspecting the Old Road Shrine reveals the toll-disc Road Peace clue and unlocks Renna's gated response.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "old_shrine"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_shrine_seen_dead_mule",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_shrine_seen_toll_disc",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "road_peace_first_failure_seen",
+      "value": true
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Someone pressed a toll disc into a dead mule's eye."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_shrine_clue"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_renna_knows_toll_disc",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "You know what it means."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Who would know the old road stories?"
+    }
+  ]
+}
