@@ -1,0 +1,66 @@
+{
+  "id": "captain_renna_intro",
+  "speaker": "captain_renna",
+  "start_node": "start",
+  "nodes": {
+    "start": {
+      "text": "Captain Renna watches the road with a hand resting near her sword. Rain beads on the iron rim of her cloak-pin.",
+      "choices": [
+        {
+          "text": "I am looking for work.",
+          "next": "work_offer"
+        },
+        {
+          "text": "What happened here?",
+          "next": "missing_caravan"
+        },
+        {
+          "text": "Nothing for now.",
+          "next": "end"
+        }
+      ]
+    },
+    "work_offer": {
+      "text": "Then you came to the right starving village. A caravan vanished two nights ago. Find it, and Wolfpine will remember your name kindly.",
+      "effects": [
+        {
+          "type": "start_quest",
+          "quest_id": "missing_caravan",
+          "stage": "accepted"
+        }
+      ],
+      "choices": [
+        {
+          "text": "I will look into it.",
+          "next": "end"
+        }
+      ]
+    },
+    "missing_caravan": {
+      "text": "Food, lamp oil, arrow shafts, medicine. Enough to keep Wolfpine breathing another month. Now it is gone, and everyone has a theory.",
+      "choices": [
+        {
+          "text": "Who benefits if the caravan disappears?",
+          "next": "suspects"
+        },
+        {
+          "text": "I see.",
+          "next": "start"
+        }
+      ]
+    },
+    "suspects": {
+      "text": "Bandits benefit. Smugglers benefit. A lord benefits if a village begs. Ask better questions than I can afford to ask aloud.",
+      "choices": [
+        {
+          "text": "Then I will ask them quietly.",
+          "next": "end"
+        }
+      ]
+    },
+    "end": {
+      "text": "Renna looks back to the road.",
+      "choices": []
+    }
+  }
+}
