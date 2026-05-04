@@ -27,12 +27,52 @@ REFERENCE_KEYS = {
     "icon",
 }
 
-CONDITION_TYPES = {"flag", "quest_stage", "skill_check", "not", "all", "any"}
-SKILLS = {"perception", "survival", "resolve", "lore", "stealth"}
+CONDITION_TYPES = {
+    "flag",
+    "quest_stage",
+    "skill_check",
+    "attribute_check",
+    "player_tag",
+    "party_member",
+    "not",
+    "all",
+    "any",
+}
+SKILLS = {
+    "perception",
+    "survival",
+    "resolve",
+    "lore",
+    "stealth",
+    "athletics",
+    "medicine",
+    "streetwise",
+    "arcana",
+    "command",
+}
+ATTRIBUTES = {"might", "finesse", "resolve", "wits", "presence", "occult"}
 MENU_BUTTONS = {"new_game", "start_journey", "load_game"}
 SCREENS = {"main_menu", "character_creator", "game"}
-ORIGINS = {"Border Drifter", "Failed Squire", "Village Outcast", "Caravan Guard"}
-ARCHETYPES = {"Mercenary", "Scout", "Hedge Knight", "Cunning Speaker"}
+ORIGINS = {
+    "Border Drifter",
+    "Failed Squire",
+    "Village Outcast",
+    "Caravan Guard",
+    "War Veteran",
+    "Cloister Novice",
+    "Mill-Born Laborer",
+    "Exiled Noble",
+    "Street Informant",
+}
+ARCHETYPES = {
+    "Mercenary",
+    "Scout",
+    "Hedge Knight",
+    "Cunning Speaker",
+    "Mage Apprentice",
+    "Barber-Surgeon",
+    "Oathbound Warden",
+}
 
 
 class ProjectIndex:
@@ -45,6 +85,7 @@ class ProjectIndex:
         self.areas: set[str] = set()
         self.hotspots: set[str] = set()
         self.dialogue_choice_texts: set[str] = set()
+        self.character_tags: set[str] = set()
 
 
 def load_json(path: Path) -> Any:
@@ -90,6 +131,9 @@ def collect_ids(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -
         if "dialogue" in path.parts:
             collect_dialogue_choice_texts(data, index)
 
+        if path.match("*/data/character_creation/*.json"):
+            collect_character_tags(data, index)
+
         faction_list = data.get("factions")
         if isinstance(faction_list, list):
             for faction in faction_list:
@@ -101,6 +145,21 @@ def collect_ids(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -
     elif isinstance(data, list):
         for value in data:
             collect_ids(path, value, index, errors)
+
+
+def collect_character_tags(data: Any, index: ProjectIndex) -> None:
+    if not isinstance(data, dict):
+        return
+    for section in ["ancestries", "backgrounds", "classes", "traits"]:
+        items = data.get(section, [])
+        if not isinstance(items, list):
+            continue
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            for tag in item.get("tags", []):
+                if isinstance(tag, str):
+                    index.character_tags.add(tag)
 
 
 def collect_dialogue_choice_texts(data: Any, index: ProjectIndex) -> None:
@@ -228,6 +287,29 @@ def check_condition(path: Path, condition: Any, index: ProjectIndex, errors: lis
             errors.append(f"skill_check condition references unknown skill in {path.relative_to(ROOT)} at {context}: {skill_id}")
         if not isinstance(difficulty, int) or difficulty < 0:
             errors.append(f"skill_check condition difficulty must be a non-negative integer in {path.relative_to(ROOT)} at {context}")
+    elif condition_type == "attribute_check":
+        attribute_id = condition.get("attribute_id")
+        difficulty = condition.get("difficulty")
+        if not isinstance(attribute_id, str) or not attribute_id:
+            errors.append(f"attribute_check condition missing attribute_id in {path.relative_to(ROOT)} at {context}")
+        elif attribute_id not in ATTRIBUTES:
+            errors.append(f"attribute_check condition references unknown attribute in {path.relative_to(ROOT)} at {context}: {attribute_id}")
+        if not isinstance(difficulty, int) or difficulty < 0:
+            errors.append(f"attribute_check condition difficulty must be a non-negative integer in {path.relative_to(ROOT)} at {context}")
+    elif condition_type == "player_tag":
+        tag_id = condition.get("tag")
+        if not isinstance(tag_id, str) or not tag_id:
+            errors.append(f"player_tag condition missing tag in {path.relative_to(ROOT)} at {context}")
+        elif index.character_tags and tag_id not in index.character_tags:
+            errors.append(f"player_tag condition references unknown character tag in {path.relative_to(ROOT)} at {context}: {tag_id}")
+        if "value" in condition and not isinstance(condition.get("value"), bool):
+            errors.append(f"player_tag condition value must be boolean in {path.relative_to(ROOT)} at {context}")
+    elif condition_type == "party_member":
+        actor_id = condition.get("actor_id")
+        if not isinstance(actor_id, str) or actor_id not in index.actors:
+            errors.append(f"party_member condition references missing actor in {path.relative_to(ROOT)} at {context}: {actor_id}")
+        if "value" in condition and not isinstance(condition.get("value"), bool):
+            errors.append(f"party_member condition value must be boolean in {path.relative_to(ROOT)} at {context}")
     elif condition_type == "not":
         check_condition(path, condition.get("condition"), index, errors, f"{context} > not")
     elif condition_type in {"all", "any"}:
@@ -294,6 +376,12 @@ def check_scenario_step(path: Path, step: dict[str, Any], step_type: str, step_i
         case "assert_flag":
             if not isinstance(step.get("flag_id"), str) or not step.get("flag_id"):
                 errors.append(f"Scenario assert_flag missing flag_id in {path.relative_to(ROOT)} step {step_index}")
+        case "assert_player_tag":
+            tag_id = step.get("tag")
+            if not isinstance(tag_id, str) or tag_id not in index.character_tags:
+                errors.append(f"Scenario assert_player_tag references unknown tag in {path.relative_to(ROOT)} step {step_index}: {tag_id}")
+            if "value" in step and not isinstance(step.get("value"), bool):
+                errors.append(f"Scenario assert_player_tag value must be boolean in {path.relative_to(ROOT)} step {step_index}")
         case "assert_screen":
             if step.get("screen") not in SCREENS:
                 errors.append(f"Scenario assert_screen has unknown screen in {path.relative_to(ROOT)} step {step_index}: {step.get('screen')}")
@@ -312,7 +400,7 @@ def check_scenario_step(path: Path, step: dict[str, Any], step_type: str, step_i
             if step.get("archetype") not in ARCHETYPES:
                 errors.append(f"Scenario select_archetype has unknown archetype in {path.relative_to(ROOT)} step {step_index}: {step.get('archetype')}")
         case "assert_player_profile":
-            for field in ["name", "origin", "archetype"]:
+            for field in ["name", "origin", "archetype", "background", "class", "trait", "tag"]:
                 if field in step and not isinstance(step.get(field), str):
                     errors.append(f"Scenario assert_player_profile field {field} must be string in {path.relative_to(ROOT)} step {step_index}")
         case _:
@@ -360,7 +448,7 @@ def main() -> int:
         "NG validation passed: "
         f"{len(files)} JSON files, {len(index.ids)} IDs, "
         f"{len(index.actors)} actors, {len(index.quests)} quests, "
-        f"{len(index.hotspots)} hotspots."
+        f"{len(index.hotspots)} hotspots, {len(index.character_tags)} character tags."
     )
     return 0
 
