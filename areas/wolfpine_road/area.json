@@ -1,0 +1,16 @@
+{
+  "id": "wolfpine_road",
+  "name": "Wolfpine Road",
+  "type": "wilderness",
+  "description": "A rain-dark border road between old pine forest and ruined imperial stones.",
+  "background": "areas/wolfpine_road/background_placeholder.txt",
+  "occlusion": "areas/wolfpine_road/occlusion_placeholder.txt",
+  "walkmask": "areas/wolfpine_road/walkmask_placeholder.txt",
+  "hotspots": "areas/wolfpine_road/hotspots.json",
+  "actors": "areas/wolfpine_road/actors.json",
+  "default_music": "music/wilderness_rain_low",
+  "entry_points": {
+    "south_road": [180, 540],
+    "north_road": [1080, 180]
+  }
+}
