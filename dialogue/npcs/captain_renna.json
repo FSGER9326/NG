@@ -39,6 +39,17 @@
           ]
         },
         {
+          "text": "Someone pressed a toll disc into a dead mule's eye.",
+          "next": "toll_disc_report",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag_id": "wolfpine_shrine_seen_toll_disc",
+              "value": true
+            }
+          ]
+        },
+        {
           "text": "I have walked caravan roads. Tell me where yours broke pattern.",
           "next": "caravan_guard_read",
           "conditions": [
@@ -217,6 +228,53 @@
     "end": {
       "text": "Renna looks back to the road.",
       "choices": []
+    },
+    "toll_disc_report": {
+      "text": "Renna goes still in a way shouting never manages. \"That is not bandit work. Bandits steal tolls; they do not pay them to dead animals.\" She wipes rain from her mouth and lowers her voice. \"Do not repeat that in the village unless you want every old woman counting graves by supper.\"",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "found_shrine_clue"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_renna_knows_toll_disc",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "You know what it means.",
+          "next": "renna_toll_disc_meaning"
+        },
+        {
+          "text": "Then I will keep it quiet for now.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_toll_disc_meaning": {
+      "text": "\"I know what road stories say it means. A passage paid after death. A debt collected by the old stones. I also know stories make poor evidence and excellent riots. Bring me the hand that pressed it there.\"",
+      "choices": [
+        {
+          "text": "Who would know the old road stories?",
+          "next": "old_road_stories"
+        },
+        {
+          "text": "I will bring proof, not panic.",
+          "next": "end"
+        }
+      ]
+    },
+    "old_road_stories": {
+      "text": "\"Rangers. Shrine-keepers. Old drivers. Anyone who has lost enough people to start listening to mile-stones. Ask carefully. People confess strange things when they think the road itself is listening.\"",
+      "choices": [
+        {
+          "text": "Understood.",
+          "next": "end"
+        }
+      ]
     }
   }
 }
