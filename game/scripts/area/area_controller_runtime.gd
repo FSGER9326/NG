@@ -14,6 +14,7 @@ const DebugStateDump = preload("res://game/scripts/core/debug_state_dump.gd")
 var data_loader: DataLoader
 var game_state: GameState
 var quest_system: QuestSystem
+var pending_player_profile: Dictionary = {}
 var area_data: Dictionary = {}
 var hotspots_data: Dictionary = {"hotspots": []}
 var actors_data: Dictionary = {"actors": []}
@@ -44,10 +45,19 @@ func _ready() -> void:
 	data_loader = DataLoader.new()
 	game_state = GameState.new()
 	quest_system = QuestSystem.new()
+	if not pending_player_profile.is_empty():
+		game_state.apply_player_profile(pending_player_profile)
 	_build_runtime_nodes()
 	load_area(area_id)
 	_update_quest_tracker()
 	write_debug_state("state_initial.json")
+
+func setup_player_profile(profile: Dictionary) -> void:
+	pending_player_profile = profile.duplicate(true)
+	if game_state != null:
+		game_state.apply_player_profile(pending_player_profile)
+		_update_quest_tracker()
+		write_debug_state("state_latest.json")
 
 func _process(delta: float) -> void:
 	_update_player_movement(delta)
@@ -454,6 +464,12 @@ func _passes_condition(condition: Variant) -> bool:
 			return game_state.get_quest_stage(String(condition.get("quest_id", ""))) == String(condition.get("stage", ""))
 		"skill_check":
 			return game_state.get_party_skill(String(condition.get("skill_id", ""))) >= int(condition.get("difficulty", 0))
+		"attribute_check":
+			return game_state.get_player_attribute(String(condition.get("attribute_id", ""))) >= int(condition.get("difficulty", 0))
+		"player_tag":
+			var tag_id := String(condition.get("tag", ""))
+			var expected_tag := bool(condition.get("value", true))
+			return game_state.has_player_tag(tag_id) == expected_tag
 		"party_member":
 			var actor_id := String(condition.get("actor_id", ""))
 			var expected := bool(condition.get("value", true))
@@ -522,6 +538,14 @@ func run_debug_action(action: Dictionary) -> bool:
 			var actor_id := String(action.get("actor_id", ""))
 			if not game_state.party_member_ids.has(actor_id):
 				GameLog.error("ASSERT", "Party member missing: %s" % actor_id)
+				return false
+			return true
+		"assert_player_tag":
+			var tag_id := String(action.get("tag", ""))
+			var expected_tag := bool(action.get("value", true))
+			var actual_tag := game_state.has_player_tag(tag_id)
+			if actual_tag != expected_tag:
+				GameLog.error("ASSERT", "Player tag mismatch: %s expected %s got %s" % [tag_id, expected_tag, actual_tag])
 				return false
 			return true
 		_:
