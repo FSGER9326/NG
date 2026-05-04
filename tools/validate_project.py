@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """Validate NG project data.
 
-Dependency-free Python validation for JSON data, common references, dialogue links,
-area actor placements, encounter IDs, quest-stage references, dialogue conditions,
-and scripted test scenarios.
+Dependency-free validation for JSON syntax, duplicate ids, common runtime file
+references, dialogue links, area actor placements, quest/stage references,
+dialogue conditions, and scripted test scenarios.
+
+Important: keys such as ``background`` can mean different things in different
+contexts. Area files use ``background`` as an art file reference; scenario
+``assert_player_profile`` steps use it as a character profile field. This
+validator only treats reference-like keys as files in runtime content contexts,
+not inside scenario assertions.
 """
 
 from __future__ import annotations
@@ -15,17 +21,8 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 JSON_ROOTS = [ROOT / "data", ROOT / "areas", ROOT / "dialogue", ROOT / "tests"]
 
-REFERENCE_KEYS = {
-    "background",
-    "occlusion",
-    "walkmask",
-    "hotspots",
-    "actors",
-    "portrait",
-    "dialogue",
-    "sprite",
-    "icon",
-}
+AREA_REFERENCE_KEYS = {"background", "occlusion", "walkmask", "hotspots", "actors"}
+CONTENT_REFERENCE_KEYS = {"portrait", "dialogue", "sprite", "icon"}
 
 CONDITION_TYPES = {
     "flag",
@@ -113,6 +110,14 @@ def walk_json_files() -> list[Path]:
     return files
 
 
+def is_area_file(path: Path) -> bool:
+    return "areas" in path.parts and path.name in {"area.json", "actors.json", "hotspots.json"}
+
+
+def is_test_scenario(path: Path) -> bool:
+    return "tests" in path.parts and "scenarios" in path.parts
+
+
 def collect_ids(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -> None:
     if isinstance(data, dict):
         item_id = data.get("id")
@@ -189,9 +194,13 @@ def collect_dialogue_choice_texts(data: Any, index: ProjectIndex) -> None:
 
 
 def check_references(path: Path, data: Any, errors: list[str]) -> None:
+    if is_test_scenario(path):
+        return
     if isinstance(data, dict):
         for key, value in data.items():
-            if key in REFERENCE_KEYS and isinstance(value, str):
+            is_area_reference = is_area_file(path) and key in AREA_REFERENCE_KEYS
+            is_content_reference = key in CONTENT_REFERENCE_KEYS
+            if (is_area_reference or is_content_reference) and isinstance(value, str):
                 ref = to_repo_path(value)
                 if value and not ref.exists():
                     errors.append(f"Missing referenced file in {path.relative_to(ROOT)}: {key} -> {value}")
@@ -340,7 +349,7 @@ def check_quest_references(path: Path, data: Any, index: ProjectIndex, errors: l
 
 
 def check_scenario(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -> None:
-    if "tests" not in path.parts or "scenarios" not in path.parts or not isinstance(data, dict):
+    if not is_test_scenario(path) or not isinstance(data, dict):
         return
     root_scene = data.get("root_scene", "area")
     if not isinstance(root_scene, str):

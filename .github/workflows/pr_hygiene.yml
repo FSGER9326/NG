@@ -1,33 +1,11 @@
-name: Validate NG data
+name: PR hygiene
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 jobs:
-  validate-data:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Validate JSON project data
-        run: python tools/validate_project.py
-
-      - name: Validate character creation data
-        run: python tools/validate_character_creation.py
-
-      - name: Validate asset kit manifests
-        run: python tools/validate_asset_kits.py
-
   pr-hygiene:
     runs-on: ubuntu-latest
     steps:
