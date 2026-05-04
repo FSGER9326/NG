@@ -34,17 +34,25 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Reusable dialogue flag and quest-stage checks
 - [x] Dialogue condition validation
 - [x] Skill check format
+- [x] Player-tag and attribute-check dialogue gates
+- [x] NPC reaction example driven by character creation tags
 
-## Milestone 0.4 — Frontend shell
+## Milestone 0.4 — Frontend shell and character creation
 
 - [x] Main menu shell
 - [x] New Game starts character creator
 - [x] Character creator first pass: name, origin, archetype
-- [x] Start Journey launches current area prototype
+- [x] Data-driven character creation rules for ancestry/background/class/trait
+- [x] Tagged player profile builder
+- [x] Character tags, attributes, and skills stored in game state
+- [x] Start Journey launches current area prototype with player profile applied
 - [x] Save/Load menu placeholders
 - [x] Save game format
 - [x] Load game flow
-- [ ] Character stats and portrait selection
+- [ ] Expose ancestry selection in the creator UI
+- [ ] Expose trait selection in the creator UI
+- [ ] Enforce compatibility blocks and requirements in the creator UI
+- [ ] Character portrait selection
 
 ## Milestone 0.5 — Combat prototype
 
@@ -73,8 +81,17 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 2. Main menu should appear.
 3. Choose `New Game`.
 4. Character creator should appear.
-5. Enter a name, choose origin/archetype, and choose `Start Journey`.
-6. Wolfpine Road prototype should load.
+5. Enter a name, choose background/class, and choose `Start Journey`.
+6. Wolfpine Road prototype should load with a tagged player profile.
+
+### Character-tag NPC reaction path
+
+1. Start a new game.
+2. Create a Caravan Guard / Scout.
+3. Confirm the player has `background.caravan_guard`.
+4. Click `@ captain_renna`.
+5. The dialogue choice `I have walked caravan roads. Tell me where yours broke pattern.` should be visible.
+6. Choosing it should open Renna's caravan-road reaction branch.
 
 ### Basic quest path
 
@@ -126,6 +143,6 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 ## Next target
 
-Stabilize the menu/new-game/area-transition/save-load flow, then add character stats and portrait selection. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
+Stabilize the menu/new-game/area-transition/save-load flow, then expose ancestry and trait selection in the character creator UI with compatibility enforcement. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
 
 ## Always update this file when scope changes.
