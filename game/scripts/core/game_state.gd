@@ -36,7 +36,14 @@ func start_quest(quest_id: String, stage_id: String = "accepted") -> void:
 	if not active_quest_ids.has(quest_id):
 		active_quest_ids.append(quest_id)
 		GameLog.info("QUEST", "Quest activated: %s" % quest_id, {"quest_id": quest_id})
-	set_quest_stage(quest_id, stage_id)
+	if get_quest_stage(quest_id) == "not_started":
+		set_quest_stage(quest_id, stage_id)
+	else:
+		GameLog.info("QUEST", "Quest already has progress; start_quest did not overwrite %s" % quest_id, {
+			"quest_id": quest_id,
+			"existing_stage": get_quest_stage(quest_id),
+			"requested_stage": stage_id
+		})
 
 func set_quest_stage(quest_id: String, stage_id: String) -> void:
 	var old_stage := get_quest_stage(quest_id)
