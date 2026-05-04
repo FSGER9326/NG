@@ -1,0 +1,44 @@
+{"category":"BOOT","log_dir":"C:/Users/User/NG/debug/latest","message":"NG log session started: main_menu","session":"main_menu","time":0.011,"type":"log"}
+{"category":"BOOT","message":"NG booting","time":0.015,"type":"log"}
+{"category":"DATA","count":7,"message":"Loading bootstrap data","time":0.026,"type":"log"}
+{"path":"res://areas/wolfpine_road/area.json","time":0.037,"type":"json_loaded"}
+{"path":"res://data/actors/npcs/captain_renna.json","time":0.049,"type":"json_loaded"}
+{"path":"res://data/actors/companions/brannoc.json","time":0.06,"type":"json_loaded"}
+{"path":"res://data/actors/enemies/border_bandit.json","time":0.069,"type":"json_loaded"}
+{"path":"res://data/items/weapons/border_iron_sword.json","time":0.079,"type":"json_loaded"}
+{"path":"res://data/quests/main/missing_caravan.json","time":0.087,"type":"json_loaded"}
+{"path":"res://data/factions/factions.json","time":0.096,"type":"json_loaded"}
+{"category":"DATA","keys":["area","npc","companion","enemy","item","quest","factions"],"message":"Bootstrap data loaded","time":0.106,"type":"log"}
+{"category":"BOOT","keys":["area","npc","companion","enemy","item","quest","factions"],"message":"Loaded bootstrap data","time":0.115,"type":"log"}
+{"category":"MENU","message":"Main menu shown","time":0.144,"type":"log"}
+{"category":"SCENARIO","message":"Step 1: assert_screen","step":{"screen":"main_menu","type":"assert_screen"},"step_index":1,"time":0.155,"type":"log"}
+{"action":{"screen":"main_menu","type":"assert_screen"},"category":"SCENARIO","message":"Running main action assert_screen","time":0.166,"type":"log"}
+{"category":"ASSERT","message":"Screen OK: main_menu","time":0.175,"type":"log"}
+{"category":"SCENARIO","message":"Step 2: press_menu","step":{"button":"new_game","type":"press_menu"},"step_index":2,"time":0.185,"type":"log"}
+{"action":{"button":"new_game","type":"press_menu"},"category":"SCENARIO","message":"Running main action press_menu","time":0.194,"type":"log"}
+{"category":"MENU","message":"Character creator shown","time":0.218,"type":"log"}
+{"category":"SCENARIO","message":"Step 3: assert_screen","step":{"screen":"character_creator","type":"assert_screen"},"step_index":3,"time":0.23,"type":"log"}
+{"action":{"screen":"character_creator","type":"assert_screen"},"category":"SCENARIO","message":"Running main action assert_screen","time":0.24,"type":"log"}
+{"category":"ASSERT","message":"Screen OK: character_creator","time":0.25,"type":"log"}
+{"category":"SCENARIO","message":"Step 4: set_character_name","step":{"name":"Test Wanderer","type":"set_character_name"},"step_index":4,"time":0.259,"type":"log"}
+{"action":{"name":"Test Wanderer","type":"set_character_name"},"category":"SCENARIO","message":"Running main action set_character_name","time":0.269,"type":"log"}
+{"category":"SCENARIO","message":"Step 5: select_origin","step":{"origin":"Caravan Guard","type":"select_origin"},"step_index":5,"time":0.28,"type":"log"}
+{"action":{"origin":"Caravan Guard","type":"select_origin"},"category":"SCENARIO","message":"Running main action select_origin","time":0.294,"type":"log"}
+{"category":"SCENARIO","message":"Selected origin: Caravan Guard","time":0.307,"type":"log"}
+{"category":"SCENARIO","message":"Step 6: select_archetype","step":{"archetype":"Scout","type":"select_archetype"},"step_index":6,"time":0.316,"type":"log"}
+{"action":{"archetype":"Scout","type":"select_archetype"},"category":"SCENARIO","message":"Running main action select_archetype","time":0.326,"type":"log"}
+{"category":"SCENARIO","message":"Selected archetype: Scout","time":0.335,"type":"log"}
+{"category":"SCENARIO","message":"Step 7: press_menu","step":{"button":"start_journey","type":"press_menu"},"step_index":7,"time":0.349,"type":"log"}
+{"action":{"button":"start_journey","type":"press_menu"},"category":"SCENARIO","message":"Running main action press_menu","time":0.358,"type":"log"}
+{"archetype":"Scout","category":"CHARACTER","message":"Created player profile","name":"Test Wanderer","origin":"Caravan Guard","time":0.368,"type":"log"}
+{"category":"GAME","message":"Started new game","player_profile":{"archetype":"Scout","name":"Test Wanderer","origin":"Caravan Guard"},"time":0.38,"type":"log"}
+{"category":"SCENARIO","message":"Step 8: assert_screen","step":{"screen":"game","type":"assert_screen"},"step_index":8,"time":0.399,"type":"log"}
+{"action":{"screen":"game","type":"assert_screen"},"category":"SCENARIO","message":"Running main action assert_screen","time":0.409,"type":"log"}
+{"category":"ASSERT","message":"Screen OK: game","time":0.419,"type":"log"}
+{"category":"SCENARIO","message":"Step 9: assert_player_profile","step":{"archetype":"Scout","name":"Test Wanderer","origin":"Caravan Guard","type":"assert_player_profile"},"step_index":9,"time":0.428,"type":"log"}
+{"action":{"archetype":"Scout","name":"Test Wanderer","origin":"Caravan Guard","type":"assert_player_profile"},"category":"SCENARIO","message":"Running main action assert_player_profile","time":0.439,"type":"log"}
+{"category":"ASSERT","message":"Player profile OK","player_profile":{"archetype":"Scout","name":"Test Wanderer","origin":"Caravan Guard"},"time":0.449,"type":"log"}
+{"category":"SCENARIO","message":"Step 10: assert_area","step":{"area_id":"wolfpine_road","type":"assert_area"},"step_index":10,"time":0.458,"type":"log"}
+{"action":{"area_id":"wolfpine_road","type":"assert_area"},"category":"SCENARIO","message":"Running main action assert_area","time":0.469,"type":"log"}
+{"category":"SCENARIO","level":"error","message":"ERROR: Step failed: 10","step":{"area_id":"wolfpine_road","type":"assert_area"},"step_index":10,"time":0.484,"type":"log"}
+{"category":"SCENARIO","level":"error","message":"ERROR: Scenario failed: main_menu_new_game","time":0.497,"type":"log"}
