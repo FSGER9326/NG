@@ -37,7 +37,10 @@ var dialogue_text_label: RichTextLabel
 var dialogue_choices_box: VBoxContainer
 
 func _ready() -> void:
-	GameLog.start_session("area_controller")
+	if not GameLog.is_started():
+		GameLog.start_session("area_controller")
+	else:
+		GameLog.info("BOOT", "AreaController joined existing log session", {"area_id": area_id})
 	GameLog.info("BOOT", "AreaController ready", {"area_id": area_id})
 	data_loader = DataLoader.new()
 	game_state = GameState.new()
@@ -63,27 +66,32 @@ func _unhandled_input(event: InputEvent) -> void:
 func _build_runtime_nodes() -> void:
 	background_layer = ColorRect.new()
 	background_layer.name = "PlaceholderBackground"
-	background_layer.color = Color(0.035, 0.045, 0.035, 1.0)
+	background_layer.color = Color(0.035, 0.045, 0.035, 0.82)
 	background_layer.position = Vector2.ZERO
 	background_layer.size = Vector2(1280, 720)
+	background_layer.z_index = -20
 	add_child(background_layer)
 
 	label_layer = Node2D.new()
 	label_layer.name = "LabelLayer"
+	label_layer.z_index = 20
 	add_child(label_layer)
 
 	hotspot_layer = Node2D.new()
 	hotspot_layer.name = "HotspotLayer"
+	hotspot_layer.z_index = 30
 	add_child(hotspot_layer)
 
 	actor_layer = Node2D.new()
 	actor_layer.name = "ActorLayer"
+	actor_layer.z_index = 40
 	add_child(actor_layer)
 
 	player_marker = Label.new()
 	player_marker.name = "PlayerMarker"
 	player_marker.text = "◆ party"
 	player_marker.position = Vector2(180, 540)
+	player_marker.z_index = 50
 	player_marker.add_theme_font_size_override("font_size", 18)
 	CrpgTheme.apply_label(player_marker, true)
 	add_child(player_marker)
@@ -92,6 +100,7 @@ func _build_runtime_nodes() -> void:
 	debug_label.name = "DebugLabel"
 	debug_label.position = Vector2(24, 24)
 	debug_label.custom_minimum_size = Vector2(620, 80)
+	debug_label.z_index = 80
 	debug_label.text = "NG area prototype"
 	CrpgTheme.apply_label(debug_label)
 	add_child(debug_label)
@@ -105,6 +114,7 @@ func _build_quest_panel() -> void:
 	quest_panel.name = "QuestPanel"
 	quest_panel.position = Vector2(900, 24)
 	quest_panel.size = Vector2(340, 140)
+	quest_panel.z_index = 80
 	CrpgTheme.apply_dark_panel(quest_panel)
 	add_child(quest_panel)
 
@@ -126,6 +136,7 @@ func _build_dialogue_panel() -> void:
 	dialogue_panel.name = "DialoguePanel"
 	dialogue_panel.position = Vector2(24, 430)
 	dialogue_panel.size = Vector2(760, 260)
+	dialogue_panel.z_index = 90
 	dialogue_panel.visible = false
 	CrpgTheme.apply_panel(dialogue_panel)
 	add_child(dialogue_panel)
