@@ -4,8 +4,10 @@ const DataLoader = preload("res://game/scripts/core/data_loader.gd")
 const AreaScene = preload("res://game/scenes/area/area_scene.tscn")
 const CrpgTheme = preload("res://game/scripts/ui/crpg_theme.gd")
 const GameLog = preload("res://game/scripts/core/game_log.gd")
+const SaveSystem = preload("res://game/scripts/core/save_system.gd")
 
 var data_loader: DataLoader
+var save_system: SaveSystem
 var current_area: Node2D
 var menu_root: Control
 var character_creator_root: Control
@@ -22,6 +24,7 @@ func _ready() -> void:
 	GameLog.start_session("main_menu")
 	GameLog.info("BOOT", "NG booting")
 	data_loader = DataLoader.new()
+	save_system = SaveSystem.new()
 	var load_result := data_loader.load_bootstrap_data()
 	GameLog.info("BOOT", "Loaded bootstrap data", {"keys": load_result.keys()})
 	_show_main_menu()
@@ -71,10 +74,10 @@ func _show_main_menu() -> void:
 
 	root.add_child(_spacer(18))
 	root.add_child(_make_menu_button("New Game", _show_character_creator))
-	var load_button := _make_menu_button("Load Game (coming soon)", _on_load_game_pressed)
-	load_button.disabled = true
+	var load_button := _make_menu_button("Load Game", _on_load_game_pressed)
+	load_button.disabled = not save_system.has_save()
 	root.add_child(load_button)
-	var save_button := _make_menu_button("Save Game (in-game soon)", _on_save_game_pressed)
+	var save_button := _make_menu_button("Save Game (available in-game)", _on_save_game_pressed)
 	save_button.disabled = true
 	root.add_child(save_button)
 	root.add_child(_make_menu_button("Quit", _on_quit_pressed))
@@ -85,7 +88,7 @@ func _show_main_menu() -> void:
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	CrpgTheme.apply_label(note)
 	root.add_child(note)
-	GameLog.info("MENU", "Main menu shown")
+	GameLog.info("MENU", "Main menu shown", {"has_save": save_system.has_save()})
 
 func _show_character_creator() -> void:
 	_clear_current_screen()
@@ -204,6 +207,63 @@ func _start_game() -> void:
 	add_child(current_area)
 	GameLog.info("GAME", "Started new game", {"player_profile": player_profile})
 
+func _start_game_from_save(save_data: Dictionary) -> bool:
+	if save_data.is_empty():
+		GameLog.error("SAVE", "Cannot start game from empty save data")
+		return false
+	_clear_current_screen()
+	player_profile = _dictionary_from(save_data.get("player_profile", player_profile))
+	current_area = AreaScene.instantiate()
+	current_area.name = "CurrentArea"
+	add_child(current_area)
+	_apply_save_to_current_area(save_data)
+	GameLog.info("SAVE", "Started game from save", {"player_profile": player_profile, "area_id": String(save_data.get("area_id", ""))})
+	return true
+
+func _build_save_data() -> Dictionary:
+	var save_data := {
+		"player_profile": player_profile.duplicate(true),
+		"area_id": "",
+		"player_position": [],
+		"game_state": {}
+	}
+	if current_area == null:
+		return save_data
+	save_data["area_id"] = String(current_area.get("area_id"))
+	var player_marker: Node = current_area.get("player_marker")
+	if player_marker != null and player_marker is Node2D:
+		save_data["player_position"] = _vec2_to_array((player_marker as Node2D).position)
+	var area_game_state = current_area.get("game_state")
+	if area_game_state != null and area_game_state.has_method("to_debug_dict"):
+		save_data["game_state"] = area_game_state.to_debug_dict()
+	return save_data
+
+func _apply_save_to_current_area(save_data: Dictionary) -> void:
+	if current_area == null:
+		return
+	var target_area_id := String(save_data.get("area_id", "wolfpine_road"))
+	if target_area_id.is_empty():
+		target_area_id = "wolfpine_road"
+	if current_area.has_method("load_area"):
+		current_area.load_area(target_area_id, "south_road")
+	var area_game_state = current_area.get("game_state")
+	var game_state_data := _dictionary_from(save_data.get("game_state", {}))
+	if area_game_state != null and area_game_state.has_method("apply_save_data"):
+		area_game_state.apply_save_data(game_state_data)
+	var quest_system = current_area.get("quest_system")
+	if quest_system != null:
+		quest_system.quest_states = _dictionary_from(game_state_data.get("quest_stages", {}))
+	var player_marker: Node = current_area.get("player_marker")
+	var player_position := _array_to_vec2(save_data.get("player_position", []))
+	if player_marker != null and player_marker is Node2D and player_position != Vector2.ZERO:
+		(player_marker as Node2D).position = player_position
+		current_area.set("move_target", player_position)
+		current_area.set("has_move_target", false)
+	if current_area.has_method("_update_quest_tracker"):
+		current_area.call("_update_quest_tracker")
+	if current_area.has_method("write_debug_state"):
+		current_area.write_debug_state("state_latest.json")
+
 func run_debug_action(action: Dictionary) -> bool:
 	var action_type := String(action.get("type", ""))
 	GameLog.info("SCENARIO", "Running main action %s" % action_type, {"action": action})
@@ -221,8 +281,14 @@ func run_debug_action(action: Dictionary) -> bool:
 					return false
 				_start_new_game_from_creator(character_name_edit, origin_options, archetype_options)
 				return true
+			if button == "load_game":
+				return _load_game()
 			GameLog.error("SCENARIO", "Unknown menu button: %s" % button, {"button": button})
 			return false
+		"save_game":
+			return _save_game()
+		"load_game":
+			return _load_game()
 		"set_character_name":
 			if character_name_edit == null:
 				GameLog.error("SCENARIO", "Cannot set character name; creator is not open")
@@ -257,9 +323,22 @@ func write_debug_state(file_name: String = "state_latest.json") -> void:
 		"screen": _get_current_screen(),
 		"player_profile": player_profile.duplicate(true),
 		"has_current_area": current_area != null,
-		"current_area_id": String(current_area.get("area_id")) if current_area != null else ""
+		"current_area_id": String(current_area.get("area_id")) if current_area != null else "",
+		"has_save": save_system.has_save() if save_system != null else false
 	}
 	GameLog.write_state_dump(file_name, data)
+
+func _save_game() -> bool:
+	if current_area == null:
+		GameLog.warning("SAVE", "Cannot save without an active area")
+		return false
+	return save_system.write_save(_build_save_data())
+
+func _load_game() -> bool:
+	var save_data := save_system.read_save()
+	if save_data.is_empty():
+		return false
+	return _start_game_from_save(save_data)
 
 func _assert_screen(expected_screen: String) -> bool:
 	var actual_screen := _get_current_screen()
@@ -333,11 +412,26 @@ func _spacer(height: int) -> Control:
 	return spacer
 
 func _on_load_game_pressed() -> void:
-	GameLog.info("MENU", "Load Game pressed, but saves are not implemented yet")
+	if not _load_game():
+		GameLog.warning("MENU", "Load Game pressed, but no valid save was loaded")
 
 func _on_save_game_pressed() -> void:
-	GameLog.info("MENU", "Save Game pressed, but saves are not implemented yet")
+	if not _save_game():
+		GameLog.warning("MENU", "Save Game pressed, but no game was saved")
 
 func _on_quit_pressed() -> void:
 	GameLog.info("MENU", "Quit pressed")
 	get_tree().quit()
+
+func _dictionary_from(value: Variant) -> Dictionary:
+	if typeof(value) == TYPE_DICTIONARY:
+		return value.duplicate(true)
+	return {}
+
+func _array_to_vec2(value: Variant) -> Vector2:
+	if typeof(value) == TYPE_ARRAY and value.size() >= 2:
+		return Vector2(float(value[0]), float(value[1]))
+	return Vector2.ZERO
+
+func _vec2_to_array(value: Vector2) -> Array:
+	return [value.x, value.y]
