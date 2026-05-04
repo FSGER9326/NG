@@ -13,16 +13,18 @@ Future chats should start by reading:
 1. `docs/PROJECT_STATUS.md`
 2. `docs/ROADMAP.md`
 3. `docs/GAME_DESIGN.md`
-4. `docs/ART_BIBLE.md`
-5. `docs/BUGFIXING.md`
-6. `docs/ASSET_POLICY.md`
+4. `docs/STORY_BIBLE.md`
+5. `docs/ART_BIBLE.md`
+6. `docs/BUGFIXING.md`
+7. `docs/ASSET_POLICY.md`
+8. `docs/CHARACTER_CREATION.md`
 
 ## How to request work in a new chat
 
 Use this prompt:
 
 ```text
-Open GitHub repo FSGER9326/NG. Read docs/PROJECT_STATUS.md, docs/ROADMAP.md, docs/WORKFLOW.md, and docs/BUGFIXING.md first. Continue from the current roadmap. Keep changes small, update PROJECT_STATUS if priorities change, and validate JSON with tools/validate_project.py.
+Open GitHub repo FSGER9326/NG. Read docs/PROJECT_STATUS.md, docs/ROADMAP.md, docs/WORKFLOW.md, docs/STORY_BIBLE.md, and docs/BUGFIXING.md first. Continue from the current roadmap. Keep changes small, update PROJECT_STATUS if priorities change, and validate JSON with tools/validate_project.py.
 ```
 
 ## Development rules
@@ -35,6 +37,7 @@ Open GitHub repo FSGER9326/NG. Read docs/PROJECT_STATUS.md, docs/ROADMAP.md, doc
 - Do not rely on hidden Godot editor state.
 - Add or update validation when a new data format is introduced.
 - Do not add large raw asset dumps directly to the repo.
+- Start story content from grounded local stakes before connecting it to faction pressure or old-law mythology.
 
 ## Recommended branch pattern
 
@@ -43,6 +46,7 @@ Open GitHub repo FSGER9326/NG. Read docs/PROJECT_STATUS.md, docs/ROADMAP.md, doc
 - `feature/dialogue-system`
 - `feature/combat-prototype`
 - `content/wolfpine-village`
+- `content/story-bible`
 - `assets/ui-foundation`
 
 ## Best collaboration model
@@ -62,7 +66,7 @@ The web ChatGPT project instructions should be short and procedural, not a full 
 Suggested project instruction:
 
 ```text
-For the NG RPG project, GitHub repo FSGER9326/NG is the source of truth. Before work, read docs/PROJECT_STATUS.md, docs/ROADMAP.md, docs/WORKFLOW.md, and docs/BUGFIXING.md. Prefer small text-first changes. Keep game content data-driven in JSON/Markdown/GDScript. Update PROJECT_STATUS.md and ROADMAP.md when priorities or scope change. Always preserve low-spec Godot 4 Compatibility renderer target.
+For the NG RPG project, GitHub repo FSGER9326/NG is the source of truth. Before work, read docs/PROJECT_STATUS.md, docs/ROADMAP.md, docs/WORKFLOW.md, docs/BUGFIXING.md, docs/ASSET_POLICY.md, and docs/STORY_BIBLE.md. Prefer small text-first changes. Keep game content data-driven in JSON/Markdown/GDScript. Update PROJECT_STATUS.md and ROADMAP.md when priorities or scope change. Always preserve low-spec Godot 4 Compatibility renderer target.
 ```
 
 ## What project sources should contain
@@ -72,8 +76,10 @@ If using ChatGPT Project Sources, upload or sync only high-level stable docs:
 - `docs/PROJECT_STATUS.md`
 - `docs/ROADMAP.md`
 - `docs/GAME_DESIGN.md`
+- `docs/STORY_BIBLE.md`
 - `docs/ART_BIBLE.md`
 - `docs/WORKFLOW.md`
 - `docs/BUGFIXING.md`
+- `docs/CHARACTER_CREATION.md`
 
 Do not rely on project sources for code truth. Code truth stays in GitHub.
