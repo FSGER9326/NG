@@ -53,6 +53,7 @@ SKILLS = {
 ATTRIBUTES = {"might", "finesse", "resolve", "wits", "presence", "occult"}
 MENU_BUTTONS = {"new_game", "start_journey", "load_game"}
 SCREENS = {"main_menu", "character_creator", "game"}
+ANCESTRIES = {"Border Human", "Fair Young Elf", "Ashen Dwarf", "Mire Halfling"}
 ORIGINS = {
     "Border Drifter",
     "Failed Squire",
@@ -72,6 +73,17 @@ ARCHETYPES = {
     "Mage Apprentice",
     "Barber-Surgeon",
     "Oathbound Warden",
+}
+TRAITS = {
+    "Steady Under Fire",
+    "Quick-Eyed",
+    "Silver-Tongued",
+    "Scarred Veteran",
+    "Scholarly",
+    "Brawny",
+    "Delicate Bearing",
+    "Arcane Sensitive",
+    "Hard to Read",
 }
 
 
@@ -393,14 +405,20 @@ def check_scenario_step(path: Path, step: dict[str, Any], step_type: str, step_i
         case "set_character_name":
             if not isinstance(step.get("name"), str):
                 errors.append(f"Scenario set_character_name missing name in {path.relative_to(ROOT)} step {step_index}")
+        case "select_ancestry":
+            if step.get("ancestry") not in ANCESTRIES:
+                errors.append(f"Scenario select_ancestry has unknown ancestry in {path.relative_to(ROOT)} step {step_index}: {step.get('ancestry')}")
         case "select_origin":
             if step.get("origin") not in ORIGINS:
                 errors.append(f"Scenario select_origin has unknown origin in {path.relative_to(ROOT)} step {step_index}: {step.get('origin')}")
         case "select_archetype":
             if step.get("archetype") not in ARCHETYPES:
                 errors.append(f"Scenario select_archetype has unknown archetype in {path.relative_to(ROOT)} step {step_index}: {step.get('archetype')}")
+        case "select_trait":
+            if step.get("trait") not in TRAITS:
+                errors.append(f"Scenario select_trait has unknown trait in {path.relative_to(ROOT)} step {step_index}: {step.get('trait')}")
         case "assert_player_profile":
-            for field in ["name", "origin", "archetype", "background", "class", "trait", "tag"]:
+            for field in ["name", "ancestry", "origin", "archetype", "background", "class", "trait", "tag"]:
                 if field in step and not isinstance(step.get(field), str):
                     errors.append(f"Scenario assert_player_profile field {field} must be string in {path.relative_to(ROOT)} step {step_index}")
         case _:
