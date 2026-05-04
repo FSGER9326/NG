@@ -396,6 +396,8 @@ func run_debug_action(action: Dictionary) -> bool:
 			var trait_ok := _select_option_by_text(trait_options, String(action.get("trait", "")), "trait")
 			_update_creator_compatibility()
 			return trait_ok
+		"assert_creator_warning_contains":
+			return _assert_creator_warning_contains(String(action.get("text", "")))
 		"assert_player_profile":
 			return _assert_player_profile(action)
 		"assert_area":
@@ -443,6 +445,17 @@ func _assert_screen(expected_screen: String) -> bool:
 		GameLog.error("ASSERT", "Screen mismatch: expected %s got %s" % [expected_screen, actual_screen], {"expected": expected_screen, "actual": actual_screen})
 		return false
 	GameLog.info("ASSERT", "Screen OK: %s" % expected_screen)
+	return true
+
+func _assert_creator_warning_contains(expected_text: String) -> bool:
+	if compatibility_warning_label == null:
+		GameLog.error("ASSERT", "Creator warning label is missing")
+		return false
+	var actual_text := compatibility_warning_label.text
+	if not actual_text.contains(expected_text):
+		GameLog.error("ASSERT", "Creator warning mismatch: expected text containing %s got %s" % [expected_text, actual_text], {"expected": expected_text, "actual": actual_text})
+		return false
+	GameLog.info("ASSERT", "Creator warning contains: %s" % expected_text)
 	return true
 
 func _get_current_screen() -> String:
