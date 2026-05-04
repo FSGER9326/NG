@@ -33,7 +33,7 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Basic flag-setting effect
 - [x] Reusable dialogue flag and quest-stage checks
 - [x] Dialogue condition validation
-- [ ] Skill check format
+- [x] Skill check format
 
 ## Milestone 0.4 — Frontend shell
 
@@ -93,6 +93,13 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 4. Choose it.
 5. Quest tracker should show `missing_caravan: reported_clue`.
 
+### Skill-gated dialogue path
+
+1. Start a new game.
+2. Click `@ captain_renna`.
+3. The perception-gated dialogue choice `You look like you expected the caravan to vanish.` should be visible with the starter party's perception value.
+4. Choosing it should open Renna's pressure-read branch.
+
 ### Area transition path
 
 1. Start a new game.
@@ -109,6 +116,6 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 ## Next target
 
-Stabilize the menu/new-game/area-transition flow, then add save/load and a simple skill-check format. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
+Stabilize the menu/new-game/area-transition flow, then add save/load and character stats/portrait selection. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
 
 ## Always update this file when scope changes.
