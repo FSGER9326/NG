@@ -28,8 +28,9 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 - [x] Dialogue UI prototype
 - [x] Dialogue node navigation
-- [x] Quest start effect debug handling
-- [ ] Quest stage update stored in game state
+- [x] Quest start effect stored in game state
+- [x] Quest stage update stored in game state
+- [x] Basic flag-setting effect
 - [ ] Flag checks
 - [ ] Skill check format
 
@@ -50,8 +51,17 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [ ] One companion recruitable
 - [ ] One quest completable
 
+## Current first playable test path
+
+1. Launch the game in Godot.
+2. Click `@ captain_renna`.
+3. Choose the work dialogue option.
+4. Quest tracker should show `missing_caravan: accepted`.
+5. Click `Old Road Shrine`.
+6. Quest tracker should show `missing_caravan: found_wreck`.
+
 ## Next target
 
-Test the current Godot state. If it launches, the next practical task is storing quest state in `GameState` and wiring dialogue effects into that state rather than only printing debug text.
+Test the current Godot state. If it launches, the next practical task is either adding dialogue flag/skill checks or building the first tiny combat prototype.
 
 ## Always update this file when scope changes.
