@@ -1,0 +1,9 @@
+ D debug_reports/latest/game_exit_code.txt
+ M debug_reports/latest/git_commit.txt
+ M debug_reports/latest/git_status.txt
+ D debug_reports/latest/report_type.txt
+ D debug_reports/latest/run_id.txt
+ D debug_reports/latest/timestamp.txt
+ D debug_reports/latest/validation_exit_code.txt
+?? Godot_v4.6.2-stable_win64.exe
+?? Godot_v4.6.2-stable_win64_console.exe
