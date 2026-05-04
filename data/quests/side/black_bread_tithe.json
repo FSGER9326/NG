@@ -1,0 +1,37 @@
+{
+  "id": "black_bread_tithe",
+  "title": "Black Bread Tithe",
+  "start_stage": "not_started",
+  "description": "Wolfpine's bread has turned black, gritty, and thin. Villagers blame the miller, but the marked grain sacks and guard seals suggest the hunger has been counted before it reached the oven.",
+  "stages": {
+    "not_started": {
+      "summary": "The party has not investigated Wolfpine's spoiled bread."
+    },
+    "accepted": {
+      "summary": "The party heard complaints about black bread in Wolfpine's market."
+    },
+    "checked_market": {
+      "summary": "The party inspected the market stall and found ash-thinned loaves beside underweight grain sacks."
+    },
+    "found_guard_tithe": {
+      "summary": "The party found guard tithe marks on sacks that should have gone to the village ovens."
+    },
+    "exposed_guard": {
+      "summary": "The party exposed the guard's extra grain tithe."
+    },
+    "brokered_ration": {
+      "summary": "The party pushed Wolfpine toward a ration compromise instead of a public accusation."
+    },
+    "resolved": {
+      "summary": "The black bread dispute has been resolved."
+    }
+  },
+  "completion_flags": ["black_bread_resolved"],
+  "rewards": {
+    "xp": 80,
+    "gold": 20,
+    "reputation": {
+      "wolfpine_guard": -1
+    }
+  }
+}
