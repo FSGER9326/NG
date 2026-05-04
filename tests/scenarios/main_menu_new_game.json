@@ -2,7 +2,7 @@
   "id": "main_menu_new_game",
   "name": "Main Menu New Game Flow",
   "root_scene": "main",
-  "description": "Verifies that the game boots to the main menu, opens the data-driven character creator, stores a profile with ancestry/background/class/trait tags, and starts the Wolfpine Road prototype.",
+  "description": "Verifies that the game boots to the main menu, opens the data-driven character creator, stores a profile with ancestry/background/class/trait tags, applies it to game state, and starts the Wolfpine Road prototype.",
   "steps": [
     {
       "type": "assert_screen",
@@ -61,6 +61,16 @@
     {
       "type": "assert_player_profile",
       "tag": "trait.quick_eyed"
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "labor.guard",
+      "value": true
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "trait.quick_eyed",
+      "value": true
     },
     {
       "type": "assert_area",
