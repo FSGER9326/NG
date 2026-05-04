@@ -1,0 +1,3 @@
+Wolfpine Village placeholder occlusion mask notes.
+
+No occlusion mask is active yet. Keep as lightweight text until art pipeline is ready.
