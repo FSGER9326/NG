@@ -1,0 +1,73 @@
+{
+  "id": "wolfpine_caravan_guard_renna_reaction",
+  "name": "Wolfpine Caravan Guard Renna Reaction",
+  "root_scene": "main",
+  "description": "Verifies that a Caravan Guard profile applies its character tags to GameState and unlocks Renna's caravan-road reaction branch.",
+  "steps": [
+    {
+      "type": "assert_screen",
+      "screen": "main_menu"
+    },
+    {
+      "type": "press_menu",
+      "button": "new_game"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "character_creator"
+    },
+    {
+      "type": "set_character_name",
+      "name": "Road Tester"
+    },
+    {
+      "type": "select_ancestry",
+      "ancestry": "Border Human"
+    },
+    {
+      "type": "select_origin",
+      "origin": "Caravan Guard"
+    },
+    {
+      "type": "select_archetype",
+      "archetype": "Scout"
+    },
+    {
+      "type": "select_trait",
+      "trait": "Quick-Eyed"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "game"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "background.caravan_guard",
+      "value": true
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I have walked caravan roads. Tell me where yours broke pattern."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then I should look for a sign meant for drivers, not tracks meant for hunters."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I know the marks."
+    }
+  ]
+}
