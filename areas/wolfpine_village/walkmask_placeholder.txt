@@ -1,0 +1,3 @@
+Placeholder walkmask notes for Wolfpine Village.
+
+Final art must ship with a matching walkmask/collision definition generated from layout_constraints.json.
