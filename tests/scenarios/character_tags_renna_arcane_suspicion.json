@@ -1,0 +1,69 @@
+{
+  "id": "character_tags_renna_arcane_suspicion",
+  "name": "Character Tags Unlock Renna Arcane Suspicion Reaction",
+  "root_scene": "main",
+  "description": "Verifies that a magic-tagged player profile can access Renna's arcane suspicion branch.",
+  "steps": [
+    {
+      "type": "assert_screen",
+      "screen": "main_menu"
+    },
+    {
+      "type": "press_menu",
+      "button": "new_game"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "character_creator"
+    },
+    {
+      "type": "set_character_name",
+      "name": "Arcane Tester"
+    },
+    {
+      "type": "select_ancestry",
+      "ancestry": "Fair Young Elf"
+    },
+    {
+      "type": "select_origin",
+      "origin": "Cloister Novice"
+    },
+    {
+      "type": "select_archetype",
+      "archetype": "Mage Apprentice"
+    },
+    {
+      "type": "select_trait",
+      "trait": "Arcane Sensitive"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "game"
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "magic.arcane",
+      "value": true
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "You keep looking at my hands. Is it the magic?"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I am here to solve the road, not frighten your village."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I will start at the shrine."
+    }
+  ]
+}
