@@ -1,0 +1,35 @@
+name: Build Windows prototype
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Download Godot export templates
+        run: |
+          curl -L -o godot.zip https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          curl -L -o templates.tpz https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
+          unzip godot.zip
+          chmod +x Godot_v4.3-stable_linux.x86_64
+          mkdir -p ~/.local/share/godot/export_templates/4.3.stable
+          unzip templates.tpz
+          cp -r templates/* ~/.local/share/godot/export_templates/4.3.stable/
+
+      - name: Validate project data
+        run: python tools/validate_project.py
+
+      - name: Export Windows build
+        run: |
+          mkdir -p exports/windows
+          ./Godot_v4.3-stable_linux.x86_64 --headless --path . --export-release "Windows Desktop" exports/windows/NG.exe
+
+      - name: Upload Windows build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NG-windows-prototype
+          path: exports/windows/
