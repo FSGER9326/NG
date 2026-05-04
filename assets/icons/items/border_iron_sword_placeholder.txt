@@ -1,0 +1,2 @@
+Icon placeholder: Border Iron Sword.
+Future asset target: 64x64 item icon.
