@@ -7,6 +7,17 @@
       "text": "Brannoc keeps one hand near his bowstring and watches the treeline more than your face.",
       "choices": [
         {
+          "text": "You saw the mule at the shrine. The toll disc in its eye.",
+          "next": "toll_disc_reaction",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag_id": "wolfpine_shrine_seen_toll_disc",
+              "value": true
+            }
+          ]
+        },
+        {
           "text": "You know these woods?",
           "next": "woods"
         },
@@ -23,6 +34,61 @@
         },
         {
           "text": "Stay sharp.",
+          "next": "end"
+        }
+      ]
+    },
+    "toll_disc_reaction": {
+      "text": "Brannoc rubs rain from his beard and will not look toward the shrine. \"Bad enough to kill a beast. Worse to make a message of it. Caravan men use coins for luck sometimes, aye, but not like that. Not unless someone wants the road blamed, or feared.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "brannoc_guilt_hint_1",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "You sound like you have seen travelers left behind before.",
+          "next": "left_behind_pressure"
+        },
+        {
+          "text": "Then someone is using old fear as cover.",
+          "next": "old_fear_cover"
+        },
+        {
+          "text": "Leave it for now.",
+          "next": "end"
+        }
+      ]
+    },
+    "left_behind_pressure": {
+      "text": "His jaw works once before he answers. \"Roads teach everyone the same lesson. You can save the cart, save the horses, or save the screaming. Anyone says they always saved all three is selling comfort.\"",
+      "choices": [
+        {
+          "text": "That sounds like confession, not advice.",
+          "next": "not_confession_yet"
+        },
+        {
+          "text": "Useful lesson. Ugly one.",
+          "next": "end"
+        }
+      ]
+    },
+    "not_confession_yet": {
+      "text": "\"Then do not buy it yet.\" He checks the road behind you. \"Find your caravan first. Judge ghosts after.\"",
+      "choices": [
+        {
+          "text": "For now.",
+          "next": "end"
+        }
+      ]
+    },
+    "old_fear_cover": {
+      "text": "\"Maybe. Fear is cheap. Old fear is cheaper. Folk bring their own stories and do half the work for you.\"",
+      "choices": [
+        {
+          "text": "Then we look for who profits from panic.",
           "next": "end"
         }
       ]
