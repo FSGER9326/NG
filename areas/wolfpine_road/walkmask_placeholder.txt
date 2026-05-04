@@ -1,0 +1,2 @@
+Placeholder for future Wolfpine Road walkmask image.
+Convention: white = walkable, black = blocked. JSON polygons may replace this in early prototypes.
