@@ -1,0 +1,32 @@
+name: PR hygiene
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  pr-hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: List changed files
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            git diff --name-only "origin/$GITHUB_BASE_REF...HEAD" > changed_files.txt
+          else
+            git diff --name-only HEAD~1...HEAD > changed_files.txt || true
+          fi
+          cat changed_files.txt
+
+      - name: Check PR scope hygiene
+        run: python tools/check_pr_hygiene.py changed_files.txt
