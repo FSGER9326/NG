@@ -1,0 +1,37 @@
+{
+  "id": "wolfpine_report_shrine_to_renna",
+  "name": "Wolfpine Report Shrine Clue To Renna",
+  "description": "Verifies that Captain Renna exposes a flag-gated dialogue response after the Old Road Shrine has been inspected.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "old_shrine"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_old_shrine_inspected",
+      "value": true
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I found fresh wagon ruts by the old shrine."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "reported_clue"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Who knew the caravan route?"
+    }
+  ]
+}
