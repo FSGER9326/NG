@@ -1,0 +1,70 @@
+{
+  "id": "character_creator_ancestry_trait_tags",
+  "name": "Character Creator Ancestry and Trait Tags",
+  "root_scene": "main",
+  "description": "Verifies that ancestry and trait selections are included in the built player profile and exposed as runtime tags.",
+  "steps": [
+    {
+      "type": "assert_screen",
+      "screen": "main_menu"
+    },
+    {
+      "type": "press_menu",
+      "button": "new_game"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "character_creator"
+    },
+    {
+      "type": "set_character_name",
+      "name": "Elven Tester"
+    },
+    {
+      "type": "select_ancestry",
+      "ancestry": "Fair Young Elf"
+    },
+    {
+      "type": "select_origin",
+      "origin": "Cloister Novice"
+    },
+    {
+      "type": "select_archetype",
+      "archetype": "Mage Apprentice"
+    },
+    {
+      "type": "select_trait",
+      "trait": "Arcane Sensitive"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_player_profile",
+      "name": "Elven Tester",
+      "ancestry": "Fair Young Elf",
+      "origin": "Cloister Novice",
+      "archetype": "Mage Apprentice",
+      "background": "Cloister Novice",
+      "class": "Mage Apprentice",
+      "trait": "Arcane Sensitive",
+      "tag": "ancestry.elf"
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "ancestry.elf",
+      "value": true
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "magic.arcane",
+      "value": true
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "trait.arcane_sensitive",
+      "value": true
+    }
+  ]
+}
