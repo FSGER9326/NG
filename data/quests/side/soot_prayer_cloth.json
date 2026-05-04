@@ -1,0 +1,31 @@
+{
+  "id": "soot_prayer_cloth",
+  "title": "Soot on the Prayer Cloth",
+  "start_stage": "not_started",
+  "description": "Old-faith prayer cloths near Wolfpine's chapel yard have been burned from the branches. The ash looks like desecration, but one unburned scrap carries a mark too deliberate to be grief.",
+  "stages": {
+    "not_started": {
+      "summary": "The party has not noticed the burned prayer cloths near Wolfpine's chapel yard."
+    },
+    "accepted": {
+      "summary": "The party began looking into the burned prayer cloths."
+    },
+    "found_unburned_cloth": {
+      "summary": "The party found one prayer cloth that did not burn, marked beneath the ash."
+    },
+    "revealed_mark": {
+      "summary": "The party recognized the ash mark as a deliberate signal, not simple vandalism."
+    },
+    "resolved": {
+      "summary": "The prayer cloth matter has been resolved."
+    }
+  },
+  "completion_flags": ["soot_prayer_cloth_resolved"],
+  "rewards": {
+    "xp": 70,
+    "gold": 0,
+    "reputation": {
+      "old_faith": 1
+    }
+  }
+}
