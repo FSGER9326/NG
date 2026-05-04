@@ -27,7 +27,8 @@ REFERENCE_KEYS = {
     "icon",
 }
 
-CONDITION_TYPES = {"flag", "quest_stage", "not", "all", "any"}
+CONDITION_TYPES = {"flag", "quest_stage", "skill_check", "not", "all", "any"}
+SKILLS = {"perception", "survival", "resolve", "lore", "stealth"}
 MENU_BUTTONS = {"new_game", "start_journey"}
 SCREENS = {"main_menu", "character_creator", "game"}
 ORIGINS = {"Border Drifter", "Failed Squire", "Village Outcast", "Caravan Guard"}
@@ -218,6 +219,15 @@ def check_condition(path: Path, condition: Any, index: ProjectIndex, errors: lis
             errors.append(f"quest_stage condition references missing quest in {path.relative_to(ROOT)} at {context}: {quest_id}")
         elif not isinstance(stage, str) or stage not in index.quests[quest_id]:
             errors.append(f"quest_stage condition references missing stage in {path.relative_to(ROOT)} at {context}: {quest_id}.{stage}")
+    elif condition_type == "skill_check":
+        skill_id = condition.get("skill_id")
+        difficulty = condition.get("difficulty")
+        if not isinstance(skill_id, str) or not skill_id:
+            errors.append(f"skill_check condition missing skill_id in {path.relative_to(ROOT)} at {context}")
+        elif skill_id not in SKILLS:
+            errors.append(f"skill_check condition references unknown skill in {path.relative_to(ROOT)} at {context}: {skill_id}")
+        if not isinstance(difficulty, int) or difficulty < 0:
+            errors.append(f"skill_check condition difficulty must be a non-negative integer in {path.relative_to(ROOT)} at {context}")
     elif condition_type == "not":
         check_condition(path, condition.get("condition"), index, errors, f"{context} > not")
     elif condition_type in {"all", "any"}:
