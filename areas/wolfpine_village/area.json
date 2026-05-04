@@ -1,16 +1,19 @@
 {
   "id": "wolfpine_village",
   "name": "Wolfpine Village",
-  "type": "village",
-  "description": "A hungry border village of shuttered windows, wet timber, and guarded storehouses. This is a first playable transition stub.",
+  "type": "village_hub",
+  "description": "A frontier village square of timber houses, old stone foundations, a central well, market stalls, and a small chapel path beyond the pines. This is the first village art-planning stub.",
   "background": "areas/wolfpine_village/background_placeholder.txt",
-  "occlusion": "",
-  "walkmask": "",
-  "hotspots": "",
-  "actors": "",
-  "default_music": "music/village_rain_low",
+  "occlusion": "areas/wolfpine_village/occlusion_placeholder.txt",
+  "walkmask": "areas/wolfpine_village/walkmask_placeholder.txt",
+  "hotspots": "areas/wolfpine_village/hotspots.json",
+  "actors": "areas/wolfpine_village/actors.json",
+  "default_music": "music/village_wolfpine_low",
   "entry_points": {
-    "south_road": [210, 560],
-    "village_square": [610, 360]
-  }
+    "south_road": [190, 625],
+    "village_square": [640, 455],
+    "north_gate": [1085, 175]
+  },
+  "art_brief": "areas/wolfpine_village/ART_BRIEF.md",
+  "layout_constraints": "areas/wolfpine_village/layout_constraints.json"
 }
