@@ -29,6 +29,12 @@ SKILL_IDS = {
     "arcana",
     "command",
 }
+REQUIRED_STARTER_PORTRAIT_IDS = {
+    "portrait_weathered_drifter_01",
+    "portrait_disgraced_squire_01",
+    "portrait_village_outcast_01",
+    "portrait_caravan_guard_01",
+}
 
 
 def load_json(path: Path) -> Any:
@@ -80,6 +86,11 @@ def validate_item(errors: list[str], section: str, item: Any, seen_ids: set[str]
 
     validate_tags(errors, item_id, item.get("tags"), known_tags)
 
+    explicit_portrait_id = item.get("portrait_id")
+    if explicit_portrait_id is not None:
+        if not isinstance(explicit_portrait_id, str) or not explicit_portrait_id.startswith("portrait_"):
+            errors.append(f"{item_id}.portrait_id must use portrait_ id prefix")
+
     modifiers = item.get("modifiers", {})
     if modifiers and not isinstance(modifiers, dict):
         errors.append(f"{item_id}.modifiers must be an object")
@@ -97,20 +108,20 @@ def validate_item(errors: list[str], section: str, item: Any, seen_ids: set[str]
                 errors.append(f"{item_id}.{field} has malformed tag: {tag}")
 
 
-def validate_portraits(errors: list[str], known_tags: set[str]) -> int:
+def validate_portraits(errors: list[str], known_tags: set[str]) -> set[str]:
     if not PORTRAITS_PATH.exists():
         errors.append(f"Missing portrait metadata: {PORTRAITS_PATH.relative_to(ROOT)}")
-        return 0
+        return set()
 
     try:
         data = load_json(PORTRAITS_PATH)
     except json.JSONDecodeError as exc:
         errors.append(f"Invalid JSON in {PORTRAITS_PATH.relative_to(ROOT)}: {exc}")
-        return 0
+        return set()
 
     if not isinstance(data, dict):
         errors.append("Portrait metadata root must be an object")
-        return 0
+        return set()
 
     for field in ("id", "name", "description"):
         if not isinstance(data.get(field), str) or not data.get(field):
@@ -119,7 +130,7 @@ def validate_portraits(errors: list[str], known_tags: set[str]) -> int:
     portraits = data.get("portraits")
     if not isinstance(portraits, list) or not portraits:
         errors.append("portraits must be a non-empty list")
-        return 0
+        return set()
 
     seen_ids: set[str] = set()
     for index, portrait in enumerate(portraits, start=1):
@@ -147,7 +158,25 @@ def validate_portraits(errors: list[str], known_tags: set[str]) -> int:
             if isinstance(tag, str) and tag not in known_tags and not tag.startswith(("portrait.", "mood.")):
                 errors.append(f"{portrait_id} uses non-portrait tag not produced by character creation data: {tag}")
 
-    return len(seen_ids)
+    missing_required = REQUIRED_STARTER_PORTRAIT_IDS - seen_ids
+    for portrait_id in sorted(missing_required):
+        errors.append(f"Missing required starter portrait id used by CharacterProfileBuilder: {portrait_id}")
+
+    return seen_ids
+
+
+def validate_background_portrait_refs(errors: list[str], data: dict[str, Any], portrait_ids: set[str]) -> None:
+    backgrounds = data.get("backgrounds", [])
+    if not isinstance(backgrounds, list):
+        return
+    for background in backgrounds:
+        if not isinstance(background, dict):
+            continue
+        portrait_id = background.get("portrait_id")
+        if portrait_id is None:
+            continue
+        if isinstance(portrait_id, str) and portrait_id not in portrait_ids:
+            errors.append(f"{background.get('id', 'unknown')}.portrait_id references missing portrait: {portrait_id}")
 
 
 def main() -> int:
@@ -179,7 +208,8 @@ def main() -> int:
         for item in items:
             validate_item(errors, section, item, seen_ids, known_tags)
 
-    portrait_count = validate_portraits(errors, known_tags)
+    portrait_ids = validate_portraits(errors, known_tags)
+    validate_background_portrait_refs(errors, data, portrait_ids)
 
     # Second pass: compatibility tags should either be produced somewhere now or use an accepted future-facing prefix.
     future_prefixes = ("occult.", "morale.", "diplomacy.", "medicine.", "armor.", "stealth.", "survival.")
@@ -202,7 +232,7 @@ def main() -> int:
     print(
         "NG character creation validation passed: "
         f"{sum(len(data.get(section, [])) for section in SECTIONS)} options, "
-        f"{len(known_tags)} produced tags, {portrait_count} portraits."
+        f"{len(known_tags)} produced tags, {len(portrait_ids)} portraits."
     )
     return 0
 
