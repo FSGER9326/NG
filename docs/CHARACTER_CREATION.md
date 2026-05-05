@@ -33,6 +33,8 @@ Each layer contributes:
 - optional `requires_any_tags`
 - optional `blocked_by_tags`
 
+Backgrounds also contribute a required `portrait_id` that points to the starter portrait catalog.
+
 ## Current profile fields
 
 The built player profile currently carries:
@@ -61,19 +63,33 @@ compatibility_warnings
 
 ## Portrait metadata
 
-Portrait support is currently text-first. The builder assigns a starter `portrait_id` and display `portrait` name from the selected background. This gives save/load and future UI a durable field before final portrait art exists.
+Portrait support is currently text-first. Background records in `data/character_creation/character_creation.json` define the selected `portrait_id`. Runtime loads `data/character_creation/portraits.json` and attaches its `portraits` list to the creation data before building profiles, so `CharacterProfileBuilder` can resolve the display `portrait` name from the portrait catalog.
 
-Current starter mapping:
+Current starter background mapping is data-driven:
 
 ```text
 Border Drifter -> portrait_weathered_drifter_01
 Failed Squire -> portrait_disgraced_squire_01
 Village Outcast -> portrait_village_outcast_01
 Caravan Guard -> portrait_caravan_guard_01
-Other backgrounds -> portrait_weathered_drifter_01 fallback
+War Veteran -> portrait_weathered_drifter_01
+Cloister Novice -> portrait_disgraced_squire_01
+Mill-Born Laborer -> portrait_weathered_drifter_01
+Exiled Noble -> portrait_disgraced_squire_01
+Street Informant -> portrait_village_outcast_01
 ```
 
 This is not yet a full manual portrait-selection UI. The next UI step is to expose portrait choices explicitly and let the player override the background-derived default.
+
+## Portrait validation
+
+`tools/validate_character_creation.py` validates:
+
+- every background has a `portrait_id`
+- every background `portrait_id` starts with `portrait_`
+- every background `portrait_id` exists in `data/character_creation/portraits.json`
+- required starter portrait IDs exist
+- portrait metadata has IDs, names, summaries, and valid tags
 
 ## Tags
 
