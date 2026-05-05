@@ -25,6 +25,9 @@ jobs:
       - name: Validate character creation data
         run: python tools/validate_character_creation.py
 
+      - name: Validate portrait metadata
+        run: python tools/validate_portraits.py
+
       - name: Validate asset kit manifests
         run: python tools/validate_asset_kits.py
 
