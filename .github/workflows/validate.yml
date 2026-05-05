@@ -34,6 +34,9 @@ jobs:
       - name: Validate GDScript helper contracts
         run: python tools/validate_gdscript_helpers.py
 
+      - name: Validate Issue 13 portrait patcher
+        run: python tools/validate_issue_13_patcher.py
+
       - name: Validate asset kit manifests
         run: python tools/validate_asset_kits.py
 
