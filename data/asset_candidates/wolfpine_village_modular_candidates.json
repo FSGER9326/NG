@@ -1,0 +1,224 @@
+{
+  "id": "wolfpine_village_modular_candidates",
+  "name": "Wolfpine Village Modular and Finishing Candidate Ledger",
+  "target_area": "wolfpine_village",
+  "target_kit": "wolfpine_village_starter_kit",
+  "purpose": "Tracks Batch 02 modular architecture/clutter candidates and Batch 03 ground/depth finishing candidates before promotion into the canonical Wolfpine Village kit.",
+  "source_policy": {
+    "allowed_source_types": [
+      "generated_image",
+      "hand_painted_project_asset",
+      "cc0_external_asset_modified",
+      "public_domain_external_asset_modified"
+    ],
+    "disallowed_source_types": [
+      "unclear_license",
+      "noncommercial_asset",
+      "raw_full_scene_cutout",
+      "ai_image_without_generation_notes"
+    ],
+    "notes": "Do not promote candidates into canonical asset paths until source, license/generation notes, cleanup status, and review status are recorded."
+  },
+  "candidate_statuses": [
+    "candidate_needed",
+    "candidate_generated",
+    "needs_cleanup",
+    "needs_review",
+    "accepted_for_kit",
+    "rejected"
+  ],
+  "required_candidate_fields": [
+    "asset_id",
+    "batch_id",
+    "candidate_id",
+    "status",
+    "source_type",
+    "source_notes",
+    "candidate_file",
+    "target_file",
+    "cleanup_notes",
+    "review_notes"
+  ],
+  "candidates": [
+    {
+      "asset_id": "wolfpine_door_heavy_01",
+      "batch_id": "wolfpine_village_batch_02",
+      "candidate_id": "wolfpine_door_heavy_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 02 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_02/wolfpine_door_heavy_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/architecture/wolfpine_door_heavy_01.png",
+      "cleanup_notes": [
+        "Crop with margin for facade overlay use.",
+        "Preserve ground-level threshold shadow.",
+        "Normalize perspective to Batch 01 building facades."
+      ],
+      "review_notes": [
+        "Reject if it reads as a window or hatch instead of a door.",
+        "Reject if perspective does not match the facade ground plane.",
+        "Reject if it looks pasted-on after overlay testing."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_window_shuttered_01",
+      "batch_id": "wolfpine_village_batch_02",
+      "candidate_id": "wolfpine_window_shuttered_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 02 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_02/wolfpine_window_shuttered_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/architecture/wolfpine_window_shuttered_01.png",
+      "cleanup_notes": [
+        "Crop with transparent-ready margin.",
+        "Keep window visibly smaller than Batch 02 heavy door.",
+        "Normalize timber/plaster edge treatment for facade overlay."
+      ],
+      "review_notes": [
+        "Reject if it can be mistaken for a door.",
+        "Reject if glow becomes too bright or horror-like.",
+        "Reject if repeated copies create obvious pattern noise."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_fence_segment_01",
+      "batch_id": "wolfpine_village_batch_02",
+      "candidate_id": "wolfpine_fence_segment_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 02 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_02/wolfpine_fence_segment_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/architecture/wolfpine_fence_segment_01.png",
+      "cleanup_notes": [
+        "Crop with repeat-friendly side margins.",
+        "Remove hard background edges.",
+        "Check repeat readability with mirrored and offset copies."
+      ],
+      "review_notes": [
+        "Reject if it reads as a solid wall instead of low fence.",
+        "Reject if it blocks required route readability when used on path edges.",
+        "Reject if perspective drifts from the village ground plane."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_firewood_stack_01",
+      "batch_id": "wolfpine_village_batch_02",
+      "candidate_id": "wolfpine_firewood_stack_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 02 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_02/wolfpine_firewood_stack_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/props/wolfpine_firewood_stack_01.png",
+      "cleanup_notes": [
+        "Crop tightly enough for compact clutter placement.",
+        "Normalize contact shadow.",
+        "Simplify noisy log edges if needed."
+      ],
+      "review_notes": [
+        "Reject if it becomes too large for doorway-side dressing.",
+        "Reject if silhouette is unreadable at game scale.",
+        "Reject if it cannot sit beside forge and cottage facades."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_barrel_01",
+      "batch_id": "wolfpine_village_batch_02",
+      "candidate_id": "wolfpine_barrel_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 02 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_02/wolfpine_barrel_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/clutter/wolfpine_barrel_01.png",
+      "cleanup_notes": [
+        "Crop with small transparent margin.",
+        "Remove readable markings if generated accidentally.",
+        "Normalize barrel scale against crate candidate."
+      ],
+      "review_notes": [
+        "Reject if it looks modern or metal-industrial.",
+        "Reject if it has readable labels or symbols.",
+        "Reject if it is too large for repeated clutter dressing."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_crate_01",
+      "batch_id": "wolfpine_village_batch_02",
+      "candidate_id": "wolfpine_crate_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 02 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_02/wolfpine_crate_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/clutter/wolfpine_crate_01.png",
+      "cleanup_notes": [
+        "Crop with small transparent margin.",
+        "Remove readable markings if generated accidentally.",
+        "Normalize scale against barrel candidate."
+      ],
+      "review_notes": [
+        "Reject if perspective does not match the ground plane.",
+        "Reject if it has readable text or shipping marks.",
+        "Reject if edges are too pixel-sharp or too blurry."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_grass_clump_01",
+      "batch_id": "wolfpine_village_batch_03",
+      "candidate_id": "wolfpine_grass_clump_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 03 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_03/wolfpine_grass_clump_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/vegetation/wolfpine_grass_clump_01.png",
+      "cleanup_notes": [
+        "Keep transparent-ready soft edges.",
+        "Reduce contrast if it pops above buildings and props.",
+        "Test repeated placement along mud/cobble edges."
+      ],
+      "review_notes": [
+        "Reject if vegetation is neon or high-fantasy saturated.",
+        "Reject if repeated copies create obvious tiling.",
+        "Reject if it reads as a collision object by default."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_mud_rut_decal_01",
+      "batch_id": "wolfpine_village_batch_03",
+      "candidate_id": "wolfpine_mud_rut_decal_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 03 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_03/wolfpine_mud_rut_decal_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/decals/wolfpine_mud_rut_decal_01.png",
+      "cleanup_notes": [
+        "Remove any hard rectangular crop boundary.",
+        "Keep decal subtle enough for gameplay readability.",
+        "Test over road, mud, and cobble bases."
+      ],
+      "review_notes": [
+        "Reject if it looks like a sticker.",
+        "Reject if it obscures path readability.",
+        "Reject if it resembles modern tire marks."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_branch_occluder_01",
+      "batch_id": "wolfpine_village_batch_03",
+      "candidate_id": "wolfpine_branch_occluder_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 03 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_03/wolfpine_branch_occluder_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/occluders/wolfpine_branch_occluder_01.png",
+      "cleanup_notes": [
+        "Preserve natural transparent gaps between needles and branches.",
+        "Keep focus softer than gameplay objects.",
+        "Test against doors, exits, and hotspot markers before promotion."
+      ],
+      "review_notes": [
+        "Reject if it hides doors, exits, or important hotspots.",
+        "Reject if it reads as a ground prop instead of foreground occluder.",
+        "Reject if it dominates the scene edge too strongly."
+      ]
+    }
+  ]
+}
