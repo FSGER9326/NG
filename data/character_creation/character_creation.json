@@ -68,6 +68,7 @@
       "id": "background_border_drifter",
       "name": "Border Drifter",
       "summary": "You survived by reading roads, weather, campfires, and desperate faces.",
+      "portrait_id": "portrait_weathered_drifter_01",
       "tags": ["background.drifter", "region.border", "survival.road", "social.rootless", "reputation.unknown"],
       "modifiers": {
         "skills": {"survival": 1, "perception": 1}
@@ -77,6 +78,7 @@
       "id": "background_failed_squire",
       "name": "Failed Squire",
       "summary": "You learned banners, blades, etiquette, and shame before being cast out of a knightly household.",
+      "portrait_id": "portrait_disgraced_squire_01",
       "tags": ["background.failed_squire", "training.martial", "social.disgraced", "nobility.adjacent", "code.chivalric"],
       "modifiers": {
         "skills": {"athletics": 1, "command": 1}
@@ -86,6 +88,7 @@
       "id": "background_village_outcast",
       "name": "Village Outcast",
       "summary": "Your own people decided you were unlucky, dangerous, cursed, or simply too useful to treat kindly.",
+      "portrait_id": "portrait_village_outcast_01",
       "tags": ["background.outcast", "social.shunned", "hardship.social", "reputation.unlucky"],
       "modifiers": {
         "skills": {"stealth": 1, "streetwise": 1}
@@ -95,6 +98,7 @@
       "id": "background_caravan_guard",
       "name": "Caravan Guard",
       "summary": "You walked beside wagons through rain, mud, toll gates, and ambush country.",
+      "portrait_id": "portrait_caravan_guard_01",
       "tags": ["background.caravan_guard", "training.martial", "survival.road", "labor.guard", "reputation.practical"],
       "modifiers": {
         "skills": {"perception": 1, "survival": 1, "athletics": 1}
@@ -104,6 +108,7 @@
       "id": "background_war_veteran",
       "name": "War Veteran",
       "summary": "You came home from a lord's war with habits that peace cannot easily tolerate.",
+      "portrait_id": "portrait_weathered_drifter_01",
       "tags": ["background.veteran", "combat.veteran", "training.martial", "trauma.war", "reputation.dangerous"],
       "modifiers": {
         "attributes": {"resolve": 1},
@@ -114,6 +119,7 @@
       "id": "background_cloister_novice",
       "name": "Cloister Novice",
       "summary": "You copied forbidden marginalia, learned old doctrine, and left before vows could become chains.",
+      "portrait_id": "portrait_disgraced_squire_01",
       "tags": ["background.cloister", "education.formal", "faith.trained", "social.sheltered", "reputation.bookish"],
       "modifiers": {
         "skills": {"lore": 2, "medicine": 1}
@@ -123,6 +129,7 @@
       "id": "background_mill_born_laborer",
       "name": "Mill-Born Laborer",
       "summary": "You know the weight of wet grain, split timber, broken gears, and masters who count every breath.",
+      "portrait_id": "portrait_weathered_drifter_01",
       "tags": ["background.laborer", "labor.heavy", "frame.work_hardened", "social.common", "hardship.poverty"],
       "modifiers": {
         "attributes": {"might": 1},
@@ -133,6 +140,7 @@
       "id": "background_exiled_noble",
       "name": "Exiled Noble",
       "summary": "Your name once opened doors. Now it opens old debts, old knives, and old expectations.",
+      "portrait_id": "portrait_disgraced_squire_01",
       "tags": ["background.noble", "social.noble", "social.exile", "education.formal", "reputation.political"],
       "modifiers": {
         "attributes": {"presence": 1},
@@ -143,6 +151,7 @@
       "id": "background_street_informant",
       "name": "Street Informant",
       "summary": "You traded secrets before you were old enough to understand how many secrets trade back.",
+      "portrait_id": "portrait_village_outcast_01",
       "tags": ["background.informant", "social.underworld", "reputation.untrustworthy", "stealth.social"],
       "modifiers": {
         "skills": {"streetwise": 2, "stealth": 1}
