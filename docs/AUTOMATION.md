@@ -39,6 +39,7 @@ What it does:
 python tools/validate_project.py
 python tools/validate_character_creation.py
 python tools/validate_portraits.py
+python tools/validate_quest_seeds.py
 python tools/validate_asset_kits.py
 ```
 
@@ -49,6 +50,7 @@ Purpose:
 - catches missing common file references
 - catches character creation option/tag/modifier drift
 - catches text-first portrait metadata drift
+- catches quest seed bank structure drift
 - catches asset kit manifest drift
 
 ### 2. Godot smoke and scenario test
