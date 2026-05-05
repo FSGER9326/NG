@@ -16,8 +16,14 @@
     "found_shrine_clue": {
       "summary": "The party found an unnatural toll sign at the old shrine: a stamped disc pressed into a dead mule's eye."
     },
+    "found_carter_body": {
+      "summary": "The party found a dead carter in the pines, with his wounded dog still keeping vigil."
+    },
     "reported_clue": {
       "summary": "The party reported the old shrine clue to Captain Renna."
+    },
+    "reported_carter_body": {
+      "summary": "The party told Captain Renna about the dead carter and the dog that would not leave him."
     },
     "accused_guards": {
       "summary": "The party suspects Wolfpine's own guards are involved."
