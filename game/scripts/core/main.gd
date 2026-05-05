@@ -551,7 +551,7 @@ func _get_current_screen() -> String:
 	return "unknown"
 
 func _assert_player_profile(action: Dictionary) -> bool:
-	for key in ["name", "ancestry", "origin", "archetype", "background", "class", "trait"]:
+	for key in ["name", "ancestry", "origin", "archetype", "background", "class", "trait", "portrait_id", "portrait"]:
 		if action.has(key):
 			var expected := String(action[key])
 			var actual := String(player_profile.get(key, ""))
