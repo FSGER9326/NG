@@ -394,6 +394,18 @@ def check_scenario_step(path: Path, step: dict[str, Any], step_type: str, step_i
                 errors.append(f"Scenario assert_player_tag references unknown tag in {path.relative_to(ROOT)} step {step_index}: {tag_id}")
             if "value" in step and not isinstance(step.get("value"), bool):
                 errors.append(f"Scenario assert_player_tag value must be boolean in {path.relative_to(ROOT)} step {step_index}")
+        case "assert_party_skill":
+            skill_id = step.get("skill_id")
+            if not isinstance(skill_id, str) or skill_id not in SKILLS:
+                errors.append(f"Scenario assert_party_skill references unknown skill in {path.relative_to(ROOT)} step {step_index}: {skill_id}")
+            if not isinstance(step.get("value"), int):
+                errors.append(f"Scenario assert_party_skill value must be integer in {path.relative_to(ROOT)} step {step_index}")
+        case "assert_player_attribute":
+            attribute_id = step.get("attribute_id")
+            if not isinstance(attribute_id, str) or attribute_id not in ATTRIBUTES:
+                errors.append(f"Scenario assert_player_attribute references unknown attribute in {path.relative_to(ROOT)} step {step_index}: {attribute_id}")
+            if not isinstance(step.get("value"), int):
+                errors.append(f"Scenario assert_player_attribute value must be integer in {path.relative_to(ROOT)} step {step_index}")
         case "assert_screen":
             if step.get("screen") not in SCREENS:
                 errors.append(f"Scenario assert_screen has unknown screen in {path.relative_to(ROOT)} step {step_index}: {step.get('screen')}")
