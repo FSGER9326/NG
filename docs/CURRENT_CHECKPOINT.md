@@ -3,7 +3,7 @@
 Date: 2026-05-05
 Source-of-truth repo: `FSGER9326/NG`
 Default branch: `main`
-Current `main` head during checkpoint: `fd67496bc1ba9753da1958c6527dda5dd873e696`
+Current `main` head during checkpoint: `54e01156c12ceea673c1efa217ac71e51fe807a8`
 
 ## Why this checkpoint exists
 
@@ -39,6 +39,7 @@ Read this file first, then read:
 - `tools/validate_quest_seeds.py`
 - `tools/validate_gdscript_helpers.py`
 - `tools/validate_asset_kits.py`
+- `tools/apply_issue_13_portrait_selection_patch.py`
 - CI and local update scripts that run the current validator set
 
 ## Branch integration status
@@ -53,6 +54,8 @@ During the latest branch audit:
 - `ai/scenario-profile-hardening` was reconciled by PR #29 and merged as `ccaefceb7bb47a9c2b0e2dbb99aadf4a4ed498c1`. The useful scenario additions were recreated on a fresh branch while preserving current `main` validator behavior.
 - PR #30 refreshed this checkpoint after profile-hardening integration.
 - PR #31 updated `docs/PROJECT_STATUS.md` so the main handoff lists profile/GameState bridge coverage, save/load hardening, and the new scenario assertion validation.
+- PR #35 added validator support for future portrait-selection scenario fields without adding a runtime-dependent scenario.
+- PR #36 completed the safe Issue #13 local patcher workflow so it now creates both the `main.gd` runtime patch and `tests/scenarios/character_creator_portrait_selection.json`.
 - The explicit portrait-selection branches (`feature/character-portrait-selection`, `feature/text-first-portrait-selection`, `feature/portrait-selection-helper`) are behind `main` with no unique commits. Issue #13 is not waiting in an unmerged branch.
 - `docs/final-cleanup-status`, `fix/scenario-canonical-background-ids`, `content/quest-seeds-fresh`, `content/quest-seeds-v2`, `feature/creator-unavailable-trait-reasons-v2`, and other v2/fresh cleanup branches checked in the audit are fully behind `main`.
 - `docs/update-character-creator-status`, `feature/creator-compatibility-explanations`, `feature/creator-compatibility-explanations-clean`, `tools/run-all-validators-in-update-scripts`, and old portrait/quest validation documentation branches are semantic duplicates of current `main` after squash merges.
@@ -94,21 +97,24 @@ Current support work for issue #13 is ready:
 - character creation and portrait validators cross-check portrait references
 - `PortraitCatalog` exists and is protected by `tools/validate_gdscript_helpers.py`
 - profile/game-state bridge and save/load scenarios now cover character tags, skills, and attributes
+- `tools/validate_project.py` validates future `select_portrait`, `portrait`, and `portrait_id` scenario fields against portrait metadata
+- `tools/apply_issue_13_portrait_selection_patch.py` applies the exact-context `main.gd` runtime patch and creates the matching scenario file
 
 Remaining issue #13 implementation scope:
 
-1. Load portrait metadata in `game/scripts/core/main.gd`.
-2. Add a portrait dropdown and summary label to the character creator.
-3. Populate portrait choices from `data/character_creation/portraits.json`.
-4. Use `PortraitCatalog.apply_to_profile()` before Start Journey.
-5. Add scenario/debug coverage for `select_portrait` and `portrait_id` / `portrait` assertions.
-6. Add `tests/scenarios/character_creator_portrait_selection.json`.
+1. Run `python tools/apply_issue_13_portrait_selection_patch.py` locally on a fresh runtime branch.
+2. Review the expected two-file diff:
+   - `game/scripts/core/main.gd`
+   - `tests/scenarios/character_creator_portrait_selection.json`
+3. Run the standard Python validators.
+4. Run the Godot scenario workflow or local debug bundle.
+5. Open and merge the final runtime PR if the new portrait-selection scenario passes.
 
 ## Important caution
 
 `game/scripts/core/main.gd` is a large file. The GitHub connector currently exposes full-file replacement for existing text files, so do not overwrite it casually. Prefer one of these approaches:
 
-1. Use a local patch workflow with exact context hunks.
+1. Use the local patcher: `python tools/apply_issue_13_portrait_selection_patch.py`.
 2. Use Git blob/tree primitives only if the exact current blob/tree data is available and the patch is mechanically verified.
 3. Keep changes small and test through scenario coverage.
 
