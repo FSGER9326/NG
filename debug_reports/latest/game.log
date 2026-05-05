@@ -1,3 +1,0 @@
-[0000.003] BOOT: NG log session started: scenario_test
-[0000.006] SCENARIO: Loading scenario: res://tests/scenarios/character_creator_ancestry_trait_tags.json
-[0000.082] SCENARIO: ERROR: Target scene does not expose run_debug_action().

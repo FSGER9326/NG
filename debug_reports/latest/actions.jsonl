@@ -1,3 +1,0 @@
-{"category":"BOOT","log_dir":"C:/Users/User/NG/debug/latest","message":"NG log session started: scenario_test","session":"scenario_test","time":0.005,"type":"log"}
-{"category":"SCENARIO","message":"Loading scenario: res://tests/scenarios/character_creator_ancestry_trait_tags.json","scenario_path":"res://tests/scenarios/character_creator_ancestry_trait_tags.json","time":0.018,"type":"log"}
-{"category":"SCENARIO","level":"error","message":"ERROR: Target scene does not expose run_debug_action().","target_scene":"res://game/scenes/main.tscn","time":0.084,"type":"log"}
