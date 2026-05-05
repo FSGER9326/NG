@@ -41,6 +41,7 @@ python tools/validate_character_creation.py
 python tools/validate_portraits.py
 python tools/validate_quest_seeds.py
 python tools/validate_gdscript_helpers.py
+python tools/validate_issue_13_patcher.py
 python tools/validate_asset_kits.py
 ```
 
@@ -53,6 +54,7 @@ Purpose:
 - catches text-first portrait metadata drift
 - catches quest seed bank structure drift
 - catches small GDScript helper contract drift
+- catches Issue #13 portrait-selector patcher drift against `main.gd`
 - catches asset kit manifest drift
 
 ### 2. Godot smoke and scenario test
@@ -168,7 +170,7 @@ tools/update_ng.ps1
 What they do:
 
 - pull the latest repo changes with Git
-- run the same Python data/helper validators used by CI
+- run the same Python data/helper/patcher validators used by CI
 - show an error if the local folder has conflicts or validation fails
 
 Best use:
