@@ -3,7 +3,7 @@
 Date: 2026-05-05
 Source-of-truth repo: `FSGER9326/NG`
 Default branch: `main`
-Current `main` head during checkpoint: `ccaefceb7bb47a9c2b0e2dbb99aadf4a4ed498c1`
+Current `main` head during checkpoint: `fd67496bc1ba9753da1958c6527dda5dd873e696`
 
 ## Why this checkpoint exists
 
@@ -51,6 +51,11 @@ During the latest branch audit:
 - `ci/validate-background-portrait-refs` was integrated by PR #27 and merged as `0de7bac31fb3e4e7379d46ef21d27d0a605397d4`.
 - The stale `cleanup/project-checkpoint-2026-05-04` branch was replaced by an up-to-date checkpoint in PR #28.
 - `ai/scenario-profile-hardening` was reconciled by PR #29 and merged as `ccaefceb7bb47a9c2b0e2dbb99aadf4a4ed498c1`. The useful scenario additions were recreated on a fresh branch while preserving current `main` validator behavior.
+- PR #30 refreshed this checkpoint after profile-hardening integration.
+- PR #31 updated `docs/PROJECT_STATUS.md` so the main handoff lists profile/GameState bridge coverage, save/load hardening, and the new scenario assertion validation.
+- The explicit portrait-selection branches (`feature/character-portrait-selection`, `feature/text-first-portrait-selection`, `feature/portrait-selection-helper`) are behind `main` with no unique commits. Issue #13 is not waiting in an unmerged branch.
+- `docs/final-cleanup-status`, `fix/scenario-canonical-background-ids`, `content/quest-seeds-fresh`, `content/quest-seeds-v2`, `feature/creator-unavailable-trait-reasons-v2`, and other v2/fresh cleanup branches checked in the audit are fully behind `main`.
+- `docs/update-character-creator-status`, `feature/creator-compatibility-explanations`, `feature/creator-compatibility-explanations-clean`, `tools/run-all-validators-in-update-scripts`, and old portrait/quest validation documentation branches are semantic duplicates of current `main` after squash merges.
 - The old Codex branch that changes scenario `background` assertions to internal background IDs should not be merged as-is. Current profiles keep `background` as the readable name and expose the internal ID separately as `background_id`.
 - Older portrait-validator, quest-seed, local-update-script, and creator-compatibility branches are mostly squash-merged duplicates or stale superseded branches; compare semantics before opening any PR from them.
 
