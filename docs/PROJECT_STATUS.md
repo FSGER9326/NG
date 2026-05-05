@@ -47,8 +47,9 @@ The repo currently contains:
 - New Game flow into a character creator
 - character creator UI: name, ancestry, background/origin, class/archetype, trait
 - data-driven character creation rules in `data/character_creation/character_creation.json`
-- character profile builder with tags, attributes, skills, and compatibility warnings
-- creator compatibility UI that shows theme conflicts and blocks incoherent builds from starting
+- text-first portrait metadata in `data/character_creation/portraits.json`
+- character profile builder with tags, attributes, skills, portrait defaults, and compatibility warnings
+- creator compatibility UI that shows readable theme conflicts and blocks incoherent builds from starting
 - reusable NPC reaction authoring rules in `data/reactions/npc_reaction_rules.json`
 - player profile/tag/attribute storage in `GameState`
 - player-tag and attribute dialogue conditions for NPC reactions and passive checks
@@ -73,11 +74,12 @@ The repo currently contains:
 - story implementation backlog: `docs/STORY_IMPLEMENTATION_BACKLOG.md`
 - validation script: `tools/validate_project.py`
 - character creation validation script: `tools/validate_character_creation.py`
+- portrait metadata validation script: `tools/validate_portraits.py`
 - asset-kit validation script: `tools/validate_asset_kits.py`
 - asset prompt exporter: `tools/export_asset_prompts.py`
 - debug/scenario runner: `tools/run_scenario_test.gd`
 - local debug bundle scripts
-- GitHub validation workflow, including asset-kit manifest validation
+- GitHub validation workflow, including character creation, portrait metadata, and asset-kit manifest validation
 
 ## Current testable build target
 
@@ -95,11 +97,14 @@ Expected character creation behavior:
 
 - Character creation data is loaded from `data/character_creation/character_creation.json`.
 - Ancestry, background, class, and trait choices contribute tags, attributes, and skills through `CharacterProfileBuilder`.
+- Portrait metadata is loaded from `data/character_creation/portraits.json` for text-first portrait IDs, names, summaries, and tags.
 - Old scenario fields `origin` and `archetype` remain mapped to `background` and `class` for compatibility.
 - Invalid or incoherent combinations are represented through tag requirements/blocks in data.
 - The creator previews compatibility warnings and blocks Start Journey when the built profile has compatibility warnings.
+- Unavailable traits are explained with readable theme labels rather than only raw trait names.
 - Example blocked build: `Fair Young Elf` + `Mage Apprentice` + `Brawny`.
 - Example recovery path: change `Brawny` to `Arcane Sensitive`, then Start Journey succeeds and adds `magic.arcane` / `trait.arcane_sensitive` tags.
+- Manual portrait selection is not implemented yet; issue #13 tracks exposing the existing text-first portrait metadata in the creator UI without requiring final portrait art.
 
 Expected Wolfpine Road behavior:
 
@@ -189,6 +194,7 @@ Run from repo root:
 ```bash
 python tools/validate_project.py
 python tools/validate_character_creation.py
+python tools/validate_portraits.py
 python tools/validate_asset_kits.py
 ```
 
@@ -204,6 +210,7 @@ The validators currently check:
 - scenario step references
 - main-menu scenario step shapes
 - character creation option IDs, tags, modifiers, and compatibility references
+- text-first portrait metadata IDs, names, summaries, and tags
 - asset-kit manifest structure and accepted asset file references
 
 ## Debug bundle
@@ -230,10 +237,11 @@ Bring the testable build to a clean local pass:
 2. Run `tools\collect_debug_bundle.bat`.
 3. Inspect `validation.log` and `scenario.log`.
 4. Fix any GDScript runtime errors found in the menu/new-game/area/dialogue paths.
-5. Continue toward save/load hardening and broader passive skill/tag-check content after the boot path is stable.
-6. Expand Wolfpine Road and Wolfpine Village content using `docs/STORY_BIBLE.md`, especially the missing caravan, Road Peace, Renna, Brannoc, hunger pressure, and early old-shrine clues.
-7. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
-8. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
+5. Implement issue #13 to expose text-first portrait selection in the character creator UI without requiring final portrait art.
+6. Continue toward save/load hardening and broader passive skill/tag-check content after the boot path is stable.
+7. Expand Wolfpine Road and Wolfpine Village content using `docs/STORY_BIBLE.md`, especially the missing caravan, Road Peace, Renna, Brannoc, hunger pressure, and early old-shrine clues.
+8. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
+9. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
 
 ## Working rule
 
