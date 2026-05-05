@@ -28,6 +28,18 @@
     "reported_clue": {
       "summary": "The party reported the old shrine clue to Captain Renna."
     },
+    "reported_carter_body": {
+      "summary": "The party told Captain Renna about the dead carter and the dog that would not leave him."
+    },
+    "reported_erased_name": {
+      "summary": "The party told Captain Renna that someone erased a passenger name from the caravan ledger."
+    },
+    "reported_smuggler_mark": {
+      "summary": "The party told Captain Renna about a cut-bark mark pointing toward Blackfen smuggler route knowledge."
+    },
+    "evidence_web_reported": {
+      "summary": "The party gave Captain Renna a wider evidence web: old shrine signs, a hidden body, an erased name, and a smuggler trail mark."
+    },
     "accused_guards": {
       "summary": "The party suspects Wolfpine's own guards are involved."
     },
