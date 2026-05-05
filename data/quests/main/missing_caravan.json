@@ -16,6 +16,12 @@
     "found_shrine_clue": {
       "summary": "The party found an unnatural toll sign at the old shrine: a stamped disc pressed into a dead mule's eye."
     },
+    "found_erased_name": {
+      "summary": "The party found a hidden ledger scrap showing that one caravan passenger's name was scraped from the manifest after the ink dried."
+    },
+    "found_smuggler_mark": {
+      "summary": "The party found a cut-bark trail mark near the shrine ruts, suggesting someone used smuggler route signs to divert the caravan."
+    },
     "found_carter_body": {
       "summary": "The party found a dead carter in the pines, with his wounded dog still keeping vigil."
     },
@@ -24,6 +30,15 @@
     },
     "reported_carter_body": {
       "summary": "The party told Captain Renna about the dead carter and the dog that would not leave him."
+    },
+    "reported_erased_name": {
+      "summary": "The party told Captain Renna that someone erased a passenger name from the caravan ledger."
+    },
+    "reported_smuggler_mark": {
+      "summary": "The party told Captain Renna about a cut-bark mark pointing toward Blackfen smuggler route knowledge."
+    },
+    "evidence_web_reported": {
+      "summary": "The party gave Captain Renna a wider evidence web: old shrine signs, a hidden body, an erased name, and a smuggler trail mark."
     },
     "accused_guards": {
       "summary": "The party suspects Wolfpine's own guards are involved."
