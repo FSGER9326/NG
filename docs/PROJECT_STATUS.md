@@ -65,6 +65,7 @@ The repo currently contains:
 - transition destination stub: `wolfpine_village`
 - Wolfpine Village art brief and layout constraints for BG2/Pillars-like village generation
 - Wolfpine Village starter asset kit README, metadata manifest, generation specs, prompt exporter, and validator
+- reusable quest seed bank: `docs/QUEST_SEEDS.md`
 - starter NPC: `captain_renna`
 - starter companion: `brannoc`
 - starter enemy: `border_bandit`
@@ -142,6 +143,7 @@ Expected story planning state:
 
 - `docs/STORY_BIBLE.md` defines the campaign premise, tone pillars, expandable story layers, Road Peace mystery, major factions, antagonists, companion concepts, and first playable module story target.
 - `docs/STORY_IMPLEMENTATION_BACKLOG.md` converts the story bible into small first-playable content tasks, flags, quest stages, scenario ideas, and writing constraints.
+- `docs/QUEST_SEEDS.md` provides reusable text-first side quest seeds; convert them into runtime JSON only after choosing one small implementation target and adding scenario coverage.
 - Future quest work should start from ordinary pressure first, then connect to faction pressure and the old-law layer.
 - Future companion work should prefer concrete moral flags and story consequences over a single generic approval meter.
 - Future Wolfpine Road and Wolfpine Village dialogue should support the missing-caravan mystery, Renna's hard choices, Brannoc's guilt, ranger/paladin realism, local hunger, and early Road Peace failure signs.
@@ -240,8 +242,9 @@ Bring the testable build to a clean local pass:
 5. Implement issue #13 to expose text-first portrait selection in the character creator UI without requiring final portrait art.
 6. Continue toward save/load hardening and broader passive skill/tag-check content after the boot path is stable.
 7. Expand Wolfpine Road and Wolfpine Village content using `docs/STORY_BIBLE.md`, especially the missing caravan, Road Peace, Renna, Brannoc, hunger pressure, and early old-shrine clues.
-8. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
-9. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
+8. Use `docs/QUEST_SEEDS.md` only as a seed bank until one entry is selected for JSON conversion with matching scenario coverage.
+9. Use `areas/wolfpine_village/ART_BRIEF.md`, `layout_constraints.json`, and the Wolfpine Village asset kit before generating final Wolfpine Village art.
+10. Generate prompt cards with `python tools/export_asset_prompts.py data/asset_kits/wolfpine_village_starter.json` before producing the first canonical asset candidates.
 
 ## Working rule
 
