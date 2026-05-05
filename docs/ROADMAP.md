@@ -55,7 +55,7 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Enforce compatibility blocks and requirements in the creator UI
 - [x] Add option filtering for incompatible traits in the creator UI
 - [x] Add richer compatibility explanation text in the creator UI
-- [ ] Character portrait selection — tracked in issue #13; metadata and CI validation are ready
+- [ ] Character portrait selection — tracked in issue #13; metadata, CI validation, and local readiness check are ready
 
 ## Milestone 0.5 — Combat prototype
 
@@ -123,7 +123,8 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 1. Run `python tools/validate_portraits.py`.
 2. Confirm `data/character_creation/portraits.json` has unique text-first portrait IDs, names, summaries, and tags.
-3. Implement issue #13 to expose these metadata choices in the creator UI without requiring final portrait art.
+3. Run `python tools/check_issue_13_patch_readiness.py` before applying the local runtime patch.
+4. Implement issue #13 to expose these metadata choices in the creator UI without requiring final portrait art.
 
 ### Basic quest path
 
