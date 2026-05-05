@@ -68,9 +68,11 @@ def main() -> int:
     if "var class_name" in legacy_content or "func _build_player_profile" in legacy_content:
         errors.append("legacy main.gd must not contain the old full runtime body or reserved class_name local")
 
-    expected_runtime_shim = 'extends "res://game/scripts/core/main_runtime_v2.gd"'
+    expected_runtime_shim = 'extends preload("res://game/scripts/core/main_runtime_v2.gd")'
     if expected_runtime_shim not in runtime_shim_content:
-        errors.append("main_runtime.gd should be a parse-safe shim extending main_runtime_v2.gd")
+        errors.append("main_runtime.gd should use resource-based inheritance: extends preload(\"res://game/scripts/core/main_runtime_v2.gd\")")
+    if "extends \"res://game/scripts/core/main_runtime_v2.gd\"" in runtime_shim_content:
+        errors.append("main_runtime.gd must not use quoted-path inheritance; Godot 4.6 local play could not resolve that form")
     if "var trait" in runtime_shim_content or "func _build_player_profile" in runtime_shim_content:
         errors.append("main_runtime.gd must not contain the old full runtime body or reserved trait local")
 
