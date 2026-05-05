@@ -7,6 +7,7 @@ This file is the main handoff point for future chats and AI agents.
 - Repo: `FSGER9326/NG`
 - Working title: **NG / New Game**
 - Narrative working title: **No Gods in the Pines**
+- Current working branch for profile/scenario hardening: `ai/scenario-profile-hardening`
 - Genre: low-spec pseudo-isometric party CRPG
 - Engine target: Godot 4.x, 2D, Compatibility renderer
 - Main implementation style: text-first, data-driven, AI-maintainable
@@ -47,11 +48,13 @@ The repo currently contains:
 - New Game flow into a character creator
 - character creator UI: name, ancestry, background/origin, class/archetype, trait
 - data-driven character creation rules in `data/character_creation/character_creation.json`
-- character profile builder with tags, attributes, skills, and compatibility warnings
+- starter text-first portrait metadata in `data/character_creation/portraits.json`
+- character profile builder with tags, attributes, skills, portrait metadata, and compatibility warnings
 - creator compatibility UI that shows theme conflicts and blocks incoherent builds from starting
 - reusable NPC reaction authoring rules in `data/reactions/npc_reaction_rules.json`
 - player profile/tag/attribute storage in `GameState`
 - player-tag and attribute dialogue conditions for NPC reactions and passive checks
+- profile-to-GameState bridge coverage in `tests/scenarios/character_profile_game_state_bridge.json`
 - Renna caravan-guard reaction branch gated by `background.caravan_guard`
 - Renna arcane-suspicion reaction branch gated by `magic.arcane`
 - Start Journey flow into the Wolfpine Road area prototype
@@ -72,12 +75,12 @@ The repo currently contains:
 - narrative story bible: `docs/STORY_BIBLE.md`
 - story implementation backlog: `docs/STORY_IMPLEMENTATION_BACKLOG.md`
 - validation script: `tools/validate_project.py`
-- character creation validation script: `tools/validate_character_creation.py`
+- character creation validation script: `tools/validate_character_creation.py`, including portrait metadata validation
 - asset-kit validation script: `tools/validate_asset_kits.py`
 - asset prompt exporter: `tools/export_asset_prompts.py`
 - debug/scenario runner: `tools/run_scenario_test.gd`
 - local debug bundle scripts
-- GitHub validation workflow, including asset-kit manifest validation
+- GitHub validation workflow, including project data, character creation data, and asset-kit manifest validation
 
 ## Current testable build target
 
@@ -94,12 +97,14 @@ Expected boot behavior:
 Expected character creation behavior:
 
 - Character creation data is loaded from `data/character_creation/character_creation.json`.
+- Starter portrait metadata is loaded/validated from `data/character_creation/portraits.json`.
 - Ancestry, background, class, and trait choices contribute tags, attributes, and skills through `CharacterProfileBuilder`.
 - Old scenario fields `origin` and `archetype` remain mapped to `background` and `class` for compatibility.
 - Invalid or incoherent combinations are represented through tag requirements/blocks in data.
 - The creator previews compatibility warnings and blocks Start Journey when the built profile has compatibility warnings.
 - Example blocked build: `Fair Young Elf` + `Mage Apprentice` + `Brawny`.
 - Example recovery path: change `Brawny` to `Arcane Sensitive`, then Start Journey succeeds and adds `magic.arcane` / `trait.arcane_sensitive` tags.
+- The profile bridge should apply tags, skills, and attributes into the live area `GameState` after Start Journey.
 
 Expected Wolfpine Road behavior:
 
@@ -153,11 +158,13 @@ Important current scenarios:
 
 ```text
 tests/scenarios/main_menu_new_game.json
+tests/scenarios/character_profile_game_state_bridge.json
 tests/scenarios/character_creator_ancestry_trait_tags.json
 tests/scenarios/character_creator_incompatible_combo.json
 tests/scenarios/character_creator_recover_from_incompatible_combo.json
 tests/scenarios/character_tags_renna_caravan_guard.json
 tests/scenarios/character_tags_renna_arcane_suspicion.json
+tests/scenarios/main_menu_save_load.json
 tests/scenarios/wolfpine_missing_caravan.json
 tests/scenarios/wolfpine_shrine_before_renna.json
 tests/scenarios/wolfpine_report_shrine_to_renna.json
@@ -170,10 +177,12 @@ These are intended to test:
 
 - main menu to character creator to new game
 - ancestry/background/class/trait tagged player profile creation
+- profile tags, party skills, and player attributes applied into live `GameState`
 - creator compatibility blocking for incoherent builds
 - recovery from an incoherent build by changing to a compatible trait
 - player-tag based Renna caravan-guard NPC reaction
 - player-tag based Renna arcane-suspicion NPC reaction
+- save/load preservation of player profile, profile-derived state, area, and quest stage
 - Renna quest acceptance
 - shrine inspection quest update
 - shrine-before-Renna quest regression protection
@@ -204,6 +213,7 @@ The validators currently check:
 - scenario step references
 - main-menu scenario step shapes
 - character creation option IDs, tags, modifiers, and compatibility references
+- starter portrait metadata IDs, names, summaries, and tags
 - asset-kit manifest structure and accepted asset file references
 
 ## Debug bundle
@@ -226,7 +236,7 @@ Upload that zip for AI-assisted bug analysis.
 
 Bring the testable build to a clean local pass:
 
-1. Pull latest repo state.
+1. Pull latest repo state or branch `ai/scenario-profile-hardening` for profile/scenario hardening review.
 2. Run `tools\collect_debug_bundle.bat`.
 3. Inspect `validation.log` and `scenario.log`.
 4. Fix any GDScript runtime errors found in the menu/new-game/area/dialogue paths.
