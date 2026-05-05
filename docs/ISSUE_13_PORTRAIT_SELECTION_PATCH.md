@@ -12,7 +12,7 @@ python tools/apply_issue_13_portrait_selection_patch.py
 
 The patcher refuses to run if the expected `main.gd` context has drifted or if the portrait selector already appears to be applied.
 
-## Intended runtime change
+## What the patcher changes
 
 The patcher updates `game/scripts/core/main.gd` to:
 
@@ -25,22 +25,29 @@ The patcher updates `game/scripts/core/main.gd` to:
 - support scenario/debug action `select_portrait`
 - allow `assert_player_profile` to check `portrait_id` and `portrait`
 
-## After running the patcher
-
-Review the diff, then add the scenario:
+The patcher also creates:
 
 ```text
 tests/scenarios/character_creator_portrait_selection.json
 ```
 
-The scenario should:
+The scenario checks that a coherent build can select the `Caravan Guard` portrait, start the game, load Wolfpine Road, and persist both:
 
-1. open the character creator
-2. choose a coherent character build
-3. select a non-default portrait by display name
-4. start the journey
-5. assert `portrait_id` and `portrait` in the player profile
-6. assert the Wolfpine Road area still loads
+```text
+portrait: Caravan Guard
+portrait_id: portrait_caravan_guard_01
+```
+
+## After running the patcher
+
+Review the diff before committing. The expected changed files are:
+
+```text
+game/scripts/core/main.gd
+tests/scenarios/character_creator_portrait_selection.json
+```
+
+Do not add final portrait art for this issue. This remains text-first metadata only.
 
 ## Validation after patch
 

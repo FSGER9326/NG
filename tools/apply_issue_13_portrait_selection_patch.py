@@ -18,6 +18,78 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MAIN_GD = ROOT / "game" / "scripts" / "core" / "main.gd"
+SCENARIO_PATH = ROOT / "tests" / "scenarios" / "character_creator_portrait_selection.json"
+
+PORTRAIT_SELECTION_SCENARIO = """{
+  "id": "character_creator_portrait_selection",
+  "name": "Character Creator Portrait Selection",
+  "root_scene": "main",
+  "description": "Verifies that the text-first portrait selector can choose portrait metadata and persist the selected portrait into the player profile when starting the game.",
+  "steps": [
+    {
+      "type": "assert_screen",
+      "screen": "main_menu"
+    },
+    {
+      "type": "press_menu",
+      "button": "new_game"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "character_creator"
+    },
+    {
+      "type": "set_character_name",
+      "name": "Portrait Tester"
+    },
+    {
+      "type": "select_ancestry",
+      "ancestry": "Border Human"
+    },
+    {
+      "type": "select_origin",
+      "origin": "Caravan Guard"
+    },
+    {
+      "type": "select_archetype",
+      "archetype": "Scout"
+    },
+    {
+      "type": "select_trait",
+      "trait": "Quick-Eyed"
+    },
+    {
+      "type": "select_portrait",
+      "portrait": "Caravan Guard"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "game"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "assert_player_profile",
+      "name": "Portrait Tester",
+      "background": "Caravan Guard",
+      "class": "Scout",
+      "trait": "Quick-Eyed",
+      "portrait": "Caravan Guard",
+      "portrait_id": "portrait_caravan_guard_01"
+    },
+    {
+      "type": "assert_player_profile",
+      "tag": "background.caravan_guard"
+    }
+  ]
+}
+"""
 
 
 def replace_once(content: str, before: str, after: str, label: str) -> str:
@@ -25,6 +97,18 @@ def replace_once(content: str, before: str, after: str, label: str) -> str:
     if count != 1:
         raise SystemExit(f"Refusing to patch {label}: expected 1 match, found {count}.")
     return content.replace(before, after, 1)
+
+
+def write_portrait_selection_scenario() -> None:
+    if SCENARIO_PATH.exists():
+        existing = SCENARIO_PATH.read_text(encoding="utf-8")
+        if existing == PORTRAIT_SELECTION_SCENARIO:
+            print(f"Scenario already present: {SCENARIO_PATH.relative_to(ROOT)}")
+            return
+        raise SystemExit(f"Refusing to overwrite existing scenario: {SCENARIO_PATH.relative_to(ROOT)}")
+    SCENARIO_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SCENARIO_PATH.write_text(PORTRAIT_SELECTION_SCENARIO, encoding="utf-8")
+    print(f"Created scenario: {SCENARIO_PATH.relative_to(ROOT)}")
 
 
 def main() -> int:
@@ -124,6 +208,7 @@ def main() -> int:
     )
 
     MAIN_GD.write_text(content, encoding="utf-8")
+    write_portrait_selection_scenario()
     print(f"Applied Issue #13 portrait selector patch to {MAIN_GD.relative_to(ROOT)}")
     return 0
 
