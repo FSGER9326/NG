@@ -95,6 +95,8 @@ class ProjectIndex:
         self.hotspots: set[str] = set()
         self.dialogue_choice_texts: set[str] = set()
         self.character_tags: set[str] = set()
+        self.portrait_ids: set[str] = set()
+        self.portrait_names: set[str] = set()
 
 
 def load_json(path: Path) -> Any:
@@ -151,6 +153,9 @@ def collect_ids(path: Path, data: Any, index: ProjectIndex, errors: list[str]) -
         if path.match("*/data/character_creation/*.json"):
             collect_character_tags(data, index)
 
+        if path.match("*/data/character_creation/portraits.json"):
+            collect_portraits(data, index)
+
         faction_list = data.get("factions")
         if isinstance(faction_list, list):
             for faction in faction_list:
@@ -177,6 +182,23 @@ def collect_character_tags(data: Any, index: ProjectIndex) -> None:
             for tag in item.get("tags", []):
                 if isinstance(tag, str):
                     index.character_tags.add(tag)
+
+
+def collect_portraits(data: Any, index: ProjectIndex) -> None:
+    if not isinstance(data, dict):
+        return
+    portraits = data.get("portraits", [])
+    if not isinstance(portraits, list):
+        return
+    for portrait in portraits:
+        if not isinstance(portrait, dict):
+            continue
+        portrait_id = portrait.get("id")
+        portrait_name = portrait.get("name")
+        if isinstance(portrait_id, str) and portrait_id:
+            index.portrait_ids.add(portrait_id)
+        if isinstance(portrait_name, str) and portrait_name:
+            index.portrait_names.add(portrait_name)
 
 
 def collect_dialogue_choice_texts(data: Any, index: ProjectIndex) -> None:
@@ -438,13 +460,21 @@ def check_scenario_step(path: Path, step: dict[str, Any], step_type: str, step_i
         case "select_trait" | "assert_trait_available" | "assert_trait_unavailable":
             if step.get("trait") not in TRAITS:
                 errors.append(f"Scenario {step_type} has unknown trait in {path.relative_to(ROOT)} step {step_index}: {step.get('trait')}")
+        case "select_portrait":
+            portrait_name = step.get("portrait")
+            if not isinstance(portrait_name, str) or portrait_name not in index.portrait_names:
+                errors.append(f"Scenario select_portrait references unknown portrait in {path.relative_to(ROOT)} step {step_index}: {portrait_name}")
         case "assert_creator_warning_contains":
             if not isinstance(step.get("text"), str) or not step.get("text"):
                 errors.append(f"Scenario assert_creator_warning_contains missing text in {path.relative_to(ROOT)} step {step_index}")
         case "assert_player_profile":
-            for field in ["name", "ancestry", "origin", "archetype", "background", "class", "trait", "tag"]:
+            for field in ["name", "ancestry", "origin", "archetype", "background", "class", "trait", "tag", "portrait_id", "portrait"]:
                 if field in step and not isinstance(step.get(field), str):
                     errors.append(f"Scenario assert_player_profile field {field} must be string in {path.relative_to(ROOT)} step {step_index}")
+            if "portrait" in step and isinstance(step.get("portrait"), str) and step.get("portrait") not in index.portrait_names:
+                errors.append(f"Scenario assert_player_profile references unknown portrait in {path.relative_to(ROOT)} step {step_index}: {step.get('portrait')}")
+            if "portrait_id" in step and isinstance(step.get("portrait_id"), str) and step.get("portrait_id") not in index.portrait_ids:
+                errors.append(f"Scenario assert_player_profile references unknown portrait_id in {path.relative_to(ROOT)} step {step_index}: {step.get('portrait_id')}")
         case _:
             errors.append(f"Scenario has unknown step type in {path.relative_to(ROOT)} step {step_index}: {step_type}")
 
@@ -490,7 +520,8 @@ def main() -> int:
         "NG validation passed: "
         f"{len(files)} JSON files, {len(index.ids)} IDs, "
         f"{len(index.actors)} actors, {len(index.quests)} quests, "
-        f"{len(index.hotspots)} hotspots, {len(index.character_tags)} character tags."
+        f"{len(index.hotspots)} hotspots, {len(index.character_tags)} character tags, "
+        f"{len(index.portrait_ids)} portraits."
     )
     return 0
 
