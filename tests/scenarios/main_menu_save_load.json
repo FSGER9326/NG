@@ -39,6 +39,11 @@
       "area_id": "wolfpine_road"
     },
     {
+      "type": "assert_player_profile",
+      "portrait_id": "portrait_caravan_guard_01",
+      "portrait": "Caravan Guard"
+    },
+    {
       "type": "assert_player_tag",
       "tag": "background.caravan_guard",
       "value": true
@@ -87,7 +92,9 @@
       "background": "Caravan Guard",
       "archetype": "Scout",
       "class": "Scout",
-      "trait": "Quick-Eyed"
+      "trait": "Quick-Eyed",
+      "portrait_id": "portrait_caravan_guard_01",
+      "portrait": "Caravan Guard"
     },
     {
       "type": "assert_player_tag",
