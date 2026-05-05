@@ -28,6 +28,37 @@
           ]
         },
         {
+          "text": "The evidence does not point to one thief. It points to a handoff.",
+          "next": "evidence_web_report",
+          "conditions": [
+            {
+              "type": "all",
+              "conditions": [
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_renna_knows_carter_body",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_renna_knows_erased_name",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_renna_knows_smuggler_mark",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_evidence_web_reported",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
           "text": "I found fresh wagon ruts by the old shrine.",
           "next": "shrine_found_report",
           "conditions": [
@@ -46,6 +77,69 @@
               "type": "flag",
               "flag_id": "wolfpine_shrine_seen_toll_disc",
               "value": true
+            }
+          ]
+        },
+        {
+          "text": "The wounded dog led me to a dead carter in the pines.",
+          "next": "carter_body_report",
+          "conditions": [
+            {
+              "type": "all",
+              "conditions": [
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_carter_body_found",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_renna_knows_carter_body",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "text": "There was a scraped name in the shrine ledger.",
+          "next": "erased_name_report",
+          "conditions": [
+            {
+              "type": "all",
+              "conditions": [
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_manifest_erased_name_seen",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_renna_knows_erased_name",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "text": "A cut-bark trail mark sits beside the wagon ruts.",
+          "next": "smuggler_mark_report",
+          "conditions": [
+            {
+              "type": "all",
+              "conditions": [
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_smuggler_mark_found",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_renna_knows_smuggler_mark",
+                  "value": false
+                }
+              ]
             }
           ]
         },
@@ -225,6 +319,177 @@
       "choices": [
         {
           "text": "Understood.",
+          "next": "end"
+        }
+      ]
+    },
+    "carter_body_report": {
+      "text": "Renna's face hardens when you mention the dog. \"A carter dead off the road means someone had time after the attack. Time to drag a body, time to choose what would be found, time to hope no one followed a wounded animal.\"",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "reported_carter_body"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_renna_knows_carter_body",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "The dog guarded him when people would not.",
+          "next": "renna_carter_body_grief"
+        },
+        {
+          "text": "Then the body was hidden, not lost.",
+          "next": "renna_carter_body_followup"
+        },
+        {
+          "text": "That is all I know for now.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_carter_body_grief": {
+      "text": "\"Dogs do not understand evidence, only duty.\" Renna looks toward the trees. \"Sometimes that makes them better witnesses than frightened people.\"",
+      "choices": [
+        {
+          "text": "Who would frighten witnesses into silence?",
+          "next": "renna_carter_body_followup"
+        },
+        {
+          "text": "I will keep looking.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_carter_body_followup": {
+      "text": "\"Someone who still needs Wolfpine to blame bandits and weather. Ask who had a reason to move the dead but not enough cruelty to kill the dog too.\"",
+      "choices": [
+        {
+          "text": "That narrows the kind of culprit.",
+          "next": "end"
+        }
+      ]
+    },
+    "erased_name_report": {
+      "text": "Renna takes the ledger scrap between two fingers and reads the scraped line twice. \"A missing body is trouble. A missing name is policy. Someone wanted a passenger to vanish twice: once from the road, once from the record.\"",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "reported_erased_name"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_renna_knows_erased_name",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "Who could change the manifest after it dried?",
+          "next": "renna_erased_name_followup"
+        },
+        {
+          "text": "Then the ledger matters as much as the bodies.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_erased_name_followup": {
+      "text": "\"A guard clerk, a mill counter, a church scribe, or someone with enough coin to make one of them borrow a knife. Find whose name is missing, and you find what this road was really carrying.\"",
+      "choices": [
+        {
+          "text": "I will look for the missing name.",
+          "next": "end"
+        }
+      ]
+    },
+    "smuggler_mark_report": {
+      "text": "Renna's thumb traces the cut-bark pattern in the mud from your description. \"Blackfen route language. Not proof the smugglers took the caravan, but proof someone wanted the drivers to trust a criminal road.\"",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "reported_smuggler_mark"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_renna_knows_smuggler_mark",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "So the mark could be bait.",
+          "next": "renna_smuggler_mark_bait"
+        },
+        {
+          "text": "Who in Wolfpine knows Blackfen signs?",
+          "next": "renna_smuggler_mark_names"
+        }
+      ]
+    },
+    "renna_smuggler_mark_bait": {
+      "text": "\"Aye. Smugglers make good scapegoats because half the village needs them and the other half wants them hanged. That makes the truth easy to bury under useful hatred.\"",
+      "choices": [
+        {
+          "text": "Useful hatred hides useful criminals.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_smuggler_mark_names": {
+      "text": "\"Drivers, fishmongers, charcoal boys, medicine runners, some of my guards. Do not mistake knowledge for guilt. In Wolfpine, honest people learn criminal signs if they want their children to live.\"",
+      "choices": [
+        {
+          "text": "Then I will follow the use, not the sign.",
+          "next": "end"
+        }
+      ]
+    },
+    "evidence_web_report": {
+      "text": "Renna listens as you lay the pieces together: paid death at the shrine, a hidden carter, a scraped name, and a smuggler mark beside the ruts. \"That is not a bandit raid. That is a handoff with a story built around it.\"",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "evidence_web_reported"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_evidence_web_reported",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "Who benefits from the village believing the simple story?",
+          "next": "renna_evidence_web_followup"
+        },
+        {
+          "text": "Then the caravan carried something besides food.",
+          "next": "renna_evidence_web_cargo"
+        }
+      ]
+    },
+    "renna_evidence_web_followup": {
+      "text": "\"Anyone who can sell safety after fear does its work. Guards, smugglers, church courts, hungry reeves, hard men with rope. The first liar may not be the killer.\"",
+      "choices": [
+        {
+          "text": "Then I will start with the useful lies.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_evidence_web_cargo": {
+      "text": "\"Food keeps a village alive. A hidden passenger, a relic, or a forbidden name can make someone risk killing it anyway. Find what was worth more than flour.\"",
+      "choices": [
+        {
+          "text": "That is the real cargo.",
           "next": "end"
         }
       ]
