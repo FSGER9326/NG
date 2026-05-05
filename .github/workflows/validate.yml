@@ -28,6 +28,9 @@ jobs:
       - name: Validate portrait metadata
         run: python tools/validate_portraits.py
 
+      - name: Validate quest seed bank
+        run: python tools/validate_quest_seeds.py
+
       - name: Validate asset kit manifests
         run: python tools/validate_asset_kits.py
 
