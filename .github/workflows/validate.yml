@@ -33,3 +33,6 @@ jobs:
 
       - name: Validate asset placement plans
         run: python tools/validate_asset_placement_plans.py
+
+      - name: Validate asset candidate ledgers
+        run: python tools/validate_asset_candidates.py
