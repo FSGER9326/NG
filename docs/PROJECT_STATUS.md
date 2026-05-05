@@ -100,6 +100,7 @@ Expected character creation behavior:
 
 - Character creation data is loaded from `data/character_creation/character_creation.json`.
 - Ancestry, background, class, and trait choices contribute tags, attributes, and skills through `CharacterProfileBuilder`.
+- Built character tags, skills, and attributes are expected to bridge into the active `AreaController` `GameState` after Start Journey.
 - Portrait metadata is loaded from `data/character_creation/portraits.json` for text-first portrait IDs, names, summaries, and tags.
 - `tools/validate_character_creation.py` cross-checks `CharacterProfileBuilder` default portrait IDs and any explicit background `portrait_id` values against `portraits.json`.
 - `PortraitCatalog` is available for the upcoming text-first portrait selector UI and is protected by `tools/validate_gdscript_helpers.py`.
@@ -164,9 +165,11 @@ Important current scenarios:
 
 ```text
 tests/scenarios/main_menu_new_game.json
+tests/scenarios/main_menu_save_load.json
 tests/scenarios/character_creator_ancestry_trait_tags.json
 tests/scenarios/character_creator_incompatible_combo.json
 tests/scenarios/character_creator_recover_from_incompatible_combo.json
+tests/scenarios/character_profile_game_state_bridge.json
 tests/scenarios/character_tags_renna_caravan_guard.json
 tests/scenarios/character_tags_renna_arcane_suspicion.json
 tests/scenarios/wolfpine_missing_caravan.json
@@ -180,9 +183,11 @@ tests/scenarios/wolfpine_road_to_village.json
 These are intended to test:
 
 - main menu to character creator to new game
+- save/load persistence for area, quest, profile, tag, skill, and attribute state
 - ancestry/background/class/trait tagged player profile creation
 - creator compatibility blocking for incoherent builds
 - recovery from an incoherent build by changing to a compatible trait
+- player profile bridge into active area `GameState` tags, skills, and attributes
 - player-tag based Renna caravan-guard NPC reaction
 - player-tag based Renna arcane-suspicion NPC reaction
 - Renna quest acceptance
@@ -215,7 +220,7 @@ The validators currently check:
 - dialogue conditions, including skill, attribute, player-tag, and party-member checks
 - quest and quest-stage references
 - area actor placements
-- scenario step references
+- scenario step references, including profile, tag, party-skill, and player-attribute assertions
 - main-menu scenario step shapes
 - character creation option IDs, tags, modifiers, compatibility references, default portrait IDs, and background portrait references
 - text-first portrait metadata IDs, names, summaries, and tags
@@ -258,11 +263,12 @@ Bring the testable build to a clean local pass:
 
 If a future AI chat loses context, read this file first, then:
 
-1. `docs/ROADMAP.md`
-2. `docs/WORKFLOW.md`
-3. `docs/BUGFIXING.md`
-4. `docs/ASSET_POLICY.md`
-5. `docs/GAME_DESIGN.md`
-6. `docs/STORY_BIBLE.md`
-7. `docs/ART_BIBLE.md`
-8. `docs/CHARACTER_CREATION.md`
+1. `docs/CURRENT_CHECKPOINT.md`
+2. `docs/ROADMAP.md`
+3. `docs/WORKFLOW.md`
+4. `docs/BUGFIXING.md`
+5. `docs/ASSET_POLICY.md`
+6. `docs/GAME_DESIGN.md`
+7. `docs/STORY_BIBLE.md`
+8. `docs/ART_BIBLE.md`
+9. `docs/CHARACTER_CREATION.md`
