@@ -31,6 +31,9 @@ jobs:
       - name: Validate quest seed bank
         run: python tools/validate_quest_seeds.py
 
+      - name: Validate GDScript helper contracts
+        run: python tools/validate_gdscript_helpers.py
+
       - name: Validate asset kit manifests
         run: python tools/validate_asset_kits.py
 
