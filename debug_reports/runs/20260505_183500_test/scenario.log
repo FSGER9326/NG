@@ -1,0 +1,223 @@
+===== Scenario: brannoc_new_caravan_clue_reactions ===== 
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[0000.001] BOOT: NG log session started: scenario_test
+[0000.006] SCENARIO: Loading scenario: res://tests/scenarios/brannoc_new_caravan_clue_reactions.json
+[0000.277] BOOT: Area runtime joined existing log session
+[0000.334] AREA: Loading area: wolfpine_road
+[0000.455] DEBUG: Loaded Wolfpine Road
+A rain-dark border road between old pine forest and ruined imperial stones.
+[0000.590] AREA: Player placed at entry south_road
+[0000.614] AREA: Area loaded: wolfpine_road
+[0000.630] STATE: Wrote state dump: state_latest.json
+[0000.647] STATE: Wrote state dump: state_initial.json
+[0000.676] SCENARIO: Step 1: load_area
+[0000.679] SCENARIO: Running action load_area
+[0000.694] AREA: Loading area: wolfpine_road
+[0000.826] DEBUG: Loaded Wolfpine Road
+A rain-dark border road between old pine forest and ruined imperial stones.
+[0000.947] AREA: Player placed at entry south_road
+[0000.975] AREA: Area loaded: wolfpine_road
+[0000.988] STATE: Wrote state dump: state_latest.json
+[0001.002] SCENARIO: Step 2: click_hotspot
+[0001.013] SCENARIO: Running action click_hotspot
+[0001.028] HOTSPOT: Clicked shrine_ledger_niche
+[0001.042] DEBUG: Inspect: Hidden Ledger Niche
+A loose saint-stone hides a dry ledger scrap folded around a rusted nail. Most names are ruined by damp, but one line has been scraped clean with a knife: a passenger removed from the caravan record after the ink had already dried.
+[0001.061] QUEST_SYSTEM: missing_caravan not_started -> found_erased_name
+[0001.078] QUEST: missing_caravan not_started -> found_erased_name
+[0001.094] DEBUG: Quest updated: missing_caravan -> found_erased_name
+[0001.127] FLAG: wolfpine_ledger_niche_found false -> true
+[0001.141] DEBUG: Flag set: wolfpine_ledger_niche_found from hotspot:shrine_ledger_niche
+[0001.171] FLAG: wolfpine_manifest_erased_name_seen false -> true
+[0001.186] DEBUG: Flag set: wolfpine_manifest_erased_name_seen from hotspot:shrine_ledger_niche
+[0001.216] FLAG: road_peace_ledger_clue_seen false -> true
+[0001.232] DEBUG: Flag set: road_peace_ledger_clue_seen from hotspot:shrine_ledger_niche
+[0001.249] STATE: Wrote state dump: state_latest.json
+[0001.263] SCENARIO: Step 3: click_hotspot
+[0001.279] SCENARIO: Running action click_hotspot
+[0001.295] HOTSPOT: Clicked cut_bark_smuggler_mark
+[0001.312] DEBUG: Inspect: Cut-Bark Trail Mark
+Three knife-cuts mark a pine trunk beside the vanished wagon ruts. The cuts are too clean for panic and too deliberate for bandits: a route sign for people who move cargo where road law cannot follow.
+[0001.342] QUEST_SYSTEM: missing_caravan found_erased_name -> found_smuggler_mark
+[0001.360] QUEST: missing_caravan found_erased_name -> found_smuggler_mark
+[0001.376] DEBUG: Quest updated: missing_caravan -> found_smuggler_mark
+[0001.406] FLAG: wolfpine_smuggler_mark_found false -> true
+[0001.423] DEBUG: Flag set: wolfpine_smuggler_mark_found from hotspot:cut_bark_smuggler_mark
+[0001.453] FLAG: wolfpine_blackfen_route_hint false -> true
+[0001.469] DEBUG: Flag set: wolfpine_blackfen_route_hint from hotspot:cut_bark_smuggler_mark
+[0001.484] STATE: Wrote state dump: state_latest.json
+[0001.500] SCENARIO: Step 4: click_hotspot
+[0001.515] SCENARIO: Running action click_hotspot
+[0001.531] HOTSPOT: Clicked wounded_dog_tracks
+[0001.547] DEBUG: Inspect: Wounded Dog Tracks
+A mud-caked dog has limped across the road more than once. Blood darkens the pine needles where it turned back toward the trees, and a torn strip of caravan cloth clings to a thorn branch.
+[0001.579] QUEST_SYSTEM: dog_knew_road not_started -> found_blood_marker
+[0001.596] QUEST: Quest activated: dog_knew_road
+[0001.612] QUEST: dog_knew_road not_started -> found_blood_marker
+[0001.628] DEBUG: Quest started: dog_knew_road -> found_blood_marker
+[0001.662] FLAG: dog_followed false -> true
+[0001.678] DEBUG: Flag set: dog_followed from hotspot:wounded_dog_tracks
+[0001.712] FLAG: dog_blood_marker_found false -> true
+[0001.731] DEBUG: Flag set: dog_blood_marker_found from hotspot:wounded_dog_tracks
+[0001.751] STATE: Wrote state dump: state_latest.json
+[0001.767] SCENARIO: Step 5: click_hotspot
+[0001.784] SCENARIO: Running action click_hotspot
+[0001.812] HOTSPOT: Clicked dog_vigil_hollow
+[0001.830] DEBUG: Inspect: Dog's Vigil Hollow
+The dog waits beside a fallen carter in a hollow of wet pine roots. The man is long past saving, but his hand still grips the dog's torn collar. A shallow grave here would be kinder than another night under the rain.
+[0001.862] QUEST_SYSTEM: dog_knew_road found_blood_marker -> buried_master
+[0001.879] QUEST: dog_knew_road found_blood_marker -> buried_master
+[0001.897] DEBUG: Quest updated: dog_knew_road -> buried_master
+[0001.930] QUEST_SYSTEM: missing_caravan found_smuggler_mark -> found_carter_body
+[0001.950] QUEST: missing_caravan found_smuggler_mark -> found_carter_body
+[0001.967] DEBUG: Quest updated: missing_caravan -> found_carter_body
+[0001.999] FLAG: dog_master_found false -> true
+[0002.016] DEBUG: Flag set: dog_master_found from hotspot:dog_vigil_hollow
+[0002.047] FLAG: dog_vigil_ended false -> true
+[0002.063] DEBUG: Flag set: dog_vigil_ended from hotspot:dog_vigil_hollow
+[0002.096] FLAG: wolfpine_carter_body_found false -> true
+[0002.114] DEBUG: Flag set: wolfpine_carter_body_found from hotspot:dog_vigil_hollow
+[0002.134] STATE: Wrote state dump: state_latest.json
+[0002.153] SCENARIO: Step 6: click_actor
+[0002.180] SCENARIO: Running action click_actor
+[0002.211] ACTOR: Clicked brannoc
+[0002.251] DIALOGUE: Entered node start
+[0002.268] STATE: Wrote state dump: state_latest.json
+[0002.292] SCENARIO: Step 7: choose_dialogue
+[0002.309] SCENARIO: Running action choose_dialogue
+[0002.326] DIALOGUE_CHOICE: The dog found a dead carter hidden in the pines. -> carter_body_reaction
+[0002.348] DIALOGUE: Entered node carter_body_reaction
+[0002.381] FLAG: brannoc_carter_body_reaction_seen false -> true
+[0002.396] DEBUG: Flag set: brannoc_carter_body_reaction_seen from dialogue:carter_body_reaction
+[0002.414] STATE: Wrote state dump: state_latest.json
+[0002.433] SCENARIO: Step 8: assert_flag
+[0002.449] SCENARIO: Running action assert_flag
+[0002.465] SCENARIO: Step 9: choose_dialogue
+[0002.481] SCENARIO: Running action choose_dialogue
+[0002.511] DIALOGUE_CHOICE: Then the body is evidence, not just a victim. -> end
+[0002.539] DIALOGUE: Closed dialogue
+[0002.557] SCENARIO: Step 10: click_actor
+[0002.572] SCENARIO: Running action click_actor
+[0002.587] ACTOR: Clicked brannoc
+[0002.622] DIALOGUE: Entered node start
+[0002.640] STATE: Wrote state dump: state_latest.json
+[0002.663] SCENARIO: Step 11: choose_dialogue
+[0002.680] SCENARIO: Running action choose_dialogue
+[0002.699] DIALOGUE_CHOICE: Someone scraped a passenger name from the ledger. -> erased_name_reaction
+[0002.716] DIALOGUE: Entered node erased_name_reaction
+[0002.747] FLAG: brannoc_erased_name_reaction_seen false -> true
+[0002.762] DEBUG: Flag set: brannoc_erased_name_reaction_seen from dialogue:erased_name_reaction
+[0002.779] STATE: Wrote state dump: state_latest.json
+[0002.806] SCENARIO: Step 12: assert_flag
+[0002.823] SCENARIO: Running action assert_flag
+[0002.853] SCENARIO: Step 13: choose_dialogue
+[0002.884] SCENARIO: Running action choose_dialogue
+[0002.902] DIALOGUE_CHOICE: Then someone with authority is near this. -> end
+[0002.923] DIALOGUE: Closed dialogue
+[0002.940] SCENARIO: Step 14: click_actor
+[0002.957] SCENARIO: Running action click_actor
+[0002.978] ACTOR: Clicked brannoc
+[0003.012] DIALOGUE: Entered node start
+[0003.029] STATE: Wrote state dump: state_latest.json
+[0003.050] SCENARIO: Step 15: choose_dialogue
+[0003.067] SCENARIO: Running action choose_dialogue
+[0003.093] DIALOGUE_CHOICE: The cut-bark mark near the ruts looked like smuggler work. -> smuggler_mark_reaction
+[0003.113] DIALOGUE: Entered node smuggler_mark_reaction
+[0003.146] FLAG: brannoc_smuggler_mark_reaction_seen false -> true
+[0003.164] DEBUG: Flag set: brannoc_smuggler_mark_reaction_seen from dialogue:smuggler_mark_reaction
+[0003.181] STATE: Wrote state dump: state_latest.json
+[0003.202] SCENARIO: Step 16: assert_flag
+[0003.218] SCENARIO: Running action assert_flag
+[0003.236] SCENARIO: Step 17: choose_dialogue
+[0003.256] SCENARIO: Running action choose_dialogue
+[0003.272] DIALOGUE_CHOICE: Then we do not accuse Blackfen yet. -> end
+[0003.288] DIALOGUE: Closed dialogue
+[0003.309] STATE: Wrote state dump: state_after_scenario.json
+[0003.328] SCENARIO: Scenario passed: brannoc_new_caravan_clue_reactions
+ 
+===== Scenario: brannoc_toll_disc_reaction ===== 
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[0000.002] BOOT: NG log session started: scenario_test
+[0000.006] SCENARIO: Loading scenario: res://tests/scenarios/brannoc_toll_disc_reaction.json
+[0000.159] BOOT: Area runtime joined existing log session
+[0000.190] AREA: Loading area: wolfpine_road
+[0000.369] DEBUG: Loaded Wolfpine Road
+A rain-dark border road between old pine forest and ruined imperial stones.
+[0000.517] AREA: Player placed at entry south_road
+[0000.544] AREA: Area loaded: wolfpine_road
+[0000.560] STATE: Wrote state dump: state_latest.json
+[0000.575] STATE: Wrote state dump: state_initial.json
+[0000.604] SCENARIO: Step 1: load_area
+[0000.608] SCENARIO: Running action load_area
+[0000.626] AREA: Loading area: wolfpine_road
+[0000.767] DEBUG: Loaded Wolfpine Road
+A rain-dark border road between old pine forest and ruined imperial stones.
+[0000.997] AREA: Player placed at entry south_road
+[0001.027] AREA: Area loaded: wolfpine_road
+[0001.043] STATE: Wrote state dump: state_latest.json
+[0001.060] SCENARIO: Step 2: click_hotspot
+[0001.077] SCENARIO: Running action click_hotspot
+[0001.093] HOTSPOT: Clicked old_shrine
+[0001.109] DEBUG: Inspect: Old Road Shrine
+A cracked roadside shrine. The old sun emblem has been scratched away. Fresh wagon ruts vanish into the trees nearby. A dead mule lies split open below the stone, and a stamped toll disc has been pressed into one ruined eye as if someone paid passage for the carcass after it fell.
+[0001.135] QUEST_SYSTEM: missing_caravan not_started -> found_wreck
+[0001.153] QUEST: missing_caravan not_started -> found_wreck
+[0001.170] DEBUG: Quest updated: missing_caravan -> found_wreck
+[0001.200] FLAG: wolfpine_old_shrine_inspected false -> true
+[0001.216] DEBUG: Flag set: wolfpine_old_shrine_inspected from hotspot:old_shrine
+[0001.225] FLAG: wolfpine_shrine_seen_dead_mule false -> true
+[0001.254] DEBUG: Flag set: wolfpine_shrine_seen_dead_mule from hotspot:old_shrine
+[0001.283] FLAG: wolfpine_shrine_seen_toll_disc false -> true
+[0001.299] DEBUG: Flag set: wolfpine_shrine_seen_toll_disc from hotspot:old_shrine
+[0001.330] FLAG: road_peace_first_failure_seen false -> true
+[0001.346] DEBUG: Flag set: road_peace_first_failure_seen from hotspot:old_shrine
+[0001.365] STATE: Wrote state dump: state_latest.json
+[0001.382] SCENARIO: Step 3: assert_flag
+[0001.407] SCENARIO: Running action assert_flag
+[0001.449] SCENARIO: Step 4: click_actor
+[0001.466] SCENARIO: Running action click_actor
+[0001.492] ACTOR: Clicked brannoc
+[0001.535] DIALOGUE: Entered node start
+[0001.583] STATE: Wrote state dump: state_latest.json
+[0001.636] SCENARIO: Step 5: choose_dialogue
+[0001.658] SCENARIO: Running action choose_dialogue
+[0001.678] DIALOGUE_CHOICE: You saw the mule at the shrine. The toll disc in its eye. -> toll_disc_reaction
+[0001.701] DIALOGUE: Entered node toll_disc_reaction
+[0001.748] FLAG: brannoc_guilt_hint_1 false -> true
+[0001.767] DEBUG: Flag set: brannoc_guilt_hint_1 from dialogue:toll_disc_reaction
+[0001.789] STATE: Wrote state dump: state_latest.json
+[0001.815] SCENARIO: Step 6: assert_flag
+[0001.835] SCENARIO: Running action assert_flag
+[0001.853] SCENARIO: Step 7: choose_dialogue
+[0001.871] SCENARIO: Running action choose_dialogue
+[0001.889] DIALOGUE_CHOICE: You sound like you have seen travelers left behind before. -> left_behind_pressure
+[0001.907] DIALOGUE: Entered node left_behind_pressure
+[0001.925] STATE: Wrote state dump: state_latest.json
+[0001.947] SCENARIO: Step 8: choose_dialogue
+[0001.964] SCENARIO: Running action choose_dialogue
+[0001.981] DIALOGUE_CHOICE: That sounds like confession, not advice. -> not_confession_yet
+[0001.996] DIALOGUE: Entered node not_confession_yet
+[0002.013] STATE: Wrote state dump: state_latest.json
+[0002.030] STATE: Wrote state dump: state_after_scenario.json
+[0002.055] SCENARIO: Scenario passed: brannoc_toll_disc_reaction
+ 
+===== Scenario: character_creator_ancestry_trait_tags ===== 
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+
+[0000.003] BOOT: NG log session started: scenario_test
+[0000.006] SCENARIO: Loading scenario: res://tests/scenarios/character_creator_ancestry_trait_tags.json
+SCRIPT ERROR: Parse Error: Expected variable name after "var".
+   at: GDScript::reload (res://game/scripts/core/main.gd:221)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://tools/run_scenario_test.gd:17)
+ERROR: Failed to load script "res://game/scripts/core/main.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://tools/run_scenario_test.gd:17)
+[0000.082] SCENARIO: ERROR: Target scene does not expose run_debug_action().
+WARNING: 1 RID of type "CanvasItem" was leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2690)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2641)
