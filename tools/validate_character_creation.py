@@ -2,7 +2,7 @@
 """Validate NG character creation data.
 
 Checks ancestry/background/class/trait records for stable ids, tag shape,
-modifier shape, and basic thematic compatibility references.
+modifier shape, thematic compatibility references, and starter portrait metadata.
 """
 
 from __future__ import annotations
@@ -12,7 +12,9 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_PATH = ROOT / "data" / "character_creation" / "character_creation.json"
+DATA_ROOT = ROOT / "data" / "character_creation"
+DATA_PATH = DATA_ROOT / "character_creation.json"
+PORTRAITS_PATH = DATA_ROOT / "portraits.json"
 SECTIONS = ("ancestries", "backgrounds", "classes", "traits")
 ATTRIBUTE_IDS = {"might", "finesse", "resolve", "wits", "presence", "occult"}
 SKILL_IDS = {
@@ -47,6 +49,17 @@ def validate_stat_map(errors: list[str], context: str, value: Any, allowed: set[
             errors.append(f"{context}.{key} must be an integer")
 
 
+def validate_tags(errors: list[str], context: str, tags: Any, known_tags: set[str] | None = None) -> None:
+    if not isinstance(tags, list) or not tags:
+        errors.append(f"{context} must have non-empty tags")
+        return
+    for tag in tags:
+        if not isinstance(tag, str) or "." not in tag:
+            errors.append(f"{context} has malformed tag: {tag}")
+        elif known_tags is not None:
+            known_tags.add(tag)
+
+
 def validate_item(errors: list[str], section: str, item: Any, seen_ids: set[str], known_tags: set[str]) -> None:
     if not isinstance(item, dict):
         errors.append(f"{section} entry must be an object")
@@ -65,15 +78,7 @@ def validate_item(errors: list[str], section: str, item: Any, seen_ids: set[str]
         if not isinstance(item.get(field), str) or not item.get(field):
             errors.append(f"{item_id} missing {field}")
 
-    tags = item.get("tags")
-    if not isinstance(tags, list) or not tags:
-        errors.append(f"{item_id} must have non-empty tags")
-    else:
-        for tag in tags:
-            if not isinstance(tag, str) or "." not in tag:
-                errors.append(f"{item_id} has malformed tag: {tag}")
-            else:
-                known_tags.add(tag)
+    validate_tags(errors, item_id, item.get("tags"), known_tags)
 
     modifiers = item.get("modifiers", {})
     if modifiers and not isinstance(modifiers, dict):
@@ -92,13 +97,71 @@ def validate_item(errors: list[str], section: str, item: Any, seen_ids: set[str]
                 errors.append(f"{item_id}.{field} has malformed tag: {tag}")
 
 
+def validate_portraits(errors: list[str], known_tags: set[str]) -> int:
+    if not PORTRAITS_PATH.exists():
+        errors.append(f"Missing portrait metadata: {PORTRAITS_PATH.relative_to(ROOT)}")
+        return 0
+
+    try:
+        data = load_json(PORTRAITS_PATH)
+    except json.JSONDecodeError as exc:
+        errors.append(f"Invalid JSON in {PORTRAITS_PATH.relative_to(ROOT)}: {exc}")
+        return 0
+
+    if not isinstance(data, dict):
+        errors.append("Portrait metadata root must be an object")
+        return 0
+
+    for field in ("id", "name", "description"):
+        if not isinstance(data.get(field), str) or not data.get(field):
+            errors.append(f"portrait metadata missing {field}")
+
+    portraits = data.get("portraits")
+    if not isinstance(portraits, list) or not portraits:
+        errors.append("portraits must be a non-empty list")
+        return 0
+
+    seen_ids: set[str] = set()
+    for index, portrait in enumerate(portraits, start=1):
+        context = f"portrait {index}"
+        if not isinstance(portrait, dict):
+            errors.append(f"{context} must be an object")
+            continue
+        portrait_id = portrait.get("id")
+        if not isinstance(portrait_id, str) or not portrait_id:
+            errors.append(f"{context} missing id")
+            portrait_id = context
+        elif not portrait_id.startswith("portrait_"):
+            errors.append(f"{portrait_id} should use portrait_ id prefix")
+        elif portrait_id in seen_ids:
+            errors.append(f"Duplicate portrait id: {portrait_id}")
+        else:
+            seen_ids.add(portrait_id)
+
+        for field in ("name", "summary"):
+            if not isinstance(portrait.get(field), str) or not portrait.get(field):
+                errors.append(f"{portrait_id} missing {field}")
+
+        validate_tags(errors, portrait_id, portrait.get("tags"))
+        for tag in portrait.get("tags", []):
+            if isinstance(tag, str) and tag not in known_tags and not tag.startswith(("portrait.", "mood.")):
+                errors.append(f"{portrait_id} uses non-portrait tag not produced by character creation data: {tag}")
+
+    return len(seen_ids)
+
+
 def main() -> int:
     errors: list[str] = []
     if not DATA_PATH.exists():
         print(f"Missing character creation data: {DATA_PATH.relative_to(ROOT)}")
         return 1
 
-    data = load_json(DATA_PATH)
+    try:
+        data = load_json(DATA_PATH)
+    except json.JSONDecodeError as exc:
+        print(f"Invalid JSON in {DATA_PATH.relative_to(ROOT)}: {exc}")
+        return 1
+
     if not isinstance(data, dict):
         print("Character creation data root must be an object")
         return 1
@@ -115,6 +178,8 @@ def main() -> int:
             continue
         for item in items:
             validate_item(errors, section, item, seen_ids, known_tags)
+
+    portrait_count = validate_portraits(errors, known_tags)
 
     # Second pass: compatibility tags should either be produced somewhere now or use an accepted future-facing prefix.
     future_prefixes = ("occult.", "morale.", "diplomacy.", "medicine.", "armor.", "stealth.", "survival.")
@@ -137,7 +202,7 @@ def main() -> int:
     print(
         "NG character creation validation passed: "
         f"{sum(len(data.get(section, [])) for section in SECTIONS)} options, "
-        f"{len(known_tags)} produced tags."
+        f"{len(known_tags)} produced tags, {portrait_count} portraits."
     )
     return 0
 
