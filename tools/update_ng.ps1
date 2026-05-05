@@ -37,6 +37,7 @@ $validators = @(
     'tools/validate_character_creation.py',
     'tools/validate_portraits.py',
     'tools/validate_quest_seeds.py',
+    'tools/validate_gdscript_helpers.py',
     'tools/validate_asset_kits.py'
 )
 foreach ($validator in $validators) {
