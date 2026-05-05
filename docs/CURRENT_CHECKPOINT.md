@@ -3,7 +3,7 @@
 Date: 2026-05-05
 Source-of-truth repo: `FSGER9326/NG`
 Default branch: `main`
-Current `main` head during checkpoint: `54e01156c12ceea673c1efa217ac71e51fe807a8`
+Current `main` head during checkpoint: `b16557ccffb0ff5bae2445317d21e812f14effc8`
 
 ## Why this checkpoint exists
 
@@ -24,6 +24,7 @@ Read this file first, then read:
 `main` is the stable baseline. Recent branch-integration work has already brought in the useful content, validation, and scenario-hardening work from the old branch queue:
 
 - `docs/QUEST_SEEDS.md`
+- `docs/ISSUE_13_RUNTIME_HANDOFF.md`
 - `data/quests/side/dog_knew_road.json`
 - `data/quests/side/black_bread_tithe.json`
 - `data/quests/side/soot_prayer_cloth.json`
@@ -56,6 +57,7 @@ During the latest branch audit:
 - PR #31 updated `docs/PROJECT_STATUS.md` so the main handoff lists profile/GameState bridge coverage, save/load hardening, and the new scenario assertion validation.
 - PR #35 added validator support for future portrait-selection scenario fields without adding a runtime-dependent scenario.
 - PR #36 completed the safe Issue #13 local patcher workflow so it now creates both the `main.gd` runtime patch and `tests/scenarios/character_creator_portrait_selection.json`.
+- PR #38 added `docs/ISSUE_13_RUNTIME_HANDOFF.md` as the focused durable handoff for the remaining Issue #13 runtime step.
 - The explicit portrait-selection branches (`feature/character-portrait-selection`, `feature/text-first-portrait-selection`, `feature/portrait-selection-helper`) are behind `main` with no unique commits. Issue #13 is not waiting in an unmerged branch.
 - `docs/final-cleanup-status`, `fix/scenario-canonical-background-ids`, `content/quest-seeds-fresh`, `content/quest-seeds-v2`, `feature/creator-unavailable-trait-reasons-v2`, and other v2/fresh cleanup branches checked in the audit are fully behind `main`.
 - `docs/update-character-creator-status`, `feature/creator-compatibility-explanations`, `feature/creator-compatibility-explanations-clean`, `tools/run-all-validators-in-update-scripts`, and old portrait/quest validation documentation branches are semantic duplicates of current `main` after squash merges.
@@ -99,6 +101,7 @@ Current support work for issue #13 is ready:
 - profile/game-state bridge and save/load scenarios now cover character tags, skills, and attributes
 - `tools/validate_project.py` validates future `select_portrait`, `portrait`, and `portrait_id` scenario fields against portrait metadata
 - `tools/apply_issue_13_portrait_selection_patch.py` applies the exact-context `main.gd` runtime patch and creates the matching scenario file
+- `docs/ISSUE_13_RUNTIME_HANDOFF.md` summarizes the exact remaining runtime work and validation path
 
 Remaining issue #13 implementation scope:
 
