@@ -38,6 +38,7 @@ What it does:
 ```bash
 python tools/validate_project.py
 python tools/validate_character_creation.py
+python tools/validate_portraits.py
 python tools/validate_asset_kits.py
 ```
 
@@ -47,6 +48,7 @@ Purpose:
 - catches duplicate IDs
 - catches missing common file references
 - catches character creation option/tag/modifier drift
+- catches text-first portrait metadata drift
 - catches asset kit manifest drift
 
 ### 2. Godot smoke and scenario test
