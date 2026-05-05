@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <title>Wolfpine Village Batch 01 Blockout</title>
+  <desc>Visual blockout for Batch 01 generated assets: inn, blacksmith, storehouse, well, market stall, and notice board. Use for composition and accessibility review before final art promotion.</desc>
+  <style>
+    .bg { fill: #25281f; }
+    .road { fill: #6d604c; opacity: 0.62; stroke: #8f8166; stroke-width: 2; }
+    .square { fill: #7b6e57; opacity: 0.72; stroke: #a18f70; stroke-width: 2; }
+    .building { fill: #4b3a2d; stroke: #b39268; stroke-width: 3; }
+    .roof { fill: #313b36; stroke: #6e7b69; stroke-width: 2; }
+    .prop { fill: #594832; stroke: #c3a374; stroke-width: 2; }
+    .hotspot { fill: #a1744f; stroke: #f0c078; stroke-width: 2; }
+    .door { fill: #2b1a12; stroke: #f2c06f; stroke-width: 3; }
+    .window { fill: #9a6e3f; opacity: 0.75; stroke: #e0b878; stroke-width: 1.5; }
+    .path-line { fill: none; stroke: #d8c295; stroke-width: 8; opacity: 0.35; stroke-linecap: round; stroke-linejoin: round; }
+    .label { fill: #f0e5c8; font: 14px sans-serif; paint-order: stroke; stroke: #161812; stroke-width: 4px; stroke-linejoin: round; }
+    .small { fill: #f0e5c8; font: 11px sans-serif; paint-order: stroke; stroke: #161812; stroke-width: 3px; stroke-linejoin: round; }
+    .reject { fill: none; stroke: #d66a4d; stroke-width: 3; stroke-dasharray: 8 8; opacity: 0.8; }
+  </style>
+
+  <rect class="bg" x="0" y="0" width="1280" height="720"/>
+
+  <!-- Terrain and walkable flow -->
+  <path class="road" d="M 505 720 C 510 650 540 575 595 520 C 650 465 720 430 820 405 C 930 378 1065 350 1280 320 L 1280 720 Z"/>
+  <path class="road" d="M 0 650 C 165 610 335 560 515 505 C 660 460 775 420 970 365 L 1280 295 L 1280 410 C 1035 445 810 505 600 575 C 405 640 210 695 0 720 Z" opacity="0.35"/>
+  <ellipse class="square" cx="640" cy="490" rx="230" ry="105"/>
+
+  <!-- Required route reminders -->
+  <path class="path-line" d="M 560 700 C 575 610 600 535 610 465"/>
+  <path class="path-line" d="M 610 465 C 550 445 505 420 465 395"/>
+  <path class="path-line" d="M 610 465 C 700 455 755 440 805 430"/>
+  <path class="path-line" d="M 610 465 C 760 490 890 510 980 520"/>
+
+  <!-- Inn footprint: [[335,185],[565,160],[595,380],[395,420]] anchor [465,395] -->
+  <polygon class="roof" points="335,185 565,160 620,255 395,285"/>
+  <polygon class="building" points="395,285 620,255 595,380 395,420"/>
+  <polygon class="building" points="335,185 395,285 395,420 335,310" opacity="0.82"/>
+  <rect class="door" x="455" y="355" width="36" height="54" rx="3"/>
+  <rect class="window" x="410" y="305" width="26" height="24"/>
+  <rect class="window" x="520" y="292" width="28" height="24"/>
+  <text class="label" x="365" y="150">Pine Hearth Inn</text>
+  <text class="small" x="420" y="434">door_inn_main reachable</text>
+
+  <!-- Blacksmith footprint: [[735,245],[935,230],[950,430],[760,465]] anchor [805,430] -->
+  <polygon class="roof" points="735,245 935,230 975,315 760,345"/>
+  <polygon class="building" points="760,345 975,315 950,430 760,465"/>
+  <polygon class="building" points="735,245 760,345 760,465 735,360" opacity="0.82"/>
+  <rect class="door" x="790" y="395" width="34" height="52" rx="3"/>
+  <rect class="window" x="860" y="350" width="28" height="24"/>
+  <circle class="hotspot" cx="900" cy="420" r="18"/>
+  <rect class="prop" x="886" y="260" width="34" height="80"/>
+  <text class="label" x="760" y="220">Blacksmith</text>
+  <text class="small" x="780" y="482">forge clutter beside approach</text>
+
+  <!-- Storehouse footprint: [[890,430],[1085,395],[1130,560],[925,605]] anchor [980,520] -->
+  <polygon class="roof" points="890,430 1085,395 1140,470 925,510"/>
+  <polygon class="building" points="925,510 1140,470 1130,560 925,605"/>
+  <polygon class="building" points="890,430 925,510 925,605 890,535" opacity="0.82"/>
+  <rect class="door" x="965" y="525" width="38" height="58" rx="3"/>
+  <rect class="prop" x="1065" y="540" width="34" height="24"/>
+  <rect class="prop" x="1100" y="552" width="28" height="20"/>
+  <text class="label" x="930" y="388">Storehouse</text>
+  <text class="small" x="945" y="622">side clutter only</text>
+
+  <!-- Well footprint: [[570,425],[650,420],[675,485],[595,525]] anchor [610,465] -->
+  <ellipse class="prop" cx="622" cy="472" rx="46" ry="28"/>
+  <ellipse class="hotspot" cx="622" cy="462" rx="34" ry="17"/>
+  <line x1="592" y1="430" x2="648" y2="420" stroke="#3a2a1e" stroke-width="7"/>
+  <line x1="606" y1="433" x2="605" y2="485" stroke="#3a2a1e" stroke-width="5"/>
+  <line x1="647" y1="424" x2="651" y2="481" stroke="#3a2a1e" stroke-width="5"/>
+  <text class="label" x="565" y="408">Well</text>
+  <text class="small" x="575" y="542">open approach on sides</text>
+
+  <!-- Market stall footprint: [[690,475],[790,460],[820,520],[715,550]] anchor [735,505] -->
+  <polygon class="roof" points="690,475 790,460 825,498 715,515"/>
+  <polygon class="prop" points="715,515 825,498 820,520 715,550"/>
+  <rect class="hotspot" x="730" y="515" width="60" height="18" rx="4"/>
+  <text class="label" x="715" y="455">Market Stall</text>
+  <text class="small" x="710" y="566">edge placement</text>
+
+  <!-- Notice board footprint: [[495,485],[545,480],[565,535],[510,550]] anchor [520,515] -->
+  <rect class="hotspot" x="510" y="486" width="42" height="42" rx="3" transform="rotate(-7 531 507)"/>
+  <line x1="515" y1="525" x2="510" y2="552" stroke="#2a1e16" stroke-width="6"/>
+  <line x1="548" y1="520" x2="552" y2="547" stroke="#2a1e16" stroke-width="6"/>
+  <text class="label" x="440" y="480">Notice Board</text>
+  <text class="small" x="500" y="567">no readable text</text>
+
+  <!-- Forbidden clutter zones around critical doors, for review visibility -->
+  <rect class="reject" x="445" y="350" width="58" height="72" rx="5"/>
+  <rect class="reject" x="782" y="388" width="52" height="70" rx="5"/>
+  <rect class="reject" x="956" y="517" width="58" height="76" rx="5"/>
+
+  <!-- Scene labels -->
+  <text class="label" x="24" y="38">Wolfpine Village — Batch 01 Blockout</text>
+  <text class="small" x="24" y="60">Use as composition target before final generated PNG candidates. Doors and routes must stay clear.</text>
+  <text class="small" x="24" y="688">Dashed red boxes = must-not-block door/threshold review zones.</text>
+</svg>
