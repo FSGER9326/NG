@@ -430,7 +430,7 @@ def check_scenario_step(path: Path, step: dict[str, Any], step_type: str, step_i
             if step.get("trait") not in TRAITS:
                 errors.append(f"Scenario select_trait has unknown trait in {path.relative_to(ROOT)} step {step_index}: {step.get('trait')}")
         case "assert_player_profile":
-            for field in ["name", "ancestry", "origin", "archetype", "background", "class", "trait", "tag"]:
+            for field in ["name", "ancestry", "origin", "archetype", "background", "class", "trait", "portrait_id", "portrait", "tag"]:
                 if field in step and not isinstance(step.get(field), str):
                     errors.append(f"Scenario assert_player_profile field {field} must be string in {path.relative_to(ROOT)} step {step_index}")
         case _:
