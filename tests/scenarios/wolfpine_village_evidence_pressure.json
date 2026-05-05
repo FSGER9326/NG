@@ -1,0 +1,54 @@
+{
+  "id": "wolfpine_village_evidence_pressure",
+  "name": "Wolfpine Village Evidence Pressure",
+  "description": "Verifies Wolfpine Village has inspectable pressure hooks that connect the merged Missing Caravan evidence web to village mill, smuggler, and guard suspicion without requiring new runtime systems.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_village",
+      "entry_id": "village_square"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "mill_tally_window"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_mill_tally_erased_name_hint",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_village_mill_pressure_seen",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "blackfen_fish_crates"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_blackfen_crates_seen",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_village_smuggler_pressure_seen",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "guard_rope_hooks"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_guard_rope_caravan_hint",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_village_guard_pressure_seen",
+      "value": true
+    }
+  ]
+}
