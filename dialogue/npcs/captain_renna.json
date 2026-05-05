@@ -50,6 +50,27 @@
           ]
         },
         {
+          "text": "The wounded dog led me to a dead carter in the pines.",
+          "next": "carter_body_report",
+          "conditions": [
+            {
+              "type": "all",
+              "conditions": [
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_carter_body_found",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_renna_knows_carter_body",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
           "text": "You keep looking at my hands. Is it the magic?",
           "next": "arcane_suspicion",
           "conditions": [
@@ -225,6 +246,57 @@
       "choices": [
         {
           "text": "Understood.",
+          "next": "end"
+        }
+      ]
+    },
+    "carter_body_report": {
+      "text": "Renna's face hardens when you mention the dog. \"A carter dead off the road means someone had time after the attack. Time to drag a body, time to choose what would be found, time to hope no one followed a wounded animal.\"",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "reported_carter_body"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_renna_knows_carter_body",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "The dog guarded him when people would not.",
+          "next": "renna_carter_body_grief"
+        },
+        {
+          "text": "Then the body was hidden, not lost.",
+          "next": "renna_carter_body_followup"
+        },
+        {
+          "text": "That is all I know for now.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_carter_body_grief": {
+      "text": "\"Dogs do not understand evidence, only duty.\" Renna looks toward the trees. \"Sometimes that makes them better witnesses than frightened people.\"",
+      "choices": [
+        {
+          "text": "Who would frighten witnesses into silence?",
+          "next": "renna_carter_body_followup"
+        },
+        {
+          "text": "I will keep looking.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_carter_body_followup": {
+      "text": "\"Someone who still needs Wolfpine to blame bandits and weather. Ask who had a reason to move the dead but not enough cruelty to kill the dog too.\"",
+      "choices": [
+        {
+          "text": "That narrows the kind of culprit.",
           "next": "end"
         }
       ]
