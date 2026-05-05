@@ -11,12 +11,20 @@
       "name": "Save Tester"
     },
     {
+      "type": "select_ancestry",
+      "ancestry": "Border Human"
+    },
+    {
       "type": "select_origin",
       "origin": "Caravan Guard"
     },
     {
       "type": "select_archetype",
       "archetype": "Scout"
+    },
+    {
+      "type": "select_trait",
+      "trait": "Quick-Eyed"
     },
     {
       "type": "press_menu",
@@ -29,6 +37,21 @@
     {
       "type": "assert_area",
       "area_id": "wolfpine_road"
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "background.caravan_guard",
+      "value": true
+    },
+    {
+      "type": "assert_party_skill",
+      "skill_id": "perception",
+      "value": 5
+    },
+    {
+      "type": "assert_player_attribute",
+      "attribute_id": "wits",
+      "value": 2
     },
     {
       "type": "click_actor",
@@ -61,7 +84,30 @@
       "type": "assert_player_profile",
       "name": "Save Tester",
       "origin": "Caravan Guard",
-      "archetype": "Scout"
+      "background": "Caravan Guard",
+      "archetype": "Scout",
+      "class": "Scout",
+      "trait": "Quick-Eyed"
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "background.caravan_guard",
+      "value": true
+    },
+    {
+      "type": "assert_party_skill",
+      "skill_id": "perception",
+      "value": 5
+    },
+    {
+      "type": "assert_party_skill",
+      "skill_id": "survival",
+      "value": 4
+    },
+    {
+      "type": "assert_player_attribute",
+      "attribute_id": "wits",
+      "value": 2
     },
     {
       "type": "assert_quest_stage",

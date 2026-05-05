@@ -1,0 +1,106 @@
+{
+  "id": "character_profile_game_state_bridge",
+  "name": "Character Profile GameState Bridge",
+  "root_scene": "main",
+  "description": "Verifies that character creator tags, skills, and attributes are stored in the player profile and applied to the active AreaController GameState after Start Journey.",
+  "steps": [
+    {
+      "type": "assert_screen",
+      "screen": "main_menu"
+    },
+    {
+      "type": "press_menu",
+      "button": "new_game"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "character_creator"
+    },
+    {
+      "type": "set_character_name",
+      "name": "Bridge Tester"
+    },
+    {
+      "type": "select_ancestry",
+      "ancestry": "Border Human"
+    },
+    {
+      "type": "select_origin",
+      "origin": "Caravan Guard"
+    },
+    {
+      "type": "select_archetype",
+      "archetype": "Scout"
+    },
+    {
+      "type": "select_trait",
+      "trait": "Quick-Eyed"
+    },
+    {
+      "type": "press_menu",
+      "button": "start_journey"
+    },
+    {
+      "type": "assert_screen",
+      "screen": "game"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "assert_player_profile",
+      "name": "Bridge Tester",
+      "background": "Caravan Guard",
+      "class": "Scout",
+      "trait": "Quick-Eyed"
+    },
+    {
+      "type": "assert_player_profile",
+      "tag": "background.caravan_guard"
+    },
+    {
+      "type": "assert_player_profile",
+      "tag": "labor.guard"
+    },
+    {
+      "type": "assert_player_profile",
+      "tag": "trait.quick_eyed"
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "background.caravan_guard",
+      "value": true
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "labor.guard",
+      "value": true
+    },
+    {
+      "type": "assert_player_tag",
+      "tag": "trait.quick_eyed",
+      "value": true
+    },
+    {
+      "type": "assert_party_skill",
+      "skill_id": "perception",
+      "value": 5
+    },
+    {
+      "type": "assert_party_skill",
+      "skill_id": "survival",
+      "value": 4
+    },
+    {
+      "type": "assert_party_skill",
+      "skill_id": "stealth",
+      "value": 1
+    },
+    {
+      "type": "assert_player_attribute",
+      "attribute_id": "wits",
+      "value": 2
+    }
+  ]
+}
