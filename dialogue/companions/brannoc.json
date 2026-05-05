@@ -18,6 +18,39 @@
           ]
         },
         {
+          "text": "The dog found a dead carter hidden in the pines.",
+          "next": "carter_body_reaction",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag_id": "wolfpine_carter_body_found",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "Someone scraped a passenger name from the ledger.",
+          "next": "erased_name_reaction",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag_id": "wolfpine_manifest_erased_name_seen",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "The cut-bark mark near the ruts looked like smuggler work.",
+          "next": "smuggler_mark_reaction",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag_id": "wolfpine_smuggler_mark_found",
+              "value": true
+            }
+          ]
+        },
+        {
           "text": "You know these woods?",
           "next": "woods"
         },
@@ -89,6 +122,93 @@
       "choices": [
         {
           "text": "Then we look for who profits from panic.",
+          "next": "end"
+        }
+      ]
+    },
+    "carter_body_reaction": {
+      "text": "Brannoc's mouth tightens at the word carter. \"A dog will sit with the dead longer than most men sit with the living. If someone hid him, they did it because the body said something the road was not meant to hear.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "brannoc_carter_body_reaction_seen",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "You sound angry for someone who did not know him.",
+          "next": "brannoc_carter_anger"
+        },
+        {
+          "text": "Then the body is evidence, not just a victim.",
+          "next": "end"
+        }
+      ]
+    },
+    "brannoc_carter_anger": {
+      "text": "\"I know the work. Wet rope. Bad axles. Sleeping under wagons so thieves steal from someone easier. Cart men die poor and useful. That should buy them better than a hidden hollow.\"",
+      "choices": [
+        {
+          "text": "We will not leave him hidden.",
+          "next": "end"
+        }
+      ]
+    },
+    "erased_name_reaction": {
+      "text": "He stares at the scraped ledger line. \"Bodies vanish on bad roads. Names vanish when someone with clean sleeves decides the dead are inconvenient. That is a colder sort of knife.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "brannoc_erased_name_reaction_seen",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "You trust ledgers less than corpses.",
+          "next": "brannoc_ledger_distrust"
+        },
+        {
+          "text": "Then someone with authority is near this.",
+          "next": "end"
+        }
+      ]
+    },
+    "brannoc_ledger_distrust": {
+      "text": "\"A corpse at least tells you somebody paid. A ledger tells you who expects to be believed. Those are not the same thing.\"",
+      "choices": [
+        {
+          "text": "Good distinction.",
+          "next": "end"
+        }
+      ]
+    },
+    "smuggler_mark_reaction": {
+      "text": "Brannoc gives a humorless little laugh. \"Blackfen marks are honest in one way. They say: law failed here, so someone bought another road. But a mark beside fresh ruts can be a guide, a warning, or bait.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "brannoc_smuggler_mark_reaction_seen",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "Which would you bet on?",
+          "next": "brannoc_smuggler_bet"
+        },
+        {
+          "text": "Then we do not accuse Blackfen yet.",
+          "next": "end"
+        }
+      ]
+    },
+    "brannoc_smuggler_bet": {
+      "text": "\"Bait. If smugglers took the caravan clean, we would not find their alphabet carved where every frightened fool can point at it.\"",
+      "choices": [
+        {
+          "text": "So someone wants us angry in the wrong direction.",
           "next": "end"
         }
       ]
