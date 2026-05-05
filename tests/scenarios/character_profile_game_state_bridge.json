@@ -2,7 +2,7 @@
   "id": "character_profile_game_state_bridge",
   "name": "Character Profile GameState Bridge",
   "root_scene": "main",
-  "description": "Verifies that character creator tags, skills, and attributes are stored in the player profile and applied to the active AreaController GameState after Start Journey.",
+  "description": "Verifies that character creator tags, portrait fields, skills, and attributes are stored in the player profile and applied to the active AreaController GameState after Start Journey.",
   "steps": [
     {
       "type": "assert_screen",
@@ -53,7 +53,9 @@
       "name": "Bridge Tester",
       "background": "Caravan Guard",
       "class": "Scout",
-      "trait": "Quick-Eyed"
+      "trait": "Quick-Eyed",
+      "portrait_id": "portrait_caravan_guard_01",
+      "portrait": "Caravan Guard"
     },
     {
       "type": "assert_player_profile",
