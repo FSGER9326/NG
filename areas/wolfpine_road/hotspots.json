@@ -37,6 +37,61 @@
       ]
     },
     {
+      "id": "shrine_ledger_niche",
+      "name": "Hidden Ledger Niche",
+      "type": "inspect",
+      "position": [705, 405],
+      "radius": 38,
+      "description": "A loose saint-stone hides a dry ledger scrap folded around a rusted nail. Most names are ruined by damp, but one line has been scraped clean with a knife: a passenger removed from the caravan record after the ink had already dried.",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "found_erased_name"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_ledger_niche_found",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_manifest_erased_name_seen",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "road_peace_ledger_clue_seen",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "cut_bark_smuggler_mark",
+      "name": "Cut-Bark Trail Mark",
+      "type": "inspect",
+      "position": [760, 470],
+      "radius": 40,
+      "description": "Three knife-cuts mark a pine trunk beside the vanished wagon ruts. The cuts are too clean for panic and too deliberate for bandits: a route sign for people who move cargo where road law cannot follow.",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "found_smuggler_mark"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_smuggler_mark_found",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_blackfen_route_hint",
+          "value": true
+        }
+      ]
+    },
+    {
       "id": "wounded_dog_tracks",
       "name": "Wounded Dog Tracks",
       "type": "inspect",
@@ -75,6 +130,11 @@
           "stage": "buried_master"
         },
         {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "found_carter_body"
+        },
+        {
           "type": "set_flag",
           "flag_id": "dog_master_found",
           "value": true
@@ -82,6 +142,11 @@
         {
           "type": "set_flag",
           "flag_id": "dog_vigil_ended",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_carter_body_found",
           "value": true
         }
       ]

@@ -16,6 +16,15 @@
     "found_shrine_clue": {
       "summary": "The party found an unnatural toll sign at the old shrine: a stamped disc pressed into a dead mule's eye."
     },
+    "found_erased_name": {
+      "summary": "The party found a hidden ledger scrap showing that one caravan passenger's name was scraped from the manifest after the ink dried."
+    },
+    "found_smuggler_mark": {
+      "summary": "The party found a cut-bark trail mark near the shrine ruts, suggesting someone used smuggler route signs to divert the caravan."
+    },
+    "found_carter_body": {
+      "summary": "The party found a dead carter in the pines, with his wounded dog still keeping vigil."
+    },
     "reported_clue": {
       "summary": "The party reported the old shrine clue to Captain Renna."
     },
