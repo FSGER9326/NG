@@ -129,6 +129,10 @@
       "text": "So the mark could be bait."
     },
     {
+      "type": "choose_dialogue",
+      "text": "Useful hatred hides useful criminals."
+    },
+    {
       "type": "click_actor",
       "actor_id": "captain_renna"
     },
@@ -149,6 +153,10 @@
     {
       "type": "choose_dialogue",
       "text": "Then the caravan carried something besides food."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "That is the real cargo."
     }
   ]
 }
