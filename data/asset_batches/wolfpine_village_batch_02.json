@@ -1,0 +1,97 @@
+{
+  "id": "wolfpine_village_batch_02",
+  "name": "Wolfpine Village Batch 02 - Modular Architecture and Clutter",
+  "target_kit": "wolfpine_village_starter_kit",
+  "target_area": "wolfpine_village",
+  "status": "planned",
+  "purpose": "Second production batch for reusable repair/modularity pieces that can improve generated facades, add controlled clutter, and keep village layouts accessible.",
+  "source_files": [
+    "areas/wolfpine_village/ART_BRIEF.md",
+    "areas/wolfpine_village/layout_constraints.json",
+    "data/asset_kits/wolfpine_village_starter.json",
+    "assets/kits/wolfpine_village/GENERATION_SPECS.md"
+  ],
+  "global_prompt_lock": "Original classic pre-rendered pseudo-isometric CRPG asset, fixed 3/4 isometric camera, painted/pre-rendered look, not pixel-art, grounded low-fantasy frontier village, muted natural earth colors, warm late-afternoon or soft overcast daylight, readable contact shadow, dark timber, old stone, weathered plaster, moss, mud, cobble, no UI, no text.",
+  "global_negative_prompt": "pixel art, front-facing flat perspective, inconsistent camera angle, unreadable silhouette, no contact shadow, modern materials, glossy heroic fantasy, horror-dark lighting, readable text, labels, signs with words, UI, impossible architecture, stairs to windows, blocked doors, full scene background, characters, monsters",
+  "batch_acceptance_checks": [
+    "All six modular assets have candidate PNGs or documented candidate references.",
+    "Architecture pieces match the same pseudo-isometric ground plane as Batch 01 facades.",
+    "Door/window pieces can visibly repair or replace bad generated facade details.",
+    "Clutter pieces are small enough to dress scenes without blocking required paths.",
+    "Every accepted candidate has source/license/generation notes before production use."
+  ],
+  "assets": [
+    {
+      "asset_id": "wolfpine_door_heavy_01",
+      "target_file": "assets/kits/wolfpine_village/architecture/wolfpine_door_heavy_01.png",
+      "candidate_status": "not_started",
+      "generation_prompt_addon": "Heavy dark wooden medieval frontier village door, iron strap hinges, small latch, damp lower edge, old timber planks, slight stone or mud threshold contact shadow, sized for ground-level inn or storehouse use, clearly a door and not a window, isolated architecture patch with transparent-ready margin.",
+      "review_checks": [
+        "Reads as a ground-level door, not a window.",
+        "Perspective matches the village facades.",
+        "Can be placed over a facade without looking pasted on.",
+        "Has believable hinges/latch and grounded threshold shadow."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_window_shuttered_01",
+      "target_file": "assets/kits/wolfpine_village/architecture/wolfpine_window_shuttered_01.png",
+      "candidate_status": "not_started",
+      "generation_prompt_addon": "Small shuttered village window for timber-and-plaster facade, dark wooden shutters, slightly uneven frame, optional faint warm interior glow, much smaller than a door, clearly non-walkable, isolated architecture patch with clean margin, Wolfpine damp moss and weathering.",
+      "review_checks": [
+        "Reads clearly as a window.",
+        "Cannot be mistaken for a door or usable exit.",
+        "Matches timber/plaster Wolfpine material language.",
+        "Can repeat on facades without obvious pattern noise."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_fence_segment_01",
+      "target_file": "assets/kits/wolfpine_village/architecture/wolfpine_fence_segment_01.png",
+      "candidate_status": "not_started",
+      "generation_prompt_addon": "Rough low timber fence segment for a poor frontier village, uneven dark wooden posts and rails, muddy base, moss and damp age, short modular length, repeatable edge piece for path framing, fixed pseudo-isometric angle, not a wall, not too visually heavy.",
+      "review_checks": [
+        "Repeats cleanly enough for path edges.",
+        "Perspective matches the ground plane.",
+        "Does not read as an impassable wall unless grouped densely.",
+        "Works beside inn, forge, and village square edges."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_firewood_stack_01",
+      "target_file": "assets/kits/wolfpine_village/props/wolfpine_firewood_stack_01.png",
+      "candidate_status": "not_started",
+      "generation_prompt_addon": "Small stacked firewood pile for a damp frontier village, split logs, simple rough stacking, dark wet bark, muted cut wood, light moss or mud at base, compact footprint, readable contact shadow, usable beside forge, inn service wall, or cottage.",
+      "review_checks": [
+        "Reads as firewood at small scale.",
+        "Compact enough to sit beside buildings without blocking doors.",
+        "Contact shadow grounds it to the pseudo-isometric plane.",
+        "Works with blacksmith and cottage dressing."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_barrel_01",
+      "target_file": "assets/kits/wolfpine_village/clutter/wolfpine_barrel_01.png",
+      "candidate_status": "not_started",
+      "generation_prompt_addon": "Weathered wooden barrel, damp dark staves, simple iron hoops, muddy base, pseudo-isometric view, small reusable clutter object, no labels or symbols, medieval frontier storage prop, clean silhouette and contact shadow, suitable for grouping near inn, storehouse, or market stall.",
+      "review_checks": [
+        "Readable round barrel form in pseudo-isometric view.",
+        "Small enough for repeated dressing.",
+        "No readable markings or modern details.",
+        "Can group with crates without visual clutter."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_crate_01",
+      "target_file": "assets/kits/wolfpine_village/clutter/wolfpine_crate_01.png",
+      "candidate_status": "not_started",
+      "generation_prompt_addon": "Weathered wooden crate, rough plank construction, damp mossy edges, muddy contact shadow, pseudo-isometric view, medieval frontier storage prop, compact reusable clutter asset, no labels or text, can stack with sacks or barrels near storehouse and market edges.",
+      "review_checks": [
+        "Perspective matches the ground plane.",
+        "Edges are readable but not pixel-sharp.",
+        "No readable text or modern shipping marks.",
+        "Works with barrel and storehouse clutter clusters."
+      ]
+    }
+  ]
+}
