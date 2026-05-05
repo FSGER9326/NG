@@ -1,0 +1,39 @@
+{
+  "active_dialogue_node_id": "not_confession_yet",
+  "active_quest_ids": [
+    "missing_caravan"
+  ],
+  "actor_ids": [
+    "captain_renna",
+    "brannoc",
+    "border_bandit"
+  ],
+  "area_id": "wolfpine_road",
+  "faction_reputation": {
+
+  },
+  "flags": {
+    "brannoc_guilt_hint_1": true,
+    "road_peace_first_failure_seen": true,
+    "wolfpine_old_shrine_inspected": true,
+    "wolfpine_shrine_seen_dead_mule": true,
+    "wolfpine_shrine_seen_toll_disc": true
+  },
+  "has_move_target": false,
+  "hotspot_ids": [
+    "old_shrine",
+    "shrine_ledger_niche",
+    "cut_bark_smuggler_mark",
+    "wounded_dog_tracks",
+    "dog_vigil_hollow",
+    "north_exit"
+  ],
+  "move_target": [
+    180.0,
+    540.0
+  ],
+  "player_position": [],
+  "quest_stages": {
+    "missing_caravan": "found_wreck"
+  }
+}

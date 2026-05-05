@@ -1,0 +1,31 @@
+NG debug report analysis
+========================
+Report: C:\Users\User\NG\debug_reports\latest
+
+Metadata:
+- git_commit.txt: 08a2ab863ffe805ca6234beaa72e591656d40369
+- git_status.txt: D debug_reports/latest/exit_timestamp.txt;  D debug_reports/latest/game_exit_code.txt;  M debug_reports/latest/git_commit.txt;  M debug_reports/latest/git_status.txt;  D debug_reports/latest/launch_timestamp.txt;  D debug_reports/latest/manual_play_stdout.log;  D debug_reports/latest/report_type.txt;  D debug_reports/latest/run_id.txt;  D debug_reports/latest/timestamp.txt;  M debug_reports/latest/validation.log;  D debug_reports/latest/validation_exit_code.txt; ?? Godot_v4.6.2-stable_win64.exe; ?? Godot_v4.6.2-stable_win64_console.exe; ?? debug_reports/latest/actions.jsonl; ?? debug_reports/latest/state_after_scenario.json; ?? debug_reports/latest/state_initial.json; ?? debug_reports/latest/state_latest.json
+- timestamp.txt: 2026-05-05T18:57:09.2488737+02:00
+- report_type.txt: automated_test
+- run_id.txt: 20260505_185603
+
+Exit codes:
+- test_exit_code.txt: 1 (FAIL)
+
+Game flow:
+- events logged: 3
+- started new game: False
+- area runtime loaded: False
+- last event: {'category': 'SCENARIO', 'level': 'error', 'message': 'ERROR: Target scene does not expose run_debug_action().', 'target_scene': 'res://game/scenes/main.tscn', 'time': 0.031, 'type': 'log'}
+
+High-priority findings:
+- test_exit_code.txt is non-zero: 1
+- scenario.log: L211: SCRIPT ERROR: Parse Error: Expected variable name after "var".
+- scenario.log: L215: ERROR: Failed to load script "res://game/scripts/core/main.gd" with error "Parse error".
+- scenario.log: L219: [0000.029] SCENARIO: ERROR: Target scene does not expose run_debug_action().
+- game.log: L3: [0000.029] SCENARIO: ERROR: Target scene does not expose run_debug_action().
+- actions.jsonl: L3: {"category":"SCENARIO","level":"error","message":"ERROR: Target scene does not expose run_debug_action().","target_scene":"res://game/scenes/main.tscn","time":0.031,"type":"log"}
+
+Warnings:
+- scenario.log: L220: WARNING: 1 RID of type "CanvasItem" was leaked.
+- scenario.log: L222: WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
