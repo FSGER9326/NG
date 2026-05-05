@@ -84,6 +84,66 @@
           "value": true
         }
       ]
+    },
+    {
+      "id": "mill_tally_window",
+      "name": "Miller's Tally Window",
+      "type": "inspect",
+      "position": [690, 380],
+      "radius": 38,
+      "description": "The miller's tally window is shuttered from within, but a wet scrap of copied manifest lies caught under the sill. One passenger line has been rubbed pale with ash instead of scratched with a knife, as if someone practiced erasing the name before the real ledger vanished.",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_mill_tally_erased_name_hint",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_village_mill_pressure_seen",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "blackfen_fish_crates",
+      "name": "Blackfen Fish Crates",
+      "type": "inspect",
+      "position": [815, 540],
+      "radius": 42,
+      "description": "Three fish crates stink beside the market runoff. Their lids carry the same three-cut route mark seen near the shrine ruts, but the pitch seal has been broken and pressed shut again with guard-house wax.",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_blackfen_crates_seen",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_village_smuggler_pressure_seen",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "guard_rope_hooks",
+      "name": "Guardhouse Rope Hooks",
+      "type": "inspect",
+      "position": [610, 515],
+      "radius": 40,
+      "description": "A rack of rope hooks stands beside the guardhouse lean-to. One hook is clean where rain should have rusted it, and a strand of red wagon cord still clings to the tooth. Someone cut loose a load in a hurry and returned the tool too carefully.",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_guard_rope_caravan_hint",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_village_guard_pressure_seen",
+          "value": true
+        }
+      ]
     }
   ]
 }
