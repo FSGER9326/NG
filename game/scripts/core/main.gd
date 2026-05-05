@@ -8,6 +8,7 @@ const SaveSystem = preload("res://game/scripts/core/save_system.gd")
 const CharacterProfileBuilder = preload("res://game/scripts/character/character_profile_builder.gd")
 
 const CHARACTER_CREATION_PATH := "res://data/character_creation/character_creation.json"
+const PORTRAITS_PATH := "res://data/character_creation/portraits.json"
 
 var data_loader: DataLoader
 var save_system: SaveSystem
@@ -38,7 +39,10 @@ func _ready() -> void:
 	save_system = SaveSystem.new()
 	var load_result := data_loader.load_bootstrap_data()
 	character_creation_data = data_loader.load_json_file(CHARACTER_CREATION_PATH)
-	GameLog.info("BOOT", "Loaded bootstrap data", {"keys": load_result.keys(), "has_character_creation": not character_creation_data.is_empty()})
+	var portrait_data := data_loader.load_json_file(PORTRAITS_PATH)
+	if typeof(portrait_data.get("portraits", [])) == TYPE_ARRAY:
+		character_creation_data["portraits"] = portrait_data.get("portraits", [])
+	GameLog.info("BOOT", "Loaded bootstrap data", {"keys": load_result.keys(), "has_character_creation": not character_creation_data.is_empty(), "portrait_count": character_creation_data.get("portraits", []).size()})
 	_show_main_menu()
 
 func _show_main_menu() -> void:
