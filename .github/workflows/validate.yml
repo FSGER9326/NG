@@ -30,3 +30,6 @@ jobs:
 
       - name: Validate asset generation batches
         run: python tools/validate_asset_batches.py
+
+      - name: Validate asset placement plans
+        run: python tools/validate_asset_placement_plans.py
