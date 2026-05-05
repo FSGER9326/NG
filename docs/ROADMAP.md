@@ -54,8 +54,8 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [x] Expose trait selection in the creator UI
 - [x] Enforce compatibility blocks and requirements in the creator UI
 - [x] Add option filtering for incompatible traits in the creator UI
-- [ ] Add richer compatibility explanation text in the creator UI
-- [ ] Character portrait selection
+- [x] Add richer compatibility explanation text in the creator UI
+- [ ] Character portrait selection — tracked in issue #13; metadata and CI validation are ready
 
 ## Milestone 0.5 — Combat prototype
 
@@ -116,8 +116,14 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 1. Start a new game.
 2. Choose Fair Young Elf / Cloister Novice / Mage Apprentice.
 3. The creator should mark Brawny unavailable in the trait list.
-4. The creator warning text should mention that Brawny is unavailable for the current build.
+4. The creator warning text should explain that Brawny conflicts with readable themes such as elf ancestry, slender frame, mage training, fragile arcane training, and sheltered upbringing.
 5. Choose a coherent trait such as Arcane Sensitive to proceed.
+
+### Character portrait metadata path
+
+1. Run `python tools/validate_portraits.py`.
+2. Confirm `data/character_creation/portraits.json` has unique text-first portrait IDs, names, summaries, and tags.
+3. Implement issue #13 to expose these metadata choices in the creator UI without requiring final portrait art.
 
 ### Basic quest path
 
@@ -177,6 +183,6 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 ## Next target
 
-Stabilize the menu/new-game/area-transition/save-load flow, then add richer compatibility explanations and portrait selection to the character creator UI. For narrative content, expand Missing Caravan and Old Shrine from prototype beats into the Act I structure in `docs/STORY_BIBLE.md`. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
+Stabilize the menu/new-game/area-transition/save-load flow, then implement issue #13 to expose text-first portrait selection in the character creator UI. For narrative content, expand Missing Caravan and Old Shrine from prototype beats into the Act I structure in `docs/STORY_BIBLE.md`. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
 
 ## Always update this file when scope changes.
