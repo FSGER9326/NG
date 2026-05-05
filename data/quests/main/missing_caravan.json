@@ -40,6 +40,9 @@
     "evidence_web_reported": {
       "summary": "The party gave Captain Renna a wider evidence web: old shrine signs, a hidden body, an erased name, and a smuggler trail mark."
     },
+    "village_pressure_reported": {
+      "summary": "The party told Captain Renna that Wolfpine Village itself now shows pressure around the erased manifest name, Blackfen crates, and guard-house rope hooks."
+    },
     "accused_guards": {
       "summary": "The party suspects Wolfpine's own guards are involved."
     },

@@ -1,0 +1,65 @@
+{
+  "id": "wolfpine_village_pressure_to_renna",
+  "name": "Wolfpine Village Pressure To Renna",
+  "description": "Verifies the village mill, Blackfen crate, and guard-rope pressure clues unlock Renna's village pressure report branch.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_village",
+      "entry_id": "village_square"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "mill_tally_window"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_village_mill_pressure_seen",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "blackfen_fish_crates"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_village_smuggler_pressure_seen",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "guard_rope_hooks"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_village_guard_pressure_seen",
+      "value": true
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "The village signs match the road evidence."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "village_pressure_reported"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_village_pressure_reported",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "The mill, smugglers, and guardhouse each touched the same lie."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then the next work is witnesses, not tracks."
+    }
+  ]
+}
