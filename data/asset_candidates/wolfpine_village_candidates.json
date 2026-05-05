@@ -1,0 +1,164 @@
+{
+  "id": "wolfpine_village_candidates",
+  "name": "Wolfpine Village Asset Candidate Ledger",
+  "target_area": "wolfpine_village",
+  "target_kit": "wolfpine_village_starter_kit",
+  "purpose": "Tracks generated or sourced candidate assets before promotion into the canonical Wolfpine Village kit.",
+  "source_policy": {
+    "allowed_source_types": [
+      "generated_image",
+      "hand_painted_project_asset",
+      "cc0_external_asset_modified",
+      "public_domain_external_asset_modified"
+    ],
+    "disallowed_source_types": [
+      "unclear_license",
+      "noncommercial_asset",
+      "raw_full_scene_cutout",
+      "ai_image_without_generation_notes"
+    ],
+    "notes": "Do not promote candidates into canonical asset paths until source, license/generation notes, cleanup status, and review status are recorded."
+  },
+  "candidate_statuses": [
+    "candidate_needed",
+    "candidate_generated",
+    "needs_cleanup",
+    "needs_review",
+    "accepted_for_kit",
+    "rejected"
+  ],
+  "required_candidate_fields": [
+    "asset_id",
+    "batch_id",
+    "candidate_id",
+    "status",
+    "source_type",
+    "source_notes",
+    "candidate_file",
+    "target_file",
+    "cleanup_notes",
+    "review_notes"
+  ],
+  "candidates": [
+    {
+      "asset_id": "wolfpine_inn_facade_01",
+      "batch_id": "wolfpine_village_batch_01",
+      "candidate_id": "wolfpine_inn_facade_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 01 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_01/wolfpine_inn_facade_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/buildings/wolfpine_inn_facade_01.png",
+      "cleanup_notes": [
+        "Crop with margin for alpha masking.",
+        "Ensure ground-level door remains visible.",
+        "Normalize contact shadow to Batch 01 direction."
+      ],
+      "review_notes": [
+        "Reject if door is blocked, missing, or visually ambiguous.",
+        "Reject if style is pixel-art or horror-dark.",
+        "Reject if facade cannot align with inn_front placement plan."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_blacksmith_facade_01",
+      "batch_id": "wolfpine_village_batch_01",
+      "candidate_id": "wolfpine_blacksmith_facade_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 01 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_01/wolfpine_blacksmith_facade_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/buildings/wolfpine_blacksmith_facade_01.png",
+      "cleanup_notes": [
+        "Crop with margin for alpha masking.",
+        "Keep forge clutter beside the approach.",
+        "Normalize contact shadow to Batch 01 direction."
+      ],
+      "review_notes": [
+        "Reject if forge clutter blocks the door.",
+        "Reject if chimney/forge identity is unreadable.",
+        "Reject if stairs lead to windows or dead platforms."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_storehouse_facade_01",
+      "batch_id": "wolfpine_village_batch_01",
+      "candidate_id": "wolfpine_storehouse_facade_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 01 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_01/wolfpine_storehouse_facade_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/buildings/wolfpine_storehouse_facade_01.png",
+      "cleanup_notes": [
+        "Crop with margin for alpha masking.",
+        "Preserve reinforced ground-level door.",
+        "Keep side clutter away from door threshold."
+      ],
+      "review_notes": [
+        "Reject if it reads as an inn or cottage rather than storehouse.",
+        "Reject if sacks/crates block the main door.",
+        "Reject if footprint cannot fit placement plan."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_well_01",
+      "batch_id": "wolfpine_village_batch_01",
+      "candidate_id": "wolfpine_well_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 01 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_01/wolfpine_well_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/props/wolfpine_well_01.png",
+      "cleanup_notes": [
+        "Crop with margin for alpha masking.",
+        "Keep low profile; avoid large roof occluder.",
+        "Normalize contact shadow."
+      ],
+      "review_notes": [
+        "Reject if it reads as a tower, shrine, or large roofed structure.",
+        "Reject if it blocks too much main_square visibility.",
+        "Reject if approach space is visually closed on all sides."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_market_stall_01",
+      "batch_id": "wolfpine_village_batch_01",
+      "candidate_id": "wolfpine_market_stall_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 01 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_01/wolfpine_market_stall_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/props/wolfpine_market_stall_01.png",
+      "cleanup_notes": [
+        "Crop with margin for alpha masking.",
+        "Keep customer-facing side readable.",
+        "Simplify noisy goods if needed."
+      ],
+      "review_notes": [
+        "Reject if stall is too large for a path edge.",
+        "Reject if goods become unreadable visual noise.",
+        "Reject if awning hides interaction side."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_notice_board_01",
+      "batch_id": "wolfpine_village_batch_01",
+      "candidate_id": "wolfpine_notice_board_01_candidate_a",
+      "status": "candidate_needed",
+      "source_type": "generated_image",
+      "source_notes": "Generate from Batch 01 prompt card. Record tool/model/date/settings before promotion.",
+      "candidate_file": "assets/kits/wolfpine_village/candidates/batch_01/wolfpine_notice_board_01_candidate_a.png",
+      "target_file": "assets/kits/wolfpine_village/props/wolfpine_notice_board_01.png",
+      "cleanup_notes": [
+        "Crop with margin for alpha masking.",
+        "Remove or blur any readable accidental text.",
+        "Preserve clear two-post silhouette."
+      ],
+      "review_notes": [
+        "Reject if any readable words remain.",
+        "Reject if it reads as a door or signpost instead of notice board.",
+        "Reject if interaction side is unclear."
+      ]
+    }
+  ]
+}
