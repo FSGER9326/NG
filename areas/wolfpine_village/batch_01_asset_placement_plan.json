@@ -1,0 +1,122 @@
+{
+  "id": "wolfpine_village_batch_01_asset_placement_plan",
+  "area_id": "wolfpine_village",
+  "batch_id": "wolfpine_village_batch_01",
+  "canvas_size": [1280, 720],
+  "purpose": "Placement intent for the first six generated Wolfpine Village reusable assets. Use this to review generated candidates before promoting them into a final village plate.",
+  "source_files": [
+    "areas/wolfpine_village/layout_constraints.json",
+    "data/asset_batches/wolfpine_village_batch_01.json",
+    "data/asset_kits/wolfpine_village_starter.json"
+  ],
+  "global_rules": [
+    "Do not let any Batch 01 asset block south_road_to_well, well_to_inn, well_to_blacksmith, or well_to_chapel_path.",
+    "All building facades must keep their listed ground-level doors visible and reachable.",
+    "Props must sit at path edges or central focal points without hiding required hotspots.",
+    "Generated candidates may be scaled or cropped during cleanup, but their camera angle must match the layout ground plane."
+  ],
+  "placements": [
+    {
+      "asset_id": "wolfpine_inn_facade_01",
+      "asset_role": "large_building_anchor",
+      "target_zone": "pine_hearth_inn",
+      "target_layer": "background_buildings",
+      "intended_file": "assets/kits/wolfpine_village/buildings/wolfpine_inn_facade_01.png",
+      "anchor_point": [465, 395],
+      "expected_footprint": [[335, 185], [565, 160], [595, 380], [395, 420]],
+      "required_visible_doors": ["door_inn_main"],
+      "must_not_block_paths": ["well_to_inn"],
+      "nearby_walkable_zones": ["inn_front", "main_square"],
+      "review_notes": [
+        "Inn main door should align near [470, 395].",
+        "Bottom edge must visually connect to inn_front.",
+        "Warm window glow is allowed but should not become horror lighting."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_blacksmith_facade_01",
+      "asset_role": "large_building_anchor",
+      "target_zone": "blacksmith_forge",
+      "target_layer": "background_buildings",
+      "intended_file": "assets/kits/wolfpine_village/buildings/wolfpine_blacksmith_facade_01.png",
+      "anchor_point": [805, 430],
+      "expected_footprint": [[735, 245], [935, 230], [950, 430], [760, 465]],
+      "required_visible_doors": ["door_blacksmith_main"],
+      "must_not_block_paths": ["well_to_blacksmith"],
+      "nearby_walkable_zones": ["forge_front", "main_square"],
+      "review_notes": [
+        "Blacksmith door should align near [805, 430].",
+        "Forge clutter must stay beside the approach, not on top of it.",
+        "Short forge step may exist but cannot lead to a window."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_storehouse_facade_01",
+      "asset_role": "secondary_building_anchor",
+      "target_zone": "storehouse",
+      "target_layer": "background_buildings",
+      "intended_file": "assets/kits/wolfpine_village/buildings/wolfpine_storehouse_facade_01.png",
+      "anchor_point": [980, 520],
+      "expected_footprint": [[890, 430], [1085, 395], [1130, 560], [925, 605]],
+      "required_visible_doors": ["door_storehouse_main"],
+      "must_not_block_paths": ["well_to_chapel_path"],
+      "nearby_walkable_zones": ["main_square"],
+      "review_notes": [
+        "Storehouse door should align near [980, 520].",
+        "Crates and sacks may sit on side edges but cannot hide the door.",
+        "Building should read as guarded supplies, not a second inn."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_well_01",
+      "asset_role": "central_hotspot_prop",
+      "target_zone": "main_square",
+      "target_layer": "props_interactive",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_well_01.png",
+      "anchor_point": [610, 465],
+      "expected_footprint": [[570, 425], [650, 420], [675, 485], [595, 525]],
+      "hotspot_id": "village_well",
+      "must_not_block_paths": ["south_road_to_well", "well_to_inn", "well_to_blacksmith", "well_to_chapel_path"],
+      "nearby_walkable_zones": ["main_square"],
+      "review_notes": [
+        "Well should be a focal point, not a wall-like occluder.",
+        "Keep approach space open on at least two sides.",
+        "NPC placement near [620, 470] must still be readable."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_market_stall_01",
+      "asset_role": "edge_interaction_prop",
+      "target_zone": "main_square",
+      "target_layer": "props_interactive",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_market_stall_01.png",
+      "anchor_point": [735, 505],
+      "expected_footprint": [[690, 475], [790, 460], [820, 520], [715, 550]],
+      "hotspot_id": "market_stall",
+      "must_not_block_paths": ["south_road_to_well", "well_to_blacksmith"],
+      "nearby_walkable_zones": ["main_square"],
+      "review_notes": [
+        "Stall should sit along the path edge, not across the route.",
+        "Customer-facing side should point toward main_square.",
+        "Future merchant at [735, 505] must not stand inside the stall footprint."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_notice_board_01",
+      "asset_role": "small_hotspot_prop",
+      "target_zone": "main_square",
+      "target_layer": "props_interactive",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_notice_board_01.png",
+      "anchor_point": [520, 515],
+      "expected_footprint": [[495, 485], [545, 480], [565, 535], [510, 550]],
+      "hotspot_id": "notice_board",
+      "must_not_block_paths": ["south_road_to_well", "well_to_inn"],
+      "nearby_walkable_zones": ["main_square"],
+      "review_notes": [
+        "Notice board should have no readable text.",
+        "Interaction side should face the main_square.",
+        "Silhouette must read as a board, not a door or signpost."
+      ]
+    }
+  ]
+}
