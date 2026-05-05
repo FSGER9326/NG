@@ -1,0 +1,25 @@
+name: Runtime parse guards
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  runtime-parse-guards:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Validate runtime shims
+        run: python tools/validate_runtime_shims.py
+
+      - name: Validate Godot reserved identifiers
+        run: python tools/validate_godot_reserved_identifiers.py
