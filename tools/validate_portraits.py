@@ -9,6 +9,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 PORTRAITS_PATH = ROOT / "data" / "character_creation" / "portraits.json"
+CHARACTER_CREATION_PATH = ROOT / "data" / "character_creation" / "character_creation.json"
 
 
 def load_json(path: Path) -> Any:
@@ -23,6 +24,33 @@ def validate_tag_list(errors: list[str], context: str, value: Any) -> None:
     for tag in value:
         if not isinstance(tag, str) or "." not in tag:
             errors.append(f"{context}.tags has malformed tag: {tag}")
+
+
+def validate_background_portrait_refs(errors: list[str], portrait_ids: set[str]) -> None:
+    if not CHARACTER_CREATION_PATH.exists():
+        errors.append(f"Missing character creation data: {CHARACTER_CREATION_PATH.relative_to(ROOT)}")
+        return
+    data = load_json(CHARACTER_CREATION_PATH)
+    if not isinstance(data, dict):
+        errors.append("Character creation root must be an object")
+        return
+    backgrounds = data.get("backgrounds")
+    if not isinstance(backgrounds, list):
+        errors.append("Character creation data must contain a backgrounds list")
+        return
+    for index, background in enumerate(backgrounds, start=1):
+        if not isinstance(background, dict):
+            errors.append(f"background entry {index} must be an object")
+            continue
+        background_id = str(background.get("id", f"background entry {index}"))
+        portrait_id = background.get("portrait_id")
+        if portrait_id is None:
+            continue
+        if not isinstance(portrait_id, str) or not portrait_id:
+            errors.append(f"{background_id}.portrait_id must be a non-empty string when present")
+            continue
+        if portrait_id not in portrait_ids:
+            errors.append(f"{background_id}.portrait_id references unknown portrait: {portrait_id}")
 
 
 def main() -> int:
@@ -60,6 +88,8 @@ def main() -> int:
             if not isinstance(portrait.get(field), str) or not portrait.get(field):
                 errors.append(f"{context} missing {field}")
         validate_tag_list(errors, context, portrait.get("tags"))
+
+    validate_background_portrait_refs(errors, seen_ids)
 
     if errors:
         print("NG portrait validation failed:")
