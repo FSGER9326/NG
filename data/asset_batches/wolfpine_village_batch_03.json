@@ -1,0 +1,61 @@
+{
+  "id": "wolfpine_village_batch_03",
+  "name": "Wolfpine Village Batch 03 - Ground Blend and Foreground Depth",
+  "target_kit": "wolfpine_village_starter_kit",
+  "target_area": "wolfpine_village",
+  "status": "planned",
+  "purpose": "Third production batch for finishing assets that blend roads, soften hard edges, and add controlled foreground depth without hiding required hotspots.",
+  "source_files": [
+    "areas/wolfpine_village/ART_BRIEF.md",
+    "areas/wolfpine_village/layout_constraints.json",
+    "data/asset_kits/wolfpine_village_starter.json",
+    "assets/kits/wolfpine_village/GENERATION_SPECS.md"
+  ],
+  "global_prompt_lock": "Original classic pre-rendered pseudo-isometric CRPG asset, fixed 3/4 isometric camera, painted/pre-rendered look, not pixel-art, grounded low-fantasy frontier village, muted natural earth colors, warm late-afternoon or soft overcast daylight, readable contact shadow, dark timber, old stone, weathered plaster, moss, mud, cobble, no UI, no text.",
+  "global_negative_prompt": "pixel art, front-facing flat perspective, inconsistent camera angle, unreadable silhouette, no contact shadow, modern materials, glossy heroic fantasy, horror-dark lighting, readable text, labels, signs with words, UI, impossible architecture, stairs to windows, blocked doors, full scene background, characters, monsters",
+  "batch_acceptance_checks": [
+    "All three finishing assets have candidate PNGs or documented candidate references.",
+    "Ground/vegetation assets can repeat without obvious hard seams.",
+    "Decals blend into mud/cobble/road surfaces without sticker-like edges.",
+    "Foreground occluder does not hide required doors, exits, or hotspots.",
+    "Every accepted candidate has source/license/generation notes before production use."
+  ],
+  "assets": [
+    {
+      "asset_id": "wolfpine_grass_clump_01",
+      "target_file": "assets/kits/wolfpine_village/vegetation/wolfpine_grass_clump_01.png",
+      "candidate_status": "not_started",
+      "generation_prompt_addon": "Small village-edge grass and weed clump for damp low-fantasy settlement paths, muted natural greens, muddy root base, soft irregular silhouette, transparent-ready isolated asset, low contrast, repeatable without obvious pattern, for blending path edges and wall bases rather than blocking movement.",
+      "review_checks": [
+        "Blends with mud and cobble edges.",
+        "Not too contrasty at game scale.",
+        "Can repeat without obvious pattern.",
+        "Does not imply collision unless densely clustered."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_mud_rut_decal_01",
+      "target_file": "assets/kits/wolfpine_village/decals/wolfpine_mud_rut_decal_01.png",
+      "candidate_status": "not_started",
+      "generation_prompt_addon": "Transparent-ready muddy wheel rut ground decal for wagon-worn village road, damp brown mud, subtle puddle sheen, irregular soft edges, pseudo-isometric ground-plane alignment, decal-like top-down painted texture that supports path direction without obscuring walkability, no hard rectangular boundary.",
+      "review_checks": [
+        "Works over cobble, dirt, and road bases.",
+        "Does not look like a hard-edged sticker.",
+        "Supports path direction visually.",
+        "Does not obscure walkability readability."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_branch_occluder_01",
+      "target_file": "assets/kits/wolfpine_village/occluders/wolfpine_branch_occluder_01.png",
+      "candidate_status": "not_started",
+      "generation_prompt_addon": "Foreground pine branch occluder for classic CRPG village scene edge framing, dark green pine needles, rough branch bark, slightly softer focus than gameplay objects, transparent-ready isolated foreground element, asymmetrical edge silhouette, subtle warm daylight rim, meant for screen corners and upper foreground only.",
+      "review_checks": [
+        "Looks like a foreground element, not a ground prop.",
+        "Soft enough to avoid distracting from gameplay.",
+        "Does not cover important interaction points.",
+        "Can frame scene edges and add depth without hiding doors or exits."
+      ]
+    }
+  ]
+}
