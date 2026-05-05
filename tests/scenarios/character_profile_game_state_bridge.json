@@ -2,7 +2,7 @@
   "id": "character_profile_game_state_bridge",
   "name": "Character Profile GameState Bridge",
   "root_scene": "main",
-  "description": "Verifies that character creator tags are stored in the player profile and applied to the active AreaController GameState after Start Journey.",
+  "description": "Verifies that character creator tags, skills, and attributes are stored in the player profile and applied to the active AreaController GameState after Start Journey.",
   "steps": [
     {
       "type": "assert_screen",
@@ -81,6 +81,26 @@
       "type": "assert_player_tag",
       "tag": "trait.quick_eyed",
       "value": true
+    },
+    {
+      "type": "assert_party_skill",
+      "skill_id": "perception",
+      "value": 5
+    },
+    {
+      "type": "assert_party_skill",
+      "skill_id": "survival",
+      "value": 4
+    },
+    {
+      "type": "assert_party_skill",
+      "skill_id": "stealth",
+      "value": 1
+    },
+    {
+      "type": "assert_player_attribute",
+      "attribute_id": "wits",
+      "value": 2
     }
   ]
 }
