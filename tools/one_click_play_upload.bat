@@ -78,6 +78,7 @@ echo %VALIDATION_EXIT% > "%REPORT_DIR%\validation_exit_code.txt"
 echo %GAME_EXIT% > "%REPORT_DIR%\game_exit_code.txt"
 echo manual_play > "%REPORT_DIR%\report_type.txt"
 echo %RUN_ID% > "%REPORT_DIR%\run_id.txt"
+python tools\analyze_debug_report.py "%REPORT_DIR%" > "%REPORT_DIR%\analysis_summary.txt" 2>&1
 xcopy "%REPORT_DIR%" "%RUN_REPORT_DIR%" /E /I /Y >nul
 
 echo Uploading latest play report to GitHub...
