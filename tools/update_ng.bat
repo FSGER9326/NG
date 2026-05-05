@@ -33,13 +33,23 @@ if errorlevel 1 (
 echo.
 echo Running data validation...
 python tools\validate_project.py
-if errorlevel 1 (
-  echo.
-  echo WARNING: Update completed, but validation failed.
-  pause
-  exit /b 1
-)
+if errorlevel 1 goto validation_failed
+python tools\validate_character_creation.py
+if errorlevel 1 goto validation_failed
+python tools\validate_portraits.py
+if errorlevel 1 goto validation_failed
+python tools\validate_quest_seeds.py
+if errorlevel 1 goto validation_failed
+python tools\validate_asset_kits.py
+if errorlevel 1 goto validation_failed
 
 echo.
 echo NG is updated and validation passed.
 pause
+exit /b 0
+
+:validation_failed
+echo.
+echo WARNING: Update completed, but validation failed.
+pause
+exit /b 1

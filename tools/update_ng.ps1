@@ -32,12 +32,21 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host ''
 Write-Host 'Running data validation...'
-python tools/validate_project.py
-if ($LASTEXITCODE -ne 0) {
-    Write-Host ''
-    Write-Host 'WARNING: Update completed, but validation failed.'
-    Read-Host 'Press Enter to exit'
-    exit 1
+$validators = @(
+    'tools/validate_project.py',
+    'tools/validate_character_creation.py',
+    'tools/validate_portraits.py',
+    'tools/validate_quest_seeds.py',
+    'tools/validate_asset_kits.py'
+)
+foreach ($validator in $validators) {
+    python $validator
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host ''
+        Write-Host "WARNING: Update completed, but validation failed while running $validator."
+        Read-Host 'Press Enter to exit'
+        exit 1
+    }
 }
 
 Write-Host ''
