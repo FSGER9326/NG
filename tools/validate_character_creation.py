@@ -172,11 +172,15 @@ def validate_background_portrait_refs(errors: list[str], data: dict[str, Any], p
     for background in backgrounds:
         if not isinstance(background, dict):
             continue
+        background_id = str(background.get("id", "unknown"))
         portrait_id = background.get("portrait_id")
         if portrait_id is None:
+            errors.append(f"{background_id} missing required portrait_id")
             continue
-        if isinstance(portrait_id, str) and portrait_id not in portrait_ids:
-            errors.append(f"{background.get('id', 'unknown')}.portrait_id references missing portrait: {portrait_id}")
+        if not isinstance(portrait_id, str) or not portrait_id.startswith("portrait_"):
+            errors.append(f"{background_id}.portrait_id must use portrait_ id prefix")
+        elif portrait_id not in portrait_ids:
+            errors.append(f"{background_id}.portrait_id references missing portrait: {portrait_id}")
 
 
 def main() -> int:
