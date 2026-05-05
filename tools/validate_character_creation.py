@@ -2,7 +2,7 @@
 """Validate NG character creation data.
 
 Checks ancestry/background/class/trait records for stable ids, tag shape,
-modifier shape, and basic thematic compatibility references.
+modifier shape, basic thematic compatibility references, and portrait metadata references.
 """
 
 from __future__ import annotations
@@ -13,6 +13,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "character_creation" / "character_creation.json"
+PORTRAITS_PATH = ROOT / "data" / "character_creation" / "portraits.json"
 SECTIONS = ("ancestries", "backgrounds", "classes", "traits")
 ATTRIBUTE_IDS = {"might", "finesse", "resolve", "wits", "presence", "occult"}
 SKILL_IDS = {
@@ -27,11 +28,44 @@ SKILL_IDS = {
     "arcana",
     "command",
 }
+BUILDER_DEFAULT_PORTRAIT_IDS = {
+    "portrait_weathered_drifter_01",
+    "portrait_disgraced_squire_01",
+    "portrait_village_outcast_01",
+    "portrait_caravan_guard_01",
+}
 
 
 def load_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def load_portrait_ids(errors: list[str]) -> set[str]:
+    if not PORTRAITS_PATH.exists():
+        errors.append(f"Missing portrait metadata: {PORTRAITS_PATH.relative_to(ROOT)}")
+        return set()
+    data = load_json(PORTRAITS_PATH)
+    if not isinstance(data, dict):
+        errors.append("Portrait metadata root must be an object")
+        return set()
+    portraits = data.get("portraits")
+    if not isinstance(portraits, list):
+        errors.append("Portrait metadata must contain a portraits list")
+        return set()
+
+    portrait_ids: set[str] = set()
+    for index, portrait in enumerate(portraits, start=1):
+        if not isinstance(portrait, dict):
+            errors.append(f"portrait entry {index} must be an object")
+            continue
+        portrait_id = portrait.get("id")
+        if isinstance(portrait_id, str) and portrait_id:
+            portrait_ids.add(portrait_id)
+    missing_defaults = BUILDER_DEFAULT_PORTRAIT_IDS - portrait_ids
+    for portrait_id in sorted(missing_defaults):
+        errors.append(f"CharacterProfileBuilder default portrait is missing from portraits.json: {portrait_id}")
+    return portrait_ids
 
 
 def validate_stat_map(errors: list[str], context: str, value: Any, allowed: set[str]) -> None:
@@ -47,7 +81,14 @@ def validate_stat_map(errors: list[str], context: str, value: Any, allowed: set[
             errors.append(f"{context}.{key} must be an integer")
 
 
-def validate_item(errors: list[str], section: str, item: Any, seen_ids: set[str], known_tags: set[str]) -> None:
+def validate_item(
+    errors: list[str],
+    section: str,
+    item: Any,
+    seen_ids: set[str],
+    known_tags: set[str],
+    portrait_ids: set[str],
+) -> None:
     if not isinstance(item, dict):
         errors.append(f"{section} entry must be an object")
         return
@@ -64,6 +105,13 @@ def validate_item(errors: list[str], section: str, item: Any, seen_ids: set[str]
     for field in ("name", "summary"):
         if not isinstance(item.get(field), str) or not item.get(field):
             errors.append(f"{item_id} missing {field}")
+
+    if section == "backgrounds" and item.get("portrait_id"):
+        portrait_id = item.get("portrait_id")
+        if not isinstance(portrait_id, str):
+            errors.append(f"{item_id}.portrait_id must be a string")
+        elif portrait_id not in portrait_ids:
+            errors.append(f"{item_id}.portrait_id references unknown portrait: {portrait_id}")
 
     tags = item.get("tags")
     if not isinstance(tags, list) or not tags:
@@ -103,6 +151,8 @@ def main() -> int:
         print("Character creation data root must be an object")
         return 1
 
+    portrait_ids = load_portrait_ids(errors)
+
     validate_stat_map(errors, "base_attributes", data.get("base_attributes", {}), ATTRIBUTE_IDS)
     validate_stat_map(errors, "base_skills", data.get("base_skills", {}), SKILL_IDS)
 
@@ -114,7 +164,7 @@ def main() -> int:
             errors.append(f"{section} must be a non-empty list")
             continue
         for item in items:
-            validate_item(errors, section, item, seen_ids, known_tags)
+            validate_item(errors, section, item, seen_ids, known_tags, portrait_ids)
 
     # Second pass: compatibility tags should either be produced somewhere now or use an accepted future-facing prefix.
     future_prefixes = ("occult.", "morale.", "diplomacy.", "medicine.", "armor.", "stealth.", "survival.")
@@ -137,7 +187,8 @@ def main() -> int:
     print(
         "NG character creation validation passed: "
         f"{sum(len(data.get(section, [])) for section in SECTIONS)} options, "
-        f"{len(known_tags)} produced tags."
+        f"{len(known_tags)} produced tags, "
+        f"{len(portrait_ids)} portrait ids."
     )
     return 0
 
