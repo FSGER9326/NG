@@ -3,7 +3,7 @@
 Date: 2026-05-05
 Source-of-truth repo: `FSGER9326/NG`
 Default branch: `main`
-Current `main` head during checkpoint: `0de7bac31fb3e4e7379d46ef21d27d0a605397d4`
+Current `main` head during checkpoint: `ccaefceb7bb47a9c2b0e2dbb99aadf4a4ed498c1`
 
 ## Why this checkpoint exists
 
@@ -21,7 +21,7 @@ Read this file first, then read:
 
 ## Current confirmed main-branch state
 
-`main` is the stable baseline. Recent branch-integration work has already brought in the useful content and validation work from the old branch queue:
+`main` is the stable baseline. Recent branch-integration work has already brought in the useful content, validation, and scenario-hardening work from the old branch queue:
 
 - `docs/QUEST_SEEDS.md`
 - `data/quests/side/dog_knew_road.json`
@@ -31,6 +31,8 @@ Read this file first, then read:
 - `tests/scenarios/wolfpine_wounded_dog_tracks.json`
 - `tests/scenarios/wolfpine_black_bread_tithe.json`
 - `tests/scenarios/wolfpine_chapel_yard_soot.json`
+- `tests/scenarios/character_profile_game_state_bridge.json`
+- hardened `tests/scenarios/main_menu_save_load.json`
 - `game/scripts/character/portrait_catalog.gd`
 - `tools/validate_portraits.py`
 - `tools/validate_character_creation.py`
@@ -47,7 +49,10 @@ During the latest branch audit:
 - The aggregate `content/cleanup-quests` branch was confirmed to contain the same content already present on `main`.
 - The workflow guardrail branch was confirmed already represented on `main` by `tools/check_pr_hygiene.py` and `.github/workflows/pr_hygiene.yml`.
 - `ci/validate-background-portrait-refs` was integrated by PR #27 and merged as `0de7bac31fb3e4e7379d46ef21d27d0a605397d4`.
+- The stale `cleanup/project-checkpoint-2026-05-04` branch was replaced by an up-to-date checkpoint in PR #28.
+- `ai/scenario-profile-hardening` was reconciled by PR #29 and merged as `ccaefceb7bb47a9c2b0e2dbb99aadf4a4ed498c1`. The useful scenario additions were recreated on a fresh branch while preserving current `main` validator behavior.
 - The old Codex branch that changes scenario `background` assertions to internal background IDs should not be merged as-is. Current profiles keep `background` as the readable name and expose the internal ID separately as `background_id`.
+- Older portrait-validator, quest-seed, local-update-script, and creator-compatibility branches are mostly squash-merged duplicates or stale superseded branches; compare semantics before opening any PR from them.
 
 ## Current validation command set
 
@@ -83,6 +88,7 @@ Current support work for issue #13 is ready:
 - portrait metadata is validated
 - character creation and portrait validators cross-check portrait references
 - `PortraitCatalog` exists and is protected by `tools/validate_gdscript_helpers.py`
+- profile/game-state bridge and save/load scenarios now cover character tags, skills, and attributes
 
 Remaining issue #13 implementation scope:
 
@@ -108,7 +114,7 @@ Many old branches remain after squash merges. Do not assume a diverged branch co
 1. Compare it with `main`.
 2. Check whether the changed files already exist on `main`.
 3. Inspect semantic drift before opening a PR.
-4. Prefer recreating useful stale docs on a fresh branch instead of merging outdated handoff text.
+4. Prefer recreating useful stale docs or tests on a fresh branch instead of merging outdated branch heads.
 
 ## Do not do yet
 
