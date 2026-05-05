@@ -28,6 +28,37 @@
           ]
         },
         {
+          "text": "The village signs match the road evidence.",
+          "next": "village_pressure_report",
+          "conditions": [
+            {
+              "type": "all",
+              "conditions": [
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_village_mill_pressure_seen",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_village_smuggler_pressure_seen",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_village_guard_pressure_seen",
+                  "value": true
+                },
+                {
+                  "type": "flag",
+                  "flag_id": "wolfpine_village_pressure_reported",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
           "text": "The evidence does not point to one thief. It points to a handoff.",
           "next": "evidence_web_report",
           "conditions": [
@@ -490,6 +521,40 @@
       "choices": [
         {
           "text": "That is the real cargo.",
+          "next": "end"
+        }
+      ]
+    },
+    "village_pressure_report": {
+      "text": "Renna listens to the village signs in order: the mill tally rubbed pale, the Blackfen crates resealed with guard wax, and the clean rope hook with wagon cord still clinging to it. \"Then the road did not swallow the caravan. Wolfpine helped chew it.\"",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "village_pressure_reported"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_village_pressure_reported",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "The mill, smugglers, and guardhouse each touched the same lie.",
+          "next": "renna_village_pressure_followup"
+        },
+        {
+          "text": "That makes this bigger than bandits.",
+          "next": "end"
+        }
+      ]
+    },
+    "renna_village_pressure_followup": {
+      "text": "\"Or three frightened hands touched one useful lie. Do not confuse a chain with a council. Find who ordered the first hand to move, and who was promised bread for keeping quiet.\"",
+      "choices": [
+        {
+          "text": "Then the next work is witnesses, not tracks.",
           "next": "end"
         }
       ]
