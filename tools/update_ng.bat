@@ -42,6 +42,8 @@ python tools\validate_quest_seeds.py
 if errorlevel 1 goto validation_failed
 python tools\validate_gdscript_helpers.py
 if errorlevel 1 goto validation_failed
+python tools\validate_issue_13_patcher.py
+if errorlevel 1 goto validation_failed
 python tools\validate_asset_kits.py
 if errorlevel 1 goto validation_failed
 
