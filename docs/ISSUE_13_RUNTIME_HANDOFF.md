@@ -19,14 +19,16 @@ The following support pieces are already merged:
   - `select_portrait`
   - `portrait`
   - `portrait_id`
+- `tools/check_issue_13_patch_readiness.py`
 - `tools/apply_issue_13_portrait_selection_patch.py`
 - `docs/ISSUE_13_PORTRAIT_SELECTION_PATCH.md`
 
 ## Remaining runtime task
 
-Run the local exact-context patcher on a fresh runtime branch:
+Run the local exact-context preflight check and patcher on a fresh runtime branch:
 
 ```bash
+python tools/check_issue_13_patch_readiness.py
 python tools/apply_issue_13_portrait_selection_patch.py
 ```
 
@@ -87,7 +89,7 @@ Then run the Godot smoke/scenario workflow or the local debug bundle.
 
 Do not manually overwrite `game/scripts/core/main.gd` through a blind full-file replacement. It is a large script, and the connector has not consistently exposed the file SHA for safe direct replacement.
 
-Prefer the patcher, because it uses exact context replacements and refuses to run if the expected file shape has drifted.
+Prefer the patcher, because it uses exact context replacements and refuses to run if the expected file shape has drifted. Run the preflight helper first when possible, because it checks the same important runtime insertion points without modifying files.
 
 ## Asset policy
 
