@@ -76,11 +76,12 @@ The repo currently contains:
 - validation script: `tools/validate_project.py`
 - character creation validation script: `tools/validate_character_creation.py`
 - portrait metadata validation script: `tools/validate_portraits.py`
+- quest seed bank validation script: `tools/validate_quest_seeds.py`
 - asset-kit validation script: `tools/validate_asset_kits.py`
 - asset prompt exporter: `tools/export_asset_prompts.py`
 - debug/scenario runner: `tools/run_scenario_test.gd`
 - local debug bundle scripts
-- GitHub validation workflow, including character creation, portrait metadata, and asset-kit manifest validation
+- GitHub validation workflow, including character creation, portrait metadata, quest seed bank, and asset-kit manifest validation
 
 ## Current testable build target
 
@@ -99,6 +100,7 @@ Expected character creation behavior:
 - Character creation data is loaded from `data/character_creation/character_creation.json`.
 - Ancestry, background, class, and trait choices contribute tags, attributes, and skills through `CharacterProfileBuilder`.
 - Portrait metadata is loaded from `data/character_creation/portraits.json` for text-first portrait IDs, names, summaries, and tags.
+- `tools/validate_character_creation.py` cross-checks `CharacterProfileBuilder` default portrait IDs and any explicit background `portrait_id` values against `portraits.json`.
 - Old scenario fields `origin` and `archetype` remain mapped to `background` and `class` for compatibility.
 - Invalid or incoherent combinations are represented through tag requirements/blocks in data.
 - The creator previews compatibility warnings and blocks Start Journey when the built profile has compatibility warnings.
@@ -197,6 +199,7 @@ Run from repo root:
 python tools/validate_project.py
 python tools/validate_character_creation.py
 python tools/validate_portraits.py
+python tools/validate_quest_seeds.py
 python tools/validate_asset_kits.py
 ```
 
@@ -211,8 +214,9 @@ The validators currently check:
 - area actor placements
 - scenario step references
 - main-menu scenario step shapes
-- character creation option IDs, tags, modifiers, and compatibility references
+- character creation option IDs, tags, modifiers, compatibility references, default portrait IDs, and background portrait references
 - text-first portrait metadata IDs, names, summaries, and tags
+- quest seed bank structure, seed IDs, required fields, flags, stages, and implementation notes
 - asset-kit manifest structure and accepted asset file references
 
 ## Debug bundle
