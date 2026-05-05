@@ -1,0 +1,78 @@
+{
+  "id": "brannoc_new_caravan_clue_reactions",
+  "name": "Brannoc New Caravan Clue Reactions",
+  "description": "Verifies Brannoc reacts to the expanded Missing Caravan clues: dead carter, erased ledger name, and smuggler mark.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "shrine_ledger_niche"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "cut_bark_smuggler_mark"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "wounded_dog_tracks"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "dog_vigil_hollow"
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "brannoc"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "The dog found a dead carter hidden in the pines."
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "brannoc_carter_body_reaction_seen",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then the body is evidence, not just a victim."
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "brannoc"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Someone scraped a passenger name from the ledger."
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "brannoc_erased_name_reaction_seen",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then someone with authority is near this."
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "brannoc"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "The cut-bark mark near the ruts looked like smuggler work."
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "brannoc_smuggler_mark_reaction_seen",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then we do not accuse Blackfen yet."
+    }
+  ]
+}
