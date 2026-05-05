@@ -75,16 +75,18 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 - [ ] Collapsed Crypt stub
 - [ ] One companion recruitable
 - [ ] One quest completable
-- [ ] Missing Caravan expanded from simple prototype into story-bible Act I structure
-- [ ] Old Shrine expanded with Road Peace clues, corpse-law evidence, and later-state consequences
+- [x] Missing Caravan evidence trail expanded with ledger, smuggler-mark, carter-body, Brannoc reaction, and Renna report paths
+- [ ] Missing Caravan expanded from evidence trail into a completable story-bible Act I structure
+- [x] Old Shrine expanded with early Road Peace clues, corpse-law evidence seeds, and evidence-web reporting
 - [ ] Wolfpine Village populated with hunger, law, church, smuggler, and child-informant pressure
-- [ ] Brannoc upgraded from starter companion data to recruitable companion arc seed
+- [x] Brannoc upgraded with concrete companion reaction flags for the Wolfpine evidence trail
+- [ ] Brannoc upgraded from starter companion data to a recruitable companion arc seed
 
 ## Milestone 0.7 — Narrative systems and content depth
 
 - [ ] Add faction reputation IDs for Roadwardens, Grey Rangers, Ash Church, Blackfen Free Company, Sainted Lance, Baronial Houses, Rat Crown, and Borrowed
 - [ ] Add story flags for mercy, execution, corpse-law, food allocation, relic custody, and public-truth decisions
-- [ ] Add companion reaction flags for Brannoc, then reuse the pattern for ranger and paladin companions
+- [x] Add companion reaction flags for Brannoc, then reuse the pattern for ranger and paladin companions
 - [ ] Add at least one ranger NPC or companion seed grounded in realistic path law rather than generic nature mysticism
 - [ ] Add at least one paladin NPC or companion seed grounded in legal witness protection, mercy, and oath pressure
 - [ ] Add quest content tags from `docs/STORY_BIBLE.md` to future quest/dialogue data where useful
@@ -142,6 +144,15 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 4. Choose it.
 5. Quest tracker should show `missing_caravan: reported_clue`.
 
+### Wolfpine evidence report path
+
+1. Start a new game and load Wolfpine Road.
+2. Inspect `shrine_ledger_niche`, `cut_bark_smuggler_mark`, `wounded_dog_tracks`, and `dog_vigil_hollow`.
+3. Confirm Missing Caravan can reach `found_erased_name`, `found_smuggler_mark`, and `found_carter_body`.
+4. Click `@ brannoc` and confirm he has clue reactions for the dead carter, erased name, and smuggler mark.
+5. Click `@ captain_renna` and report the carter body, erased name, and smuggler mark.
+6. Confirm Renna exposes `The evidence does not point to one thief. It points to a handoff.` and can set `missing_caravan: evidence_web_reported`.
+
 ### Skill-gated dialogue path
 
 1. Start a new game.
@@ -183,6 +194,6 @@ Build a low-spec, pseudo-isometric, party-based CRPG that is easy for AI tools t
 
 ## Next target
 
-Stabilize the menu/new-game/area-transition/save-load flow, then implement issue #13 to expose text-first portrait selection in the character creator UI. For narrative content, expand Missing Caravan and Old Shrine from prototype beats into the Act I structure in `docs/STORY_BIBLE.md`. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
+Stabilize the menu/new-game/area-transition/save-load flow, then implement issue #13 to expose text-first portrait selection in the character creator UI. For narrative content, the next small slice should move the merged Wolfpine Road evidence web into Wolfpine Village suspect pressure, public-truth consequences, or a small completable Missing Caravan resolution branch. For art, the next target is a Wolfpine Village background plate generated from the checked art brief and layout constraints.
 
 ## Always update this file when scope changes.
