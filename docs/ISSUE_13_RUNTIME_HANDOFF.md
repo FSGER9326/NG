@@ -19,6 +19,7 @@ The following support pieces are already merged:
   - `select_portrait`
   - `portrait`
   - `portrait_id`
+- `tools/validate_issue_13_patcher.py` drift check for the exact-context patcher
 - `tools/apply_issue_13_portrait_selection_patch.py`
 - `docs/ISSUE_13_PORTRAIT_SELECTION_PATCH.md`
 
@@ -78,10 +79,23 @@ python tools/validate_character_creation.py
 python tools/validate_portraits.py
 python tools/validate_quest_seeds.py
 python tools/validate_gdscript_helpers.py
+python tools/validate_issue_13_patcher.py
 python tools/validate_asset_kits.py
 ```
 
 Then run the Godot smoke/scenario workflow or the local debug bundle.
+
+## Automatic drift protection
+
+CI and the local update scripts now run:
+
+```bash
+python tools/validate_issue_13_patcher.py
+```
+
+Before the runtime patch lands, this validator checks that every exact replacement context in `tools/apply_issue_13_portrait_selection_patch.py` still appears exactly once in `game/scripts/core/main.gd`.
+
+After the runtime patch lands, it accepts the already-applied state only when the matching portrait-selection scenario exists.
 
 ## Important caution
 
