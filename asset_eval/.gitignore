@@ -1,0 +1,6 @@
+# Keep third-party raw downloads and extracted packs local until reviewed.
+/downloads/
+/extracted/
+
+# Local notes can contain temporary machine paths or download receipts.
+/local_notes/
