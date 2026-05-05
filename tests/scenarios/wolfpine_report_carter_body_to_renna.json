@@ -1,0 +1,56 @@
+{
+  "id": "wolfpine_report_carter_body_to_renna",
+  "name": "Wolfpine Report Carter Body To Renna",
+  "description": "Verifies that the wounded dog clue can feed back into the Missing Caravan investigation and unlock a Captain Renna report branch.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "wounded_dog_tracks"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "dog_knew_road",
+      "stage": "found_blood_marker"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "dog_vigil_hollow"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_carter_body"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_carter_body_found",
+      "value": true
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "The wounded dog led me to a dead carter in the pines."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "reported_carter_body"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_renna_knows_carter_body",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then the body was hidden, not lost."
+    }
+  ]
+}
