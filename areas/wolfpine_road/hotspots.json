@@ -75,6 +75,11 @@
           "stage": "buried_master"
         },
         {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "found_carter_body"
+        },
+        {
           "type": "set_flag",
           "flag_id": "dog_master_found",
           "value": true
@@ -82,6 +87,11 @@
         {
           "type": "set_flag",
           "flag_id": "dog_vigil_ended",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_carter_body_found",
           "value": true
         }
       ]
