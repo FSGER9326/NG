@@ -65,6 +65,12 @@ jobs:
       - name: Validate asset review outcomes
         run: python tools/validate_asset_review_outcomes.py
 
+      - name: Validate Wolfpine pipeline scorecards
+        run: python tools/validate_wolfpine_pipeline.py wolfpine_village_batch_00 wolfpine_village_batch_01
+
+      - name: Test Wolfpine pipeline validators
+        run: python tools/test_wolfpine_pipeline_validators.py
+
       - name: Test asset promotion dry run
         run: python tools/test_promote_asset_candidates.py
 
