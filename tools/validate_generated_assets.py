@@ -45,6 +45,10 @@ STRUCTURAL_SVG_MARKERS = (
     "NG-PRIMITIVE-SHADOW:",
     "NG-PRIMITIVE-EDGE:",
 )
+STRUCTURAL_SVG_MARKER_RE = {
+    marker: re.compile(rf"{re.escape(marker)}\s*[A-Za-z0-9][A-Za-z0-9_-]*")
+    for marker in STRUCTURAL_SVG_MARKERS
+}
 SVG_STRUCTURAL_CLASS_MARKER = "NG-SVG-CLASS: structural"
 
 
@@ -229,10 +233,10 @@ def _validate_svg(asset_path: Path, prefix: str, errors: list[str]) -> None:
     if SVG_STRUCTURAL_CLASS_MARKER not in contents:
         return
 
-    for marker in STRUCTURAL_SVG_MARKERS:
-        if marker not in contents:
+    for marker, marker_re in STRUCTURAL_SVG_MARKER_RE.items():
+        if not marker_re.search(contents):
             errors.append(
-                f"{prefix}: structural SVG missing marker '{marker}' in metadata/comments: {_rel(asset_path)}"
+                f"{prefix}: structural SVG missing non-empty marker '{marker}' in metadata/comments: {_rel(asset_path)}"
             )
 
 def _count_alpha_pixels(alpha_image: Any, predicate: Callable[[int], bool]) -> int:
