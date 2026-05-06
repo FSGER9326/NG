@@ -1,0 +1,38 @@
+name: Generate LLM Context Digest
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Repomix
+        run: npm install -g repomix
+
+      - name: Generate context file
+        run: |
+          repomix --output repo-context.txt \
+                  --style plain \
+                  --remove-comments false \
+                  --remove-empty-lines false \
+                  --include "game/**,data/**,tools/**,areas/**,dialogue/**" \
+                  --ignore "*.png,*.jpg,*.wav,*.mp3,*.ogg"
+
+      - name: Commit context file
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add repo-context.txt
+          git commit -m "chore: update llm context digest" || echo "No changes"
+          git push
