@@ -1,0 +1,135 @@
+{
+  "id": "wolfpine_renna_evidence_report_flow",
+  "name": "Wolfpine Renna Evidence Report Flow",
+  "root_scene": "area",
+  "description": "Verifies that road evidence can be gathered and reported back to Captain Renna through dialogue, advancing the missing-caravan investigation.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road",
+      "entry_id": "south_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "old_shrine"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "shrine_ledger_niche"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "cut_bark_smuggler_mark"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "dog_vigil_hollow"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_carter_body"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_carter_body_found",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "north_exit"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_village"
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "The wounded dog led me to a dead carter in the pines."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "reported_carter_body"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_renna_knows_carter_body",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "That is all I know for now."
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "There was a scraped name in the shrine ledger."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "reported_erased_name"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_renna_knows_erased_name",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then the ledger matters as much as the bodies."
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "A cut-bark trail mark sits beside the wagon ruts."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "reported_smuggler_mark"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_renna_knows_smuggler_mark",
+      "value": true
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "So the mark could be bait."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Useful hatred hides useful criminals."
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "The evidence does not point to one thief. It points to a handoff."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "evidence_web_reported"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_evidence_web_reported",
+      "value": true
+    }
+  ]
+}
