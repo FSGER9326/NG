@@ -49,8 +49,8 @@ PORTRAIT_RUNTIME_REQUIRED_SNIPPETS = {
 SCENARIO_REQUIRED_SNIPPETS = {
     "character_creator_portrait_selection",
     "select_portrait",
-    "Caravan Guard",
-    "portrait_caravan_guard_01",
+    "Weathered Drifter",
+    "portrait_weathered_drifter_01",
 }
 
 
