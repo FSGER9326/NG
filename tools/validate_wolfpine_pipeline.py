@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Validate Wolfpine generated batch scorecards and evidence links."""
+"""Validate Wolfpine generated batch scorecards and evidence links.
+
+This validator is intentionally strict about evidence quality: blank cells, path
+traversal, and accidental `Path('.')` passes are treated as failures. Markdown
+links are accepted by extracting their target, and HTTPS links are accepted as
+external evidence references without network access.
+"""
 
 from __future__ import annotations
 
@@ -30,13 +36,20 @@ HEADER_ALIASES: dict[str, tuple[str, ...]] = {
     "manifest_ref": ("manifest", "manifest ref", "manifest path", "manifest reference"),
 }
 
+MARKDOWN_LINK_RE = re.compile(r"^\s*!?\[[^\]]*\]\(([^)]+)\)\s*$")
+AUTOLINK_RE = re.compile(r"^\s*<([^>]+)>\s*$")
+URL_RE = re.compile(r"^https?://", re.IGNORECASE)
+
 
 def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", text.strip().lower())
 
 
 def rel(path: Path) -> str:
-    return str(path.relative_to(ROOT)).replace("\\", "/")
+    try:
+        return str(path.relative_to(ROOT)).replace("\\", "/")
+    except ValueError:
+        return str(path).replace("\\", "/")
 
 
 def parse_markdown_table(path: Path) -> list[dict[str, str]]:
@@ -84,12 +97,35 @@ def parse_float(value: str) -> float | None:
         return None
 
 
+def extract_evidence_target(value: str) -> str:
+    """Return the evidence target from plain text, autolinks, or Markdown links."""
+    stripped = value.strip()
+    if not stripped:
+        return ""
+
+    markdown_match = MARKDOWN_LINK_RE.match(stripped)
+    if markdown_match:
+        return markdown_match.group(1).strip()
+
+    autolink_match = AUTOLINK_RE.match(stripped)
+    if autolink_match:
+        return autolink_match.group(1).strip()
+
+    return stripped
+
+
 def check_path_exists(base_dir: Path, value: str) -> bool:
-    candidate = Path(value.strip())
-    if not candidate or not str(candidate):
+    target = extract_evidence_target(value)
+    if not target:
         return False
-    if candidate.is_absolute():
-        return candidate.exists()
+
+    if URL_RE.match(target):
+        return True
+
+    candidate = Path(target)
+    if candidate.is_absolute() or ".." in candidate.parts:
+        return False
+
     return (base_dir / candidate).exists() or (ROOT / candidate).exists()
 
 
