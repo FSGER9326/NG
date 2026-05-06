@@ -1,0 +1,197 @@
+{
+  "id": "miller_tovin_intro",
+  "speaker": "miller_tovin",
+  "start_node": "start",
+  "nodes": {
+    "start": {
+      "text": "Miller Tovin keeps both hands on the shutter of his tally window, as if the village might pry it open by hunger alone. Flour dust has settled into the lines of his face.",
+      "choices": [
+        {
+          "text": "Your tally window had a copied manifest under it.",
+          "next": "manifest_pressure",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag_id": "wolfpine_mill_tally_erased_name_hint",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "The market bread is black with ash and husk.",
+          "next": "black_bread_start",
+          "conditions": [
+            {
+              "type": "flag",
+              "flag_id": "black_bread_market_checked",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "Why is the mill shut?",
+          "next": "mill_shut"
+        },
+        {
+          "text": "Nothing for now.",
+          "next": "end"
+        }
+      ]
+    },
+    "mill_shut": {
+      "text": "\"Because a hungry crowd hears a millstone and thinks bread is being hidden from them. Because the guards count sacks twice and call the second count law. Because I have one daughter and too many windows.\"",
+      "choices": [
+        {
+          "text": "Who is counting the sacks twice?",
+          "next": "guard_count_hint"
+        },
+        {
+          "text": "I will look at the market first.",
+          "next": "end"
+        }
+      ]
+    },
+    "guard_count_hint": {
+      "text": "\"Not Renna at the window, if that is what you want me to say. A clerk with clean cuffs. A guard with wax. Someone bringing a seal after the flour is already owed.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "black_bread_miller_guard_count_hint",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "That sounds like a tithe after the tithe.",
+          "next": "tithe_after_tithe"
+        },
+        {
+          "text": "I understand why you are careful.",
+          "next": "end"
+        }
+      ]
+    },
+    "black_bread_start": {
+      "text": "Tovin swallows. \"Then you saw what they are calling my bread. I can stretch grain with husk. I can grind acorn when children are crying. I cannot make a full loaf from a sack that arrives light and leaves lighter.\"",
+      "effects": [
+        {
+          "type": "set_quest_stage",
+          "quest_id": "black_bread_tithe",
+          "stage": "accepted"
+        },
+        {
+          "type": "set_flag",
+          "flag_id": "black_bread_miller_claims_short_sacks",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "Who made the sacks lighter?",
+          "next": "guard_count_hint"
+        },
+        {
+          "text": "What do you want done?",
+          "next": "miller_wants_ration"
+        }
+      ]
+    },
+    "miller_wants_ration": {
+      "text": "\"Not a hanging. Not today. If the guard store opens one locked bin and the market weighs every sack in public, Wolfpine eats badly but honestly. That is more than we have now.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "black_bread_miller_wants_public_weighing",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "A public weighing may stop a riot before it starts.",
+          "next": "end"
+        }
+      ]
+    },
+    "manifest_pressure": {
+      "text": "His fingers whiten on the shutter. \"That scrap was not meant to be found. Not by you, not by Renna, not by the dead man's dog if dogs could read.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_miller_knows_erased_manifest",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "Whose name was practiced away?",
+          "next": "erased_name_witness"
+        },
+        {
+          "text": "Why keep a copy?",
+          "next": "kept_copy"
+        }
+      ]
+    },
+    "kept_copy": {
+      "text": "\"Because millers survive by counting what powerful men forget they stole. I copied the line before the clerk came back with ash on his thumb. Then I became a coward and hid it under my own sill.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_miller_kept_manifest_copy",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "Cowardice keeps witnesses alive long enough to speak.",
+          "next": "end"
+        },
+        {
+          "text": "Whose name was it?",
+          "next": "erased_name_witness"
+        }
+      ]
+    },
+    "erased_name_witness": {
+      "text": "\"A woman listed as Mara Vell. Not a merchant, not a driver. Passenger weight paid in full. When the copied line vanished from the guard ledger, the flour tithe grew by exactly one passenger's fee.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_miller_names_mara_vell",
+          "value": true
+        },
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "village_pressure_reported"
+        }
+      ],
+      "choices": [
+        {
+          "text": "A missing name paid for stolen bread.",
+          "next": "end"
+        }
+      ]
+    },
+    "tithe_after_tithe": {
+      "text": "\"Aye. A lawful theft wears cleaner boots than a hungry thief. Say that outside and I will call you a liar, because my mill still has to stand tomorrow.\"",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "black_bread_lawful_theft_named",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "text": "I will gather proof before I speak it aloud.",
+          "next": "end"
+        }
+      ]
+    },
+    "end": {
+      "text": "Tovin shuts the tally window to a hand's width and watches the square through the gap.",
+      "choices": []
+    }
+  }
+}
