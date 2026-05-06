@@ -1,0 +1,90 @@
+{
+  "id": "wolfpine_interior_clue_flow",
+  "name": "Wolfpine Interior Clue Flow",
+  "root_scene": "area",
+  "description": "Verifies that the reachable Wolfpine inn and blacksmith interiors contain playable clue hotspots that set investigation flags and return cleanly to the village.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_village",
+      "entry_id": "village_square"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_village"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "inn_door"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_inn_common_room"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "hearth_ashes"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_inn_hearth_smuggler_mark_seen",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "back_table_manifest"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_inn_manifest_pressure_seen",
+      "value": true
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_erased_name"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "front_door_exit"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_village"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "blacksmith_door"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_blacksmith"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "forge_coals"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_blacksmith_oven_grit_seen",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "tool_bench"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_blacksmith_hook_hint_seen",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "blacksmith_front_door_exit"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_village"
+    }
+  ]
+}
