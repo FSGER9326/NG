@@ -5,6 +5,11 @@
       "actor_id": "captain_renna",
       "position": [620, 470],
       "facing": "south_east"
+    },
+    {
+      "actor_id": "miller_tovin",
+      "position": [690, 380],
+      "facing": "south_west"
     }
   ]
 }
