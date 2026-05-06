@@ -1,0 +1,3 @@
+Wolfpine inn common room walkmask placeholder.
+
+Walkable focus: front door, hearth approach, back table approach, and central common-room floor.

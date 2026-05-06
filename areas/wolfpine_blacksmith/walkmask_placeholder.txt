@@ -1,0 +1,3 @@
+Wolfpine blacksmith walkmask placeholder.
+
+Walkable focus: front door, forge approach, tool bench approach, and central work floor.
