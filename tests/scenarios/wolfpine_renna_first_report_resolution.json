@@ -1,0 +1,73 @@
+{
+  "id": "wolfpine_renna_first_report_resolution",
+  "name": "Wolfpine Renna First Report Resolution",
+  "root_scene": "area",
+  "description": "Verifies that the player can find the first caravan clue, report it to Captain Renna, and close the first investigation report as resolved for now.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road",
+      "entry_id": "south_road"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "old_shrine"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_wreck"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "north_exit"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_village"
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I found fresh wagon ruts by the old shrine."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "reported_clue"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I will keep digging."
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "captain_renna"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I can close the first report on the missing caravan."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then mark the caravan matter resolved for now."
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "resolved"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_caravan_resolved",
+      "value": true
+    }
+  ]
+}
