@@ -84,9 +84,9 @@ jobs:
       - name: List changed files
         run: |
           if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
-            git diff --name-only "origin/$GITHUB_BASE_REF...HEAD" > changed_files.txt
+            git diff --name-status "origin/$GITHUB_BASE_REF...HEAD" > changed_files.txt
           else
-            git diff --name-only HEAD~1...HEAD > changed_files.txt || true
+            git diff --name-status HEAD~1...HEAD > changed_files.txt || true
           fi
           cat changed_files.txt
 
