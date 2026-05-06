@@ -1,0 +1,69 @@
+NG repository context — generated 2026-05-06
+
+This file is the first-read context entry for NG repository work. Keep it concise and update it when major scripts, validators, data manifests, scenes, or asset-pipeline rules change.
+
+Project identity
+- NG is a Godot 4 RPG project targeting a low-spec Compatibility-renderer pipeline.
+- For Wolfpine visual work, preserve a modernized Infinity Engine / dark-fantasy isometric direction: painterly or pre-rendered, readable silhouettes, grounded contact shadows, and data-driven assets.
+- Prefer small text-first changes. Keep game content data-driven in JSON, Markdown, GDScript, and Godot text scenes. Avoid large binary dumps unless a task explicitly requires them.
+
+Current Wolfpine asset pipeline
+- Canonical starter kit manifest: data/asset_kits/wolfpine_village_starter.json
+- Supplemental candidate manifest: data/asset_kits/wolfpine_village_candidate_extensions.json
+- First binary promotion plan: assets/kits/wolfpine_village/FIRST_BINARY_PROMOTION_2026_05_06.json
+- First binary promotion review checklist: assets/kits/wolfpine_village/BINARY_PROMOTION_REVIEW_2026_05_06.md
+- First cleaned review gate: data/asset_reviews/wolfpine_first_cleaned_review_2026_05_06.json
+- Pending review outcome template: data/asset_review_outcomes/wolfpine_first_cleaned_review_pending_2026_05_06.json
+
+Asset status model
+- planned: listed but not produced or reviewed.
+- generated_candidate / external_candidate: candidate exists outside canonical acceptance or needs source/license checks.
+- cleaned: file-backed production candidate exists at intended_file, but still needs visual/layout review before acceptance.
+- accepted: production asset passed review and must have a matching accepted review outcome.
+- rejected: asset should not be used as production art.
+
+Important acceptance rule
+- Do not mark an asset accepted only because a PNG exists.
+- Accepted assets require: committed PNG at intended_file, manifest SHA256 matching the file, valid PNG header, Godot visual/layout review, and a matching accepted review outcome in data/asset_review_outcomes/.
+
+First Wolfpine PNG promotion slice
+- Source handoff ZIP: ng_wolfpine_first_promotion_optimized.zip
+- Local apply bundle: ng_wolfpine_first_binary_promotion_apply_bundle.zip
+- First five cleaned assets:
+  - wolfpine_well_01 -> assets/kits/wolfpine_village/props/wolfpine_well_01.png
+  - wolfpine_notice_board_01 -> assets/kits/wolfpine_village/props/wolfpine_notice_board_01.png
+  - wolfpine_door_heavy_01 -> assets/kits/wolfpine_village/architecture/wolfpine_door_heavy_01.png
+  - wolfpine_window_shuttered_01 -> assets/kits/wolfpine_village/architecture/wolfpine_window_shuttered_01.png
+  - wolfpine_firewood_stack_01 -> assets/kits/wolfpine_village/props/wolfpine_firewood_stack_01.png
+- These should be promoted as cleaned, not accepted.
+
+Local promotion commands
+- Run the full local PR-prep flow from a clean checkout:
+  python tools/prepare_wolfpine_first_binary_pr.py --zip /path/to/ng_wolfpine_first_promotion_optimized.zip --push
+- Or run only the promotion wrapper:
+  python tools/promote_wolfpine_first_binary_slice.py --zip /path/to/ng_wolfpine_first_promotion_optimized.zip --commit
+- Lower-level promotion tool:
+  python tools/promote_asset_candidates.py --zip /path/to/ng_wolfpine_first_promotion_optimized.zip --plan assets/kits/wolfpine_village/FIRST_BINARY_PROMOTION_2026_05_06.json --dry-run
+
+Asset validators and tests
+- tools/validate_asset_kits.py validates asset kit manifests.
+- tools/validate_promoted_asset_files.py validates cleaned/accepted assets have committed PNGs, matching SHA256, and sane PNG headers.
+- tools/validate_asset_production_batches.py validates production batch metadata manifests.
+- tools/validate_asset_promotion_plans.py validates local promotion plans.
+- tools/validate_asset_reviews.py validates asset review gates.
+- tools/validate_asset_review_outcomes.py validates review outcomes and requires accepted assets to have accepted outcomes.
+- tools/test_promote_asset_candidates.py smoke-tests dry-run and write-mode promotion paths.
+
+Main CI validation workflow
+- .github/workflows/validate.yml runs project/data validators, asset validators, review validators, and promotion-tool smoke tests.
+- Other required gates seen on recent PRs: PR hygiene, Runtime parse guards, and Godot smoke/scenario.
+
+Current binary limitation in ChatGPT connector workflow
+- The available GitHub connector can write text files and create blobs from inline content, but it does not expose a safe local file-path upload for multi-megabyte PNGs from /mnt/data.
+- Therefore the first real PNG binary promotion should be performed from a local checkout using the checked-in helper scripts and the handoff ZIP.
+
+Style notes for Wolfpine assets
+- Fixed pseudo-isometric 3/4 CRPG camera.
+- Modernized Infinity Engine / BG2 / Planescape Torment mood: painterly, grounded, dark-fantasy medieval village materials.
+- Avoid clean RTS/mobile-game visuals, pixel art, readable baked text, modern materials, impossible architecture, and props that block required routes or hotspots.
+- Preserve low-spec rendering expectations: simple PNG sprites, clear silhouettes, reasonable dimensions, and no unnecessary binary asset bulk.
