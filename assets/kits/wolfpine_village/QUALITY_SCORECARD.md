@@ -6,6 +6,8 @@ This scorecard is **required for every candidate asset before promotion** into t
 
 Use this scorecard to gate candidate assets for visual quality, gameplay readability, and kit compatibility before updating manifests and ledgers.
 
+This is the canonical promotion scorecard for Wolfpine. SVG-specific notes may add technical constraints, but promotion uses the weighted criteria below.
+
 ## Weighted Criteria (100 points total)
 
 | Category | Weight | What to evaluate |
@@ -38,12 +40,18 @@ If any category is below the floor, the candidate is **blocked**, even if total 
 
 1. **Confirm spec compliance context** in `assets/kits/wolfpine_village/GENERATION_SPECS.md` (camera, scale, palette, and kit constraints).
 2. **Score candidate with this scorecard** and record per-category values plus weighted total in review notes.
-3. **Apply gate decision**:
+3. **Attach evidence**:
+   - seam or modular validation evidence,
+   - gameplay-scale readability evidence,
+   - optional preview/capture links for visual review.
+4. **Apply gate decision**:
    - `<85.0` or any category `<70`: reject / send back for revision.
-   - `85.0–91.9` with all categories `>=70`: promote as standard production asset.
-   - `>=92.0` with all categories `>=70`: eligible for hero designation.
-4. **Update production tracking** in `assets/kits/wolfpine_village/production_manifest_2026_05_06.json` with decision status and score summary.
-5. **Register promoted asset** in `assets/ledger/assets.json` only after passing the thresholds above.
+   - `85.0–91.9` with all categories `>=70`: eligible for `candidate_validated`.
+   - `>=92.0` with all categories `>=70`: eligible for hero designation after lead review.
+5. **Promote only after validation**:
+   - update `assets/kits/wolfpine_village/production_manifest_2026_05_06.json`,
+   - keep status transitions compatible with `planned -> generated_candidate/external_candidate -> cleaned -> candidate_validated -> accepted`,
+   - register accepted assets in `assets/ledger/assets.json` only after all gates pass.
 
 ## Suggested Review Record Template
 
@@ -62,22 +70,28 @@ Scores (0-100):
 - Cleanup/alpha integrity (10):
 
 Weighted total:
-Gate result: Reject | Promote | Promote + Hero Eligible
+Gate result: Reject | Candidate Validated | Accept | Hero Eligible
+Evidence:
+- Seam/modular:
+- Scale/readability:
 Notes:
 ```
 
-
 ## Manifest Status + Validator Enforcement
 
-When this scorecard is used to promote SVG kit assets, reviewers must enforce these manifest lifecycle rules:
+When this scorecard is used to promote kit assets, reviewers must enforce these manifest lifecycle rules:
 
-- Required fields present: `id`, `candidate_file`, `module_family`, `orientation`, `join_compatibility`, `qa_score`, and `status`.
-- Allowed lifecycle transition: `candidate -> validated -> canonical`.
-- Disallowed transition: direct `candidate -> canonical`.
+- Required fields present: `id`, `candidate_file` or `file`, `module_family`, `orientation`, `join_compatibility`, `qa_score`, and lifecycle status.
+- Allowed asset lifecycle:
+  `planned -> generated_candidate/external_candidate -> cleaned -> candidate_validated -> accepted`
+- Disallowed transitions:
+  - direct generated candidate -> accepted without scorecard evidence,
+  - accepted status without seam/readability evidence,
+  - untracked file paths or missing provenance.
 
-A transition to `canonical` must include both:
+A transition to `accepted` must include both:
 
-1. Completed scorecard evidence (this document's weighted review).
-2. Seam evidence confirming modular join behavior.
+1. Completed scorecard evidence using this document's weighted review.
+2. Seam/readability evidence confirming modular join behavior and target-scale clarity.
 
 Without both evidence items, validators must fail promotion.
