@@ -1,0 +1,22 @@
+{
+  "id": "character_creator_profile_preview",
+  "name": "Character Creator Profile Preview",
+  "root_scene": "main",
+  "description": "Checks that the creator preview updates with selected profile identity, skills, attributes, and tags before Start Journey.",
+  "steps": [
+    {"type": "assert_screen", "screen": "main_menu"},
+    {"type": "press_menu", "button": "new_game"},
+    {"type": "assert_screen", "screen": "character_creator"},
+    {"type": "set_character_name", "name": "Preview QA"},
+    {"type": "select_ancestry", "ancestry": "Border Human"},
+    {"type": "select_origin", "origin": "Caravan Guard"},
+    {"type": "select_archetype", "archetype": "Scout"},
+    {"type": "select_trait", "trait": "Quick-Eyed"},
+    {"type": "assert_creator_preview_contains", "text": "Preview QA"},
+    {"type": "assert_creator_preview_contains", "text": "Caravan Guard"},
+    {"type": "assert_creator_preview_contains", "text": "Scout"},
+    {"type": "assert_creator_preview_contains", "text": "Quick-Eyed"},
+    {"type": "assert_creator_preview_contains", "text": "Perception"},
+    {"type": "assert_creator_preview_contains", "text": "caravan guard background"}
+  ]
+}
