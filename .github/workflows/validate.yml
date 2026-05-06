@@ -7,6 +7,13 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate-data:
     runs-on: ubuntu-latest
@@ -85,3 +92,9 @@ jobs:
 
       - name: Check PR scope hygiene
         run: python tools/check_pr_hygiene.py changed_files.txt
+
+      - name: Check reference asset layout hygiene
+        run: python tools/validate_reference_asset_layout.py changed_files.txt
+
+      - name: Audit existing reference asset layout debt
+        run: python tools/validate_reference_asset_layout.py --audit-repo
