@@ -40,6 +40,9 @@ jobs:
       - name: Validate asset kit manifests
         run: python tools/validate_asset_kits.py
 
+      - name: Validate promoted asset files
+        run: python tools/validate_promoted_asset_files.py
+
       - name: Validate asset production batch manifests
         run: python tools/validate_asset_production_batches.py
 
