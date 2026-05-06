@@ -8,7 +8,6 @@ not require Godot to be installed.
 
 from __future__ import annotations
 
-import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,6 +21,16 @@ SHIMS = {
         ),
     },
     "game/scripts/core/main_runtime.gd": {
+        "target": "res://game/scripts/core/main_runtime_v3.gd",
+        "allowed_forms": (
+            'extends preload("res://game/scripts/core/main_runtime_v3.gd")',
+        ),
+        "rejected_forms": (
+            'extends "res://game/scripts/core/main_runtime_v3.gd"',
+            'extends "res://game/scripts/core/main_runtime_v2.gd"',
+        ),
+    },
+    "game/scripts/core/main_runtime_v3.gd": {
         "target": "res://game/scripts/core/main_runtime_v2.gd",
         "allowed_forms": (
             'extends preload("res://game/scripts/core/main_runtime_v2.gd")',
@@ -54,7 +63,7 @@ def main() -> int:
         if not shim_path.exists():
             errors.append(f"missing runtime shim: {relative_path}")
             continue
-        content = shim_path.read_text(encoding="utf-8").strip()
+        content = shim_path.read_text(encoding="utf-8").strip().splitlines()[0]
         allowed_forms: tuple[str, ...] = spec["allowed_forms"]
         if content not in allowed_forms:
             errors.append(

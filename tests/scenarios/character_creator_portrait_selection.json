@@ -1,0 +1,17 @@
+{
+  "id": "character_creator_portrait_selection",
+  "name": "Character Creator Portrait Selection",
+  "root_scene": "main",
+  "description": "Checks that selected portrait metadata is stored on the player profile.",
+  "steps": [
+    {"type": "assert_screen", "screen": "main_menu"},
+    {"type": "press_menu", "button": "new_game"},
+    {"type": "assert_screen", "screen": "character_creator"},
+    {"type": "set_character_name", "name": "Portrait QA"},
+    {"type": "select_portrait", "portrait": "Weathered Drifter"},
+    {"type": "press_menu", "button": "start_journey"},
+    {"type": "assert_screen", "screen": "game"},
+    {"type": "assert_area", "area_id": "wolfpine_road"},
+    {"type": "assert_player_profile", "name": "Portrait QA", "portrait": "Weathered Drifter", "portrait_id": "portrait_weathered_drifter_01"}
+  ]
+}
