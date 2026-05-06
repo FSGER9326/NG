@@ -4,17 +4,57 @@ Use this guide to turn the PVGames Infernus Free pack into a practical quality r
 
 This pack is not an NG style target. It is a craft benchmark: generated NG assets should be at least as clean, readable, modular, and production-ready, while staying original and matching NG's grounded low-fantasy Wolfpine direction.
 
-## Recommended repo location
+## Canonical organized location
 
-If the pack is present in a checkout, keep it in one of these roots:
+All usable reference work should point to one organized root:
 
 ```text
-reference_assets/local/pvgames/infernus_free/
-assets/reference/pvgames/infernus_free/
-reference_assets/pvgames/infernus_free/
+reference_assets/organized/pvgames/infernus_free/
 ```
 
-Preferred path remains:
+Inside that folder, assets should be grouped by category:
+
+```text
+reference_assets/organized/pvgames/infernus_free/
+  animated_light_sources/
+  architectural_adorns/
+  archways/
+  buttresses/
+  columns/
+  columns_pillars/
+  decor_props/
+  floor_ground_tiles/
+  floor_tiles/
+  misc_root_tiles/
+  pillars/
+  ramps/
+  rocks_stone/
+  stairs/
+  walls/
+  walls_and_edges/
+  reference_index.json
+```
+
+## Organizing newly added files
+
+If the pack or additional reference files were added anywhere else, run:
+
+```bash
+python tools/organize_reference_assets.py <folder-containing-pngs> --dest reference_assets/organized/pvgames/infernus_free --mode move
+```
+
+Use `--mode copy` instead when you want to preserve the original folder. Use `--dry-run` to create an index without moving files.
+
+The organizer:
+
+- scans all PNGs recursively
+- classifies them into practical reference categories
+- moves or copies them into one canonical reference root
+- writes `reference_index.json` with dimensions, RGBA status, byte size, source path, organized path, and category
+
+## Raw/local source location
+
+For local-only raw source copies, use:
 
 ```text
 reference_assets/local/pvgames/infernus_free/
@@ -143,7 +183,7 @@ If any answer is no, keep the asset in candidate/rejected status.
 When the reference files exist in the checkout, regenerate a full local catalog with:
 
 ```bash
-python tools/catalog_reference_assets.py reference_assets/local/pvgames/infernus_free --source-pack "PVGames Infernus Free" --out debug/pvgames_infernus_full_catalog.json
+python tools/catalog_reference_assets.py reference_assets/organized/pvgames/infernus_free --source-pack "PVGames Infernus Free" --out debug/pvgames_infernus_full_catalog.json
 ```
 
 The committed compact catalog lives at:
