@@ -7,6 +7,7 @@ import argparse
 import re
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 GENERATED_ROOT = ROOT / "assets" / "generated"
@@ -30,13 +31,19 @@ HEADER_ALIASES: dict[str, tuple[str, ...]] = {
     "manifest_ref": ("manifest", "manifest ref", "manifest path", "manifest reference"),
 }
 
+MARKDOWN_LINK_RE = re.compile(r"^\s*\[[^\]]+\]\(([^)]+)\)\s*$")
+URL_SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
+
 
 def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", text.strip().lower())
 
 
 def rel(path: Path) -> str:
-    return str(path.relative_to(ROOT)).replace("\\", "/")
+    try:
+        return str(path.relative_to(ROOT)).replace("\\", "/")
+    except ValueError:
+        return str(path).replace("\\", "/")
 
 
 def parse_markdown_table(path: Path) -> list[dict[str, str]]:
@@ -84,12 +91,46 @@ def parse_float(value: str) -> float | None:
         return None
 
 
+def extract_evidence_target(value: str) -> str:
+    """Return the path/URL target from a scorecard evidence cell.
+
+    Accepts plain relative paths and markdown links. URLs are considered valid
+    external evidence references, but blank cells are always invalid.
+    """
+
+    stripped = value.strip()
+    if not stripped:
+        return ""
+
+    match = MARKDOWN_LINK_RE.match(stripped)
+    if match:
+        stripped = match.group(1).strip()
+
+    # Drop optional markdown title from `[x](path "title")`.
+    if " " in stripped and not URL_SCHEME_RE.match(stripped):
+        stripped = stripped.split(" ", 1)[0].strip()
+
+    return stripped
+
+
+def is_url(value: str) -> bool:
+    parsed = urlparse(value)
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
 def check_path_exists(base_dir: Path, value: str) -> bool:
-    candidate = Path(value.strip())
-    if not candidate or not str(candidate):
+    target = extract_evidence_target(value)
+    if not target:
         return False
+
+    if is_url(target):
+        return True
+
+    candidate = Path(target)
     if candidate.is_absolute():
         return candidate.exists()
+    if ".." in candidate.parts:
+        return False
     return (base_dir / candidate).exists() or (ROOT / candidate).exists()
 
 
