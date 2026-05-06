@@ -38,3 +38,35 @@ This note defines the canonical allowed values for manifest metadata fields used
    - `qa_score: 0.0`
    - `join_compatibility: ["wolfpine_v1"]`
 4. Update this file first when introducing new enumerations, then update manifests.
+
+
+## Required SVG Candidate Fields for Canonical Promotion
+
+Before an SVG asset can be promoted to canonical, manifest entries must include all of the following required fields:
+
+- `id`
+- `candidate_file` (path to the source `.svg`)
+- `module_family`
+- `orientation`
+- `join_compatibility`
+- `qa_score`
+- `status` using lifecycle states: `candidate -> validated -> canonical`
+
+### Status Transition Rule
+
+Promotion flow is strictly ordered:
+
+1. `candidate`
+2. `validated`
+3. `canonical`
+
+Direct `candidate -> canonical` transitions are not allowed.
+
+### Validator Gate Requirements
+
+Validation checks must block canonical promotion unless both artifacts are present:
+
+- **Scorecard evidence:** a completed quality scorecard record with category scores and weighted total.
+- **Seam evidence:** modular seam compatibility evidence (join/seam verification notes, captures, or test artifacts).
+
+If either evidence type is missing, validators must reject the transition request.

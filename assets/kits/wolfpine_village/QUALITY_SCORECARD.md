@@ -65,3 +65,19 @@ Weighted total:
 Gate result: Reject | Promote | Promote + Hero Eligible
 Notes:
 ```
+
+
+## Manifest Status + Validator Enforcement
+
+When this scorecard is used to promote SVG kit assets, reviewers must enforce these manifest lifecycle rules:
+
+- Required fields present: `id`, `candidate_file`, `module_family`, `orientation`, `join_compatibility`, `qa_score`, and `status`.
+- Allowed lifecycle transition: `candidate -> validated -> canonical`.
+- Disallowed transition: direct `candidate -> canonical`.
+
+A transition to `canonical` must include both:
+
+1. Completed scorecard evidence (this document's weighted review).
+2. Seam evidence confirming modular join behavior.
+
+Without both evidence items, validators must fail promotion.
