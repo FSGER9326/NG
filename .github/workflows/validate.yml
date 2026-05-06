@@ -40,6 +40,9 @@ jobs:
       - name: Validate asset kit manifests
         run: python tools/validate_asset_kits.py
 
+      - name: Validate asset production batch manifests
+        run: python tools/validate_asset_production_batches.py
+
   pr-hygiene:
     runs-on: ubuntu-latest
     steps:

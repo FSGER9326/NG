@@ -1,0 +1,155 @@
+{
+  "batch": "wolfpine_production_batch_2026_05_06",
+  "style": "modernized_infinity_engine_dark_fantasy_isometric",
+  "source_type": "project_directed_generated_candidates",
+  "external_imports": [],
+  "cleanup_pipeline": [
+    "background masked to alpha",
+    "cropped with margin",
+    "minor color/contrast normalization",
+    "contact shadow and grounding preserved where useful"
+  ],
+  "canonical_acceptance_note": "Do not mark assets accepted until the cleaned PNGs exist at their intended repo paths and pass in-Godot visual/layout review.",
+  "assets": [
+    {
+      "id": "wolfpine_inn_facade_01",
+      "display_name": "The Pine Hearth Inn Facade",
+      "category": "buildings",
+      "source_file": "rustic_medieval_tudor_tavern_building.png",
+      "status": "cleaned",
+      "candidate_file": "buildings/wolfpine_inn_facade_01.png",
+      "sha256": "a0744f45423e1ef104fef6c9e969bbb5bf707e14b660fae6c528510ab03887b2",
+      "production_notes": "Good production candidate: strong door/readability, usable roof/foundation; needs final hand alpha pass before accepted."
+    },
+    {
+      "id": "wolfpine_blacksmith_facade_01",
+      "display_name": "Wolfpine Blacksmith Facade",
+      "category": "buildings",
+      "source_file": "medieval_blacksmith_forge_in_isolation.png",
+      "status": "cleaned",
+      "candidate_file": "buildings/wolfpine_blacksmith_facade_01.png",
+      "sha256": "7390ad82efcf2830c0a7e9dc9c8d7ec17be1b7de5014c0394d3a82694d941f69",
+      "production_notes": "Strong production candidate: forge identity, chimney, door, work area; crop/alpha normalized."
+    },
+    {
+      "id": "wolfpine_storehouse_facade_01",
+      "display_name": "Guarded Storehouse Facade",
+      "category": "buildings",
+      "source_file": "rustic_medieval_timber_house_model.png",
+      "status": "generated_candidate",
+      "candidate_file": "buildings/wolfpine_storehouse_facade_01.png",
+      "sha256": "beab18f5ac4a03e01d5f29a9857a18a2b50c61e4840dc0110cbbdfe93cb66557",
+      "production_notes": "Good massing but not yet a perfect storehouse; needs door/guarded-supply paint pass before accepted."
+    },
+    {
+      "id": "wolfpine_well_01",
+      "display_name": "Stone Village Well",
+      "category": "props",
+      "source_file": "rustic_stone_well_with_wooden_roof.png",
+      "status": "cleaned",
+      "candidate_file": "props/wolfpine_well_01.png",
+      "sha256": "15d967cd7dea06389c28cc6024c62481f73d1dab2ae32a969cb3062a320b1482",
+      "production_notes": "Production-ready candidate: readable, grounded, fits square hotspot."
+    },
+    {
+      "id": "wolfpine_market_stall_01",
+      "display_name": "Village Market Stall",
+      "category": "props",
+      "source_file": "rustic_medieval_market_stall_setup.png",
+      "status": "cleaned",
+      "candidate_file": "props/wolfpine_market_stall_01.png",
+      "sha256": "0f555abb80968d2c563b8182ae943e00932c7e47d269ac7877e5159e7fa62c01",
+      "production_notes": "Production-ready candidate for empty/low-stock market stall; needs optional food-clutter variant later."
+    },
+    {
+      "id": "wolfpine_notice_board_01",
+      "display_name": "Damp Village Notice Board",
+      "category": "props",
+      "source_file": "weathered_medieval_village_notice_board.png",
+      "status": "cleaned",
+      "candidate_file": "props/wolfpine_notice_board_01.png",
+      "sha256": "708cbd891a37f81a3504de15de03db820bc013f8ef52c891abc405c7f0bf0449",
+      "production_notes": "Production-ready candidate; no readable text, strong interaction silhouette."
+    },
+    {
+      "id": "wolfpine_door_heavy_01",
+      "display_name": "Heavy Dark Wooden Door",
+      "category": "architecture",
+      "source_file": "weathered_medieval_door_with_lantern.png",
+      "status": "cleaned",
+      "candidate_file": "architecture/wolfpine_door_heavy_01.png",
+      "sha256": "fe9a1c40b5e0887a6753a35e7e1020719ad85299aa8fe641c3a7e2bccd9df8ef",
+      "production_notes": "Production-ready modular door candidate; strong material read, ground threshold, lantern."
+    },
+    {
+      "id": "wolfpine_window_shuttered_01",
+      "display_name": "Small Shuttered Window",
+      "category": "architecture",
+      "source_file": "medieval_cottage_window_with_shuttered_frame.png",
+      "status": "cleaned",
+      "candidate_file": "architecture/wolfpine_window_shuttered_01.png",
+      "sha256": "e95ace7a07ed503cea0bac8afdc6f8ed44600257c998bc1ff609aaf677e10c8a",
+      "production_notes": "Production-ready modular window candidate; clearly not a door."
+    },
+    {
+      "id": "wolfpine_fence_segment_01",
+      "display_name": "Rough Timber Fence Segment",
+      "category": "architecture",
+      "source_file": "weathered_wooden_fence_on_dirt_path.png",
+      "status": "cleaned",
+      "candidate_file": "architecture/wolfpine_fence_segment_01.png",
+      "sha256": "0197e9e0ae3a1da4473edfa6da17a39c64605b40efac86642f6228ec753689f6",
+      "production_notes": "Usable path-edge fence candidate; needs trimmed/no-ground variant for modular repetition."
+    },
+    {
+      "id": "wolfpine_firewood_stack_01",
+      "display_name": "Firewood Stack",
+      "category": "props",
+      "source_file": "rustic_wood_shelter_with_firewood_pile.png",
+      "status": "cleaned",
+      "candidate_file": "props/wolfpine_firewood_stack_01.png",
+      "sha256": "56a515b3e13ac16704c42fe9428116eb2abc46e534daecc543584d4ac712d058",
+      "production_notes": "Production-ready candidate; readable at scale, forge/cottage compatible."
+    },
+    {
+      "id": "wolfpine_supply_pile_01",
+      "display_name": "Supply Pile Cluster",
+      "category": "clutter",
+      "source_file": "medieval_supply_pile_on_stony_ground.png",
+      "status": "generated_candidate",
+      "candidate_file": "clutter/wolfpine_supply_pile_01.png",
+      "sha256": "5ea9db463db3ad3e696e703dde2df7050a2779b1416cc5020955b5d704ed5784",
+      "production_notes": "Useful supplemental clutter; not in starter manifest yet. Split into barrel/crate/sack variants before canonical use."
+    },
+    {
+      "id": "wolfpine_cart_loaded_01",
+      "display_name": "Loaded Wooden Cart",
+      "category": "props",
+      "source_file": "rustic_wooden_cart_with_cargo.png",
+      "status": "generated_candidate",
+      "candidate_file": "props/wolfpine_cart_loaded_01.png",
+      "sha256": "d0df1ebe14cbca9265166d278545ac03f05f7126c03f7b32a748e30b9efa8341",
+      "production_notes": "Useful supplemental village/road prop; should become a new manifest entry if retained."
+    },
+    {
+      "id": "wolfpine_chapel_gate_arch_01",
+      "display_name": "Chapel Gate Arch",
+      "category": "architecture",
+      "source_file": "weathered_stone_shrine_with_bell.png",
+      "status": "generated_candidate",
+      "candidate_file": "architecture/wolfpine_chapel_gate_arch_01.png",
+      "sha256": "8d58487210402c819423f92160d5a65732b1d1a5ffe2dc22271aaf7fcd074a20",
+      "production_notes": "Strong chapel-path marker; should become a new manifest entry for chapel transition dressing."
+    },
+    {
+      "id": "wolfpine_blacksmith_workbench_01",
+      "display_name": "Blacksmith Workbench",
+      "category": "props",
+      "source_file": "rustic_medieval_blacksmith_workbench_diorama.png",
+      "status": "generated_candidate",
+      "candidate_file": "props/wolfpine_blacksmith_workbench_01.png",
+      "sha256": "48b6924f1e5788f9892676f58471e8bc430829bfe3e9f62c86dcae19ceae53df",
+      "production_notes": "Good forge dressing; should be split/normalized as separate tool bench/anvil props."
+    }
+  ]
+}
