@@ -1,0 +1,33 @@
+{
+  "batch_id": "wolfpine_village_batch_01",
+  "kit_id": "wolfpine_village",
+  "status": "planned",
+  "goal": "first_playable_foundation",
+  "asset_ids": [
+    "wolfpine_ground_dirt_01",
+    "wolfpine_ground_grass_01",
+    "wolfpine_ground_stone_01",
+    "wolfpine_transition_dirt_grass_01",
+    "wolfpine_transition_dirt_stone_01",
+    "wolfpine_transition_grass_stone_01",
+    "wolfpine_crate_01",
+    "wolfpine_barrel_01",
+    "wolfpine_signpost_01",
+    "wolfpine_cart_01"
+  ],
+  "required_outputs": [
+    "final_png",
+    "manifest_update",
+    "qa_report"
+  ],
+  "required_validators": [
+    "python tools/validate_asset_kits.py",
+    "python tools/validate_asset_production_batches.py",
+    "python tools/validate_asset_reviews.py",
+    "python tools/validate_asset_review_outcomes.py",
+    "python tools/validate_generated_assets.py",
+    "python tools/validate_promoted_png_files.py",
+    "python tools/validate_promoted_png_headers.py",
+    "python tools/validate_project.py"
+  ]
+}
