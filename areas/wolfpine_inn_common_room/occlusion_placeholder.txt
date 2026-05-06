@@ -1,0 +1,3 @@
+Wolfpine inn common room occlusion placeholder.
+
+Future occluders: hanging beams, foreground table edges, and hearth smoke masks.
