@@ -38,5 +38,23 @@
       "status": "candidate_only_not_imported",
       "license_review": "Required per asset. Prefer CC0/OGA-BY; avoid unclear/copyleft assets for now."
     }
-  ]
+  ],
+  "metadata_extension_plan": {
+    "status": "planned",
+    "target_manifests": [
+      "assets/kits/wolfpine_village/production_manifest_2026_05_06.json"
+    ],
+    "fields": [
+      "module_family",
+      "orientation",
+      "edge_role",
+      "elevation_class",
+      "join_compatibility",
+      "shadow_mode",
+      "tile_span",
+      "style_lock_version",
+      "qa_score"
+    ],
+    "schema_note": "assets/kits/wolfpine_village/metadata_schema_note.md"
+  }
 }
