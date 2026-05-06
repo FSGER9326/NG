@@ -1,0 +1,89 @@
+{
+  "id": "wolfpine_first_cleaned_review_pending_2026_05_06",
+  "review_gate": "data/asset_reviews/wolfpine_first_cleaned_review_2026_05_06.json",
+  "reviewed_at": "pending_visual_review",
+  "reviewer": "pending",
+  "target_manifest": "data/asset_kits/wolfpine_village_starter.json",
+  "assets": [
+    {
+      "asset_id": "wolfpine_well_01",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_well_01.png",
+      "expected_sha256": "ac46b5af0fb013cdfb0b113a2b9684380cb0b56ab7c129d1ba3a698d5cee3185",
+      "outcome": "cleaned",
+      "summary": "Pending visual and layout review after first binary promotion.",
+      "checks_passed": false,
+      "issues": [
+        "Pending alpha-edge check on neutral and dark backgrounds.",
+        "Pending Godot placement check against Wolfpine village layout context."
+      ],
+      "followups": [
+        "Place near village square and verify actor approach space on at least two sides.",
+        "Confirm roof and bucket details remain readable at game scale before accepting."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_notice_board_01",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_notice_board_01.png",
+      "expected_sha256": "c056d94f5add4e62473a0c36f00614520f15b45870829b6cb4a7e5522cf7c62a",
+      "outcome": "cleaned",
+      "summary": "Pending visual and layout review after first binary promotion.",
+      "checks_passed": false,
+      "issues": [
+        "Pending check that parchment marks contain no readable text.",
+        "Pending interaction-facing side check in village context."
+      ],
+      "followups": [
+        "Place near inn edge, wall, or crossroads and verify it reads as a quest-board hotspot.",
+        "Confirm it does not compete visually with doors or route markers before accepting."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_door_heavy_01",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_door_heavy_01.png",
+      "expected_sha256": "d1ded59dcd520c2f09c1d959cb938efb5762371205fec7b2a3265fcdd359dcbf",
+      "outcome": "cleaned",
+      "summary": "Pending visual and layout review after first binary promotion.",
+      "checks_passed": false,
+      "issues": [
+        "Pending facade attachment and scale check.",
+        "Pending threshold/walkability check in Godot layout context."
+      ],
+      "followups": [
+        "Attach to a starter facade and verify it reads unambiguously as a ground-level door.",
+        "Confirm lantern/detail should not become an accidental hotspot before accepting."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_window_shuttered_01",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_window_shuttered_01.png",
+      "expected_sha256": "0873dcc7e217bd3233053829296b202d6467c9848f3ab4d039660d414d9c3de4",
+      "outcome": "cleaned",
+      "summary": "Pending visual and layout review after first binary promotion.",
+      "checks_passed": false,
+      "issues": [
+        "Pending check that the window cannot be mistaken for an entrance.",
+        "Pending facade perspective and scale check."
+      ],
+      "followups": [
+        "Place on at least one starter facade and compare against modular door scale.",
+        "Confirm it remains a background architectural detail before accepting."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_firewood_stack_01",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_firewood_stack_01.png",
+      "expected_sha256": "fe424f6ba6bdc7b3a70b624ca301c91cd722fbdd9dd095dc00310cac93abc2e9",
+      "outcome": "cleaned",
+      "summary": "Pending visual and layout review after first binary promotion.",
+      "checks_passed": false,
+      "issues": [
+        "Pending clutter-footprint check beside buildings and forge areas.",
+        "Pending check that texture detail is readable but not visually noisy."
+      ],
+      "followups": [
+        "Place beside cottage or blacksmith context and verify it does not block doors or hotspots.",
+        "Confirm collision/non-walkable footprint is simple enough before accepting."
+      ]
+    }
+  ]
+}
