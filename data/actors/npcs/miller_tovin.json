@@ -1,0 +1,17 @@
+{
+  "id": "miller_tovin",
+  "name": "Miller Tovin",
+  "kind": "npc",
+  "faction": "wolfpine_villagers",
+  "portrait": "assets/portraits/captain_renna_placeholder.txt",
+  "dialogue": "dialogue/npcs/miller_tovin.json",
+  "tags": ["villager", "miller", "witness", "hunger_pressure"],
+  "stats": {
+    "level": 1,
+    "resolve": 4,
+    "melee": 1,
+    "ranged": 1,
+    "lore": 1
+  },
+  "description": "Wolfpine's tired miller, blamed for black bread while guard seals and missing tallies tighten around him."
+}
