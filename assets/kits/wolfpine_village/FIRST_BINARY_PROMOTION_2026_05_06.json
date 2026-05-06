@@ -1,0 +1,68 @@
+{
+  "id": "wolfpine_first_binary_promotion_2026_05_06",
+  "description": "Promote the first small reviewed Wolfpine PNG slice from the optimized local handoff package into canonical kit paths as cleaned assets.",
+  "source_zip": "ng_wolfpine_first_promotion_optimized.zip",
+  "status_policy": "Use cleaned, not accepted. These assets still need visual review in Godot before accepted promotion.",
+  "assets": [
+    {
+      "asset_id": "wolfpine_well_01",
+      "manifest": "data/asset_kits/wolfpine_village_starter.json",
+      "source_in_zip": "props/wolfpine_well_01.png",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_well_01.png",
+      "status": "cleaned",
+      "production_batch": "wolfpine_production_batch_2026_05_06",
+      "source_file": "rustic_stone_well_with_wooden_roof.png",
+      "candidate_file": "props/wolfpine_well_01.png",
+      "sha256": "ac46b5af0fb013cdfb0b113a2b9684380cb0b56ab7c129d1ba3a698d5cee3185",
+      "production_notes": "Optimized first-promotion PNG. Production-ready candidate: readable, grounded, fits square hotspot. Keep cleaned until visual review in Godot."
+    },
+    {
+      "asset_id": "wolfpine_notice_board_01",
+      "manifest": "data/asset_kits/wolfpine_village_starter.json",
+      "source_in_zip": "props/wolfpine_notice_board_01.png",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_notice_board_01.png",
+      "status": "cleaned",
+      "production_batch": "wolfpine_production_batch_2026_05_06",
+      "source_file": "weathered_medieval_village_notice_board.png",
+      "candidate_file": "props/wolfpine_notice_board_01.png",
+      "sha256": "c056d94f5add4e62473a0c36f00614520f15b45870829b6cb4a7e5522cf7c62a",
+      "production_notes": "Optimized first-promotion PNG. Production-ready candidate; no readable text, strong interaction silhouette. Keep cleaned until visual review in Godot."
+    },
+    {
+      "asset_id": "wolfpine_door_heavy_01",
+      "manifest": "data/asset_kits/wolfpine_village_starter.json",
+      "source_in_zip": "architecture/wolfpine_door_heavy_01.png",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_door_heavy_01.png",
+      "status": "cleaned",
+      "production_batch": "wolfpine_production_batch_2026_05_06",
+      "source_file": "weathered_medieval_door_with_lantern.png",
+      "candidate_file": "architecture/wolfpine_door_heavy_01.png",
+      "sha256": "d1ded59dcd520c2f09c1d959cb938efb5762371205fec7b2a3265fcdd359dcbf",
+      "production_notes": "Optimized first-promotion PNG. Production-ready modular door candidate; strong material read, ground threshold, lantern. Keep cleaned until visual review in Godot."
+    },
+    {
+      "asset_id": "wolfpine_window_shuttered_01",
+      "manifest": "data/asset_kits/wolfpine_village_starter.json",
+      "source_in_zip": "architecture/wolfpine_window_shuttered_01.png",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_window_shuttered_01.png",
+      "status": "cleaned",
+      "production_batch": "wolfpine_production_batch_2026_05_06",
+      "source_file": "medieval_cottage_window_with_shuttered_frame.png",
+      "candidate_file": "architecture/wolfpine_window_shuttered_01.png",
+      "sha256": "0873dcc7e217bd3233053829296b202d6467c9848f3ab4d039660d414d9c3de4",
+      "production_notes": "Optimized first-promotion PNG. Production-ready modular window candidate; clearly not a door. Keep cleaned until visual review in Godot."
+    },
+    {
+      "asset_id": "wolfpine_firewood_stack_01",
+      "manifest": "data/asset_kits/wolfpine_village_starter.json",
+      "source_in_zip": "props/wolfpine_firewood_stack_01.png",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_firewood_stack_01.png",
+      "status": "cleaned",
+      "production_batch": "wolfpine_production_batch_2026_05_06",
+      "source_file": "rustic_wood_shelter_with_firewood_pile.png",
+      "candidate_file": "props/wolfpine_firewood_stack_01.png",
+      "sha256": "fe424f6ba6bdc7b3a70b624ca301c91cd722fbdd9dd095dc00310cac93abc2e9",
+      "production_notes": "Optimized first-promotion PNG. Production-ready candidate; readable at scale, forge/cottage compatible. Keep cleaned until visual review in Godot."
+    }
+  ]
+}
