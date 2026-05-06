@@ -1,0 +1,3 @@
+Wolfpine blacksmith occlusion placeholder.
+
+Future occluders: forge hood, hanging tools, foreground anvil edge, and smoke masks.
