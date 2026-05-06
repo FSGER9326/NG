@@ -35,6 +35,10 @@ debug/
 logs/
 *.log
 
+# Local-only external reference packs. These may be licensed for project use
+# but not redistribution through the repository.
+reference_assets/local/
+
 # Large raw AI/source files should not be committed by accident
 asset_sources/raw/
 asset_sources/tmp/
