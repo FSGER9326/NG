@@ -1,0 +1,139 @@
+{
+  "id": "wolfpine_village_candidate_extensions",
+  "name": "Wolfpine Village Candidate Extensions",
+  "style_family": "wolfpine",
+  "version": 1,
+  "purpose": "Supplemental modernized Infinity Engine candidate assets produced after the starter kit for Wolfpine settlement dressing and transition readability.",
+  "camera": "pseudo_isometric_3_4",
+  "lighting": "late_afternoon_soft",
+  "target_area": "wolfpine_village",
+  "source_policy": {
+    "preferred": ["generated_isolated_asset", "cc0_external_asset_modified", "hand_painted_project_asset"],
+    "avoid_as_primary": ["raw_full_scene_cutout", "unclear_license", "noncommercial_asset"],
+    "notes": "These entries track supplemental candidates from the 2026-05-06 production batch. Do not mark accepted until cleaned PNGs exist at the intended paths and pass visual/layout review."
+  },
+  "global_acceptance_checks": [
+    "Fixed pseudo-isometric 3/4 CRPG camera.",
+    "Painted or pre-rendered look, not pixel art.",
+    "Muted natural Wolfpine palette with readable warm daylight.",
+    "Consistent contact shadow direction.",
+    "No text or UI baked into the asset.",
+    "No impossible architecture.",
+    "Readable silhouette at game scale.",
+    "Source and license/generation notes are recorded before production use."
+  ],
+  "assets": [
+    {
+      "id": "wolfpine_supply_pile_01",
+      "display_name": "Supply Pile Cluster",
+      "category": "clutter",
+      "subcategory": "storage_cluster",
+      "asset_type": "canonical_modular",
+      "priority": 1,
+      "status": "generated_candidate",
+      "intended_file": "assets/kits/wolfpine_village/clutter/wolfpine_supply_pile_01.png",
+      "scale_class": "small_clutter_cluster",
+      "tags": ["supplies", "sacks", "barrels", "crates", "storehouse"],
+      "placement_rules": [
+        "Use near the storehouse, market edge, inn service side, or guard post.",
+        "Do not block doors, required routes, or hotspot approach arcs.",
+        "Break into smaller barrel, crate, and sack variants if repetition becomes obvious."
+      ],
+      "acceptance_checks": [
+        "Reads as practical village supplies at game scale.",
+        "Perspective matches the Wolfpine ground plane.",
+        "Cluster has a clean footprint that is easy to block for collision.",
+        "No individual object looks modern or overly clean."
+      ],
+      "production_batch": "wolfpine_production_batch_2026_05_06",
+      "source_file": "medieval_supply_pile_on_stony_ground.png",
+      "candidate_file": "clutter/wolfpine_supply_pile_01.png",
+      "sha256": "5ea9db463db3ad3e696e703dde2df7050a2779b1416cc5020955b5d704ed5784",
+      "production_notes": "Useful supplemental clutter; split into barrel/crate/sack variants before heavy canonical reuse."
+    },
+    {
+      "id": "wolfpine_cart_loaded_01",
+      "display_name": "Loaded Wooden Cart",
+      "category": "props",
+      "subcategory": "travel_props",
+      "asset_type": "canonical_modular",
+      "priority": 2,
+      "status": "generated_candidate",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_cart_loaded_01.png",
+      "scale_class": "medium_prop",
+      "tags": ["cart", "wagon", "supplies", "road", "caravan"],
+      "placement_rules": [
+        "Use along road edges, storehouse approaches, or caravan-related scene dressing.",
+        "Do not place across the south road to main square route.",
+        "Keep enough clear space around wheels and shafts for believable collision."
+      ],
+      "acceptance_checks": [
+        "Readable as a loaded village cart at game scale.",
+        "Wheel perspective matches the pseudo-isometric camera.",
+        "Cargo does not include readable labels or modern materials.",
+        "Can support Missing Caravan visual storytelling without becoming scene-specific."
+      ],
+      "production_batch": "wolfpine_production_batch_2026_05_06",
+      "source_file": "rustic_wooden_cart_with_cargo.png",
+      "candidate_file": "props/wolfpine_cart_loaded_01.png",
+      "sha256": "d0df1ebe14cbca9265166d278545ac03f05f7126c03f7b32a748e30b9efa8341",
+      "production_notes": "Useful village/road prop for caravan and supply-pressure dressing; keep modular and avoid blocking required routes."
+    },
+    {
+      "id": "wolfpine_chapel_gate_arch_01",
+      "display_name": "Chapel Gate Arch",
+      "category": "architecture",
+      "subcategory": "path_marker",
+      "asset_type": "canonical_modular",
+      "priority": 3,
+      "status": "generated_candidate",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_chapel_gate_arch_01.png",
+      "scale_class": "small_architecture",
+      "tags": ["chapel", "gate", "stone", "path_marker", "transition"],
+      "placement_rules": [
+        "Use to frame the north chapel path or chapel yard transition.",
+        "Do not use as a full wall or door unless future area data defines that transition.",
+        "Never obscure the chapel path hotspot or its visible route."
+      ],
+      "acceptance_checks": [
+        "Reads as an old stone chapel-path marker, not a house facade.",
+        "Perspective and ground contact match Wolfpine Village.",
+        "Does not contain readable text or religious symbols that imply unsupported lore.",
+        "Makes the chapel exit more readable without blocking movement."
+      ],
+      "production_batch": "wolfpine_production_batch_2026_05_06",
+      "source_file": "weathered_stone_shrine_with_bell.png",
+      "candidate_file": "architecture/wolfpine_chapel_gate_arch_01.png",
+      "sha256": "8d58487210402c819423f92160d5a65732b1d1a5ffe2dc22271aaf7fcd074a20",
+      "production_notes": "Strong chapel-path marker; good candidate for transition readability once cleaned PNG is committed."
+    },
+    {
+      "id": "wolfpine_blacksmith_workbench_01",
+      "display_name": "Blacksmith Workbench",
+      "category": "props",
+      "subcategory": "forge_dressing",
+      "asset_type": "canonical_modular",
+      "priority": 4,
+      "status": "generated_candidate",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_blacksmith_workbench_01.png",
+      "scale_class": "medium_prop",
+      "tags": ["blacksmith", "forge", "tools", "workbench", "anvil"],
+      "placement_rules": [
+        "Use beside the blacksmith facade or in a forge yard, not in front of the door.",
+        "Keep tool clutter grouped so collision and hotspot access remain readable.",
+        "Can be split into anvil, tool rack, and bench pieces for finer scene dressing."
+      ],
+      "acceptance_checks": [
+        "Forge identity is clear without labels.",
+        "Tool shapes read at game scale without excessive visual noise.",
+        "Perspective matches the blacksmith facade and ground plane.",
+        "Does not block the blacksmith door or work-yard approach."
+      ],
+      "production_batch": "wolfpine_production_batch_2026_05_06",
+      "source_file": "rustic_medieval_blacksmith_workbench_diorama.png",
+      "candidate_file": "props/wolfpine_blacksmith_workbench_01.png",
+      "sha256": "48b6924f1e5788f9892676f58471e8bc430829bfe3e9f62c86dcae19ceae53df",
+      "production_notes": "Good forge dressing candidate; split into smaller prop variants if repeated in multiple areas."
+    }
+  ]
+}
