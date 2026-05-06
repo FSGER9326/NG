@@ -25,6 +25,7 @@ DEFAULT_ROOTS = (ROOT / "assets" / "generated",)
 ALLOWED_CANVAS_SIZES = {(512, 512), (1024, 1024), (2048, 2048)}
 SAFE_FILE_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]*\.(png|jpg|jpeg|json)$")
 SAFE_ID_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]*$")
+NUMERIC_RE = re.compile(r"^-?\d+(\.\d+)?$")
 REQUIRED_MANIFEST_FIELDS = {
     "id",
     "type",
@@ -110,6 +111,8 @@ def _validate_manifest(manifest_path: Path, errors: list[str]) -> None:
             errors.append(f"{rel_manifest}: assets[{index}] must be an object")
             continue
         _validate_entry(manifest_path.parent, rel_manifest, index, entry, errors)
+
+    _validate_scorecard_review(manifest_path.parent, rel_manifest, entries, errors)
 
 
 def _validate_entry(base_dir: Path, rel_manifest: str, index: int, entry: dict[str, Any], errors: list[str]) -> None:
@@ -225,6 +228,112 @@ def _rel(path: Path) -> str:
         return str(path.relative_to(ROOT)).replace("\\", "/")
     except ValueError:
         return str(path)
+
+
+def _validate_scorecard_review(base_dir: Path, rel_manifest: str, entries: list[Any], errors: list[str]) -> None:
+    review_json = base_dir / "scorecard_review.json"
+    review_md = base_dir / "scorecard_review.md"
+    manifest_asset_ids = {
+        str(entry.get("id"))
+        for entry in entries
+        if isinstance(entry, dict) and isinstance(entry.get("id"), str)
+    }
+    if review_json.exists():
+        _validate_scorecard_review_json(review_json, rel_manifest, manifest_asset_ids, errors)
+        return
+    if review_md.exists():
+        _validate_scorecard_review_markdown(review_md, rel_manifest, manifest_asset_ids, errors)
+        return
+    errors.append(
+        f"{rel_manifest}: missing scorecard review evidence file; expected one of "
+        "scorecard_review.json or scorecard_review.md in the manifest directory"
+    )
+
+
+def _validate_scorecard_review_json(path: Path, rel_manifest: str, manifest_asset_ids: set[str], errors: list[str]) -> None:
+    rel_path = _rel(path)
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        errors.append(f"{rel_path}: invalid JSON: {exc}")
+        return
+
+    reviews = payload.get("reviews", payload)
+    if not isinstance(reviews, list) or not reviews:
+        errors.append(f"{rel_path}: expected non-empty list (or object with 'reviews' list)")
+        return
+    _validate_review_rows(reviews, rel_manifest, rel_path, manifest_asset_ids, errors)
+
+
+def _validate_scorecard_review_markdown(path: Path, rel_manifest: str, manifest_asset_ids: set[str], errors: list[str]) -> None:
+    rel_path = _rel(path)
+    lines = [line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    table_lines = [line for line in lines if line.startswith("|") and line.endswith("|")]
+    if len(table_lines) < 3:
+        errors.append(f"{rel_path}: expected a markdown table with header, divider, and at least one row")
+        return
+    headers = [cell.strip() for cell in table_lines[0].strip("|").split("|")]
+    divider = [cell.strip() for cell in table_lines[1].strip("|").split("|")]
+    if len(headers) != len(divider) or not all(set(cell) <= {"-", ":"} and cell for cell in divider):
+        errors.append(f"{rel_path}: malformed markdown table divider row")
+        return
+
+    rows: list[dict[str, Any]] = []
+    for row_line in table_lines[2:]:
+        cells = [cell.strip() for cell in row_line.strip("|").split("|")]
+        if len(cells) != len(headers):
+            errors.append(f"{rel_path}: row has {len(cells)} column(s), expected {len(headers)}")
+            continue
+        rows.append(dict(zip(headers, cells)))
+    if rows:
+        _validate_review_rows(rows, rel_manifest, rel_path, manifest_asset_ids, errors)
+
+
+def _validate_review_rows(rows: list[dict[str, Any]], rel_manifest: str, rel_path: str, manifest_asset_ids: set[str], errors: list[str]) -> None:
+    required_fields = {
+        "asset_id",
+        "weighted_total",
+        "result",
+        "seam_test_scene_path",
+        "scale_check_note",
+        "reviewer",
+        "review_date",
+    }
+    seen: set[str] = set()
+    for index, row in enumerate(rows):
+        prefix = f"{rel_path}:row[{index}]"
+        missing = sorted(field for field in required_fields if field not in row or str(row.get(field, "")).strip() == "")
+        if missing:
+            errors.append(f"{prefix}: missing required field(s): {', '.join(missing)}")
+        asset_id = str(row.get("asset_id", "")).strip()
+        if asset_id:
+            if asset_id in seen:
+                errors.append(f"{prefix}: duplicate asset_id {asset_id!r}")
+            seen.add(asset_id)
+            if asset_id not in manifest_asset_ids:
+                errors.append(f"{prefix}: asset_id not found in {rel_manifest}")
+        weighted_total = row.get("weighted_total")
+        if not _is_numeric(weighted_total):
+            errors.append(f"{prefix}: weighted_total must be numeric")
+        category_score_keys = [key for key in row.keys() if key.endswith("_score")]
+        if not category_score_keys:
+            errors.append(f"{prefix}: at least one numeric category score is required (column/key ending with '_score')")
+        for key in category_score_keys:
+            if not _is_numeric(row.get(key)):
+                errors.append(f"{prefix}: category score {key!r} must be numeric")
+        seam_path = str(row.get("seam_test_scene_path", "")).strip()
+        if seam_path:
+            seam_candidate = Path(seam_path)
+            if seam_candidate.is_absolute() or ".." in seam_candidate.parts:
+                errors.append(f"{prefix}: seam_test_scene_path must be a safe relative path")
+
+
+def _is_numeric(value: Any) -> bool:
+    if isinstance(value, (int, float)):
+        return True
+    if isinstance(value, str):
+        return bool(NUMERIC_RE.fullmatch(value.strip()))
+    return False
 
 
 if __name__ == "__main__":
