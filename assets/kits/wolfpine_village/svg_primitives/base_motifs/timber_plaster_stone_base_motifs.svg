@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Wolfpine base motifs: timber, plaster, stone</title>
+  <desc>Reusable base motifs for structural SVG assets.</desc>
+  <defs>
+    <g id="base_timber_frame_v1">
+      <rect x="0" y="0" width="256" height="256" fill="#d4c3a3"/>
+      <path d="M0 26h256M0 78h256M0 130h256M0 182h256M0 234h256" stroke="#8a6442" stroke-width="10" opacity="0.55"/>
+      <path d="M24 0v256M84 0v256M144 0v256M204 0v256" stroke="#6f5036" stroke-width="9" opacity="0.45"/>
+    </g>
+    <g id="base_plaster_panel_v1">
+      <rect x="0" y="0" width="256" height="256" fill="#d7d0c3"/>
+      <path d="M16 40h224M24 92h208M20 144h216M36 196h196" stroke="#b2aa9a" stroke-width="5" opacity="0.5"/>
+      <path d="M46 24l18 20m88 -8l16 22m-114 64l20 22m96 12l14 18" stroke="#cbc2b2" stroke-width="3" opacity="0.6"/>
+    </g>
+    <g id="base_stone_course_v1">
+      <rect x="0" y="0" width="256" height="256" fill="#8f8a83"/>
+      <path d="M0 38h256M0 88h256M0 138h256M0 188h256" stroke="#6f6a65" stroke-width="7" opacity="0.6"/>
+      <path d="M28 0v54M96 34v64M172 10v72M228 30v58M58 90v82M136 102v72M206 96v80" stroke="#726d67" stroke-width="5" opacity="0.45"/>
+    </g>
+  </defs>
+</svg>
