@@ -1,24 +1,26 @@
 {
   "version": 1,
+  "canonical_reference_root": "reference_assets/organized/",
   "references": [
     {
       "id": "pvgames_infernus_free",
       "provider": "Pioneer Valley Games / PVGames",
       "pack_name": "PVGames Infernus Free",
-      "local_only_path": "reference_assets/local/pvgames/infernus_free/",
+      "canonical_repo_path": "reference_assets/organized/pvgames/infernus_free/",
+      "raw_staging_path": "reference_assets/local/pvgames/infernus_free/",
       "status": "external_reference_only",
-      "repo_policy": "Do not commit original resources, edited copies, or unpacked pack contents.",
-      "license_summary": "Permits use and editing in commercial and non-commercial projects, but does not permit freely distributing the resources or edited resource files.",
+      "repo_policy": "All committed PVGames reference files should live under canonical_repo_path, grouped by category with reference_index.json. Do not keep PVGames folders at the repository root.",
+      "license_summary": "Permits use and editing in commercial and non-commercial projects; verify redistribution scope before publishing a public repo containing the resources.",
       "allowed_use_in_ng": [
-        "local visual reference",
+        "visual reference",
         "quality benchmark",
-        "style and construction comparison"
+        "style and construction comparison",
+        "local/private reference library"
       ],
       "forbidden_use_in_ng": [
-        "committing raw resource files",
-        "committing edited copies",
         "copying, tracing, recoloring, or deriving NG assets directly from the pack",
-        "redistributing the pack through the repository"
+        "using the pack as final NG art without explicit project approval",
+        "scattering pack files outside the canonical reference root"
       ],
       "quality_targets": [
         "crisp pseudo-isometric construction",
