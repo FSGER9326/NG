@@ -46,6 +46,9 @@ jobs:
       - name: Validate asset promotion plans
         run: python tools/validate_asset_promotion_plans.py
 
+      - name: Test asset promotion dry run
+        run: python tools/test_promote_asset_candidates.py
+
   pr-hygiene:
     runs-on: ubuntu-latest
     steps:
