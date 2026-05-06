@@ -1,0 +1,61 @@
+{
+  "id": "wolfpine_chapel_yard_quest_flow",
+  "name": "Wolfpine Chapel Yard Quest Flow",
+  "root_scene": "area",
+  "description": "Verifies that the village chapel-path exit reaches the chapel yard, the prayer-cloth clue starts and advances its quest, and the west path returns to Wolfpine Village.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_village",
+      "entry_id": "village_square"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_village"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "chapel_path"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_chapel_yard"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "burned_prayer_tree"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "soot_prayer_cloth",
+      "stage": "found_unburned_cloth"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "soot_cloth_found",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "ash_signal_mark"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "soot_prayer_cloth",
+      "stage": "revealed_mark"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "soot_signal_revealed",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "west_path_exit"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_village"
+    }
+  ]
+}
