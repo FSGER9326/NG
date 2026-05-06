@@ -43,6 +43,9 @@ jobs:
       - name: Validate asset production batch manifests
         run: python tools/validate_asset_production_batches.py
 
+      - name: Validate asset promotion plans
+        run: python tools/validate_asset_promotion_plans.py
+
   pr-hygiene:
     runs-on: ubuntu-latest
     steps:
