@@ -1,0 +1,87 @@
+{
+  "id": "wolfpine_road_caravan_clue_flow",
+  "name": "Wolfpine Road Caravan Clue Flow",
+  "root_scene": "area",
+  "description": "Verifies that the main missing-caravan clue chain on Wolfpine Road advances quest state, sets evidence flags, and leads into Wolfpine Village.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road",
+      "entry_id": "south_road"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "old_shrine"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_wreck"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_old_shrine_inspected",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_shrine_seen_dead_mule",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_shrine_seen_toll_disc",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "shrine_ledger_niche"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_erased_name"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_ledger_niche_found",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_manifest_erased_name_seen",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "cut_bark_smuggler_mark"
+    },
+    {
+      "type": "assert_quest_stage",
+      "quest_id": "missing_caravan",
+      "stage": "found_smuggler_mark"
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_smuggler_mark_found",
+      "value": true
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "wolfpine_blackfen_route_hint",
+      "value": true
+    },
+    {
+      "type": "click_hotspot",
+      "hotspot_id": "north_exit"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_village"
+    }
+  ]
+}
