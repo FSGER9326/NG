@@ -1,0 +1,44 @@
+{
+  "area_id": "wolfpine_blacksmith",
+  "hotspots": [
+    {
+      "id": "front_door_exit",
+      "name": "Front Door",
+      "type": "exit",
+      "position": [220, 600],
+      "radius": 64,
+      "target_area": "wolfpine_village",
+      "target_entry": "village_square"
+    },
+    {
+      "id": "forge_coals",
+      "name": "Forge Coals",
+      "type": "inspect",
+      "position": [655, 365],
+      "radius": 52,
+      "description": "The forge coals glow under a thin gray crust. Fresh hammer scale lies beside them, mixed with black grit from the village bread ovens.",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_blacksmith_oven_grit_seen",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "tool_bench",
+      "name": "Tool Bench",
+      "type": "inspect",
+      "position": [910, 465],
+      "radius": 46,
+      "description": "A bench of files, nails, and wagon irons. One fresh-cut hook matches the guardhouse rope rack, but the smith's mark has been filed away.",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_blacksmith_hook_hint_seen",
+          "value": true
+        }
+      ]
+    }
+  ]
+}
