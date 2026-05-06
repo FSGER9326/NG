@@ -2,7 +2,7 @@
   "area_id": "wolfpine_blacksmith",
   "hotspots": [
     {
-      "id": "front_door_exit",
+      "id": "blacksmith_front_door_exit",
       "name": "Front Door",
       "type": "exit",
       "position": [220, 600],
