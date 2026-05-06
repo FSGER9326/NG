@@ -1,0 +1,17 @@
+{
+  "id": "wolfpine_blacksmith",
+  "name": "Wolfpine Blacksmith's Forge",
+  "type": "interior",
+  "description": "A cramped forge room with damp bellows, stacked fuel, and old iron tools arranged around a low work fire.",
+  "background": "areas/wolfpine_blacksmith/background_placeholder.txt",
+  "occlusion": "areas/wolfpine_blacksmith/occlusion_placeholder.txt",
+  "walkmask": "areas/wolfpine_blacksmith/walkmask_placeholder.txt",
+  "hotspots": "areas/wolfpine_blacksmith/hotspots.json",
+  "actors": "areas/wolfpine_blacksmith/actors.json",
+  "default_music": "music/village_wolfpine_low",
+  "entry_points": {
+    "front_door": [220, 600],
+    "forge": [655, 365],
+    "tool_bench": [910, 465]
+  }
+}
