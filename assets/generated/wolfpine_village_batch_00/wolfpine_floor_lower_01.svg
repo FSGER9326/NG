@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="192" viewBox="0 0 256 192">
+  <polygon points="48,88 128,62 208,88 128,116" fill="#6f6959"/>
+  <polyline points="48,88 128,62 208,88" fill="none" stroke="#8d856f" stroke-width="2"/>
+  <line x1="72" y1="95" x2="128" y2="76" stroke="#5d5648" stroke-width="2" opacity="0.6"/>
+  <line x1="128" y1="76" x2="184" y2="95" stroke="#5d5648" stroke-width="2" opacity="0.6"/>
+  <ellipse cx="128" cy="122" rx="78" ry="10" fill="#2a251d" opacity="0.22"/>
+</svg>

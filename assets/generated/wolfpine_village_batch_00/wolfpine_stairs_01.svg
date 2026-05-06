@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="192" viewBox="0 0 256 192">
+  <polygon points="60,104 126,82 192,104 126,126" fill="#857560"/>
+  <polygon points="66,98 126,78 186,98 126,118" fill="#9a886f"/>
+  <polygon points="72,92 126,74 180,92 126,110" fill="#ae9a7f"/>
+  <polygon points="78,86 126,70 174,86 126,102" fill="#c1ab8e"/>
+  <ellipse cx="126" cy="132" rx="76" ry="11" fill="#2a2218" opacity="0.28"/>
+</svg>
