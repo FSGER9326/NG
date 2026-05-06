@@ -201,7 +201,7 @@ This yields combinatorial reuse instead of one-off scene art.
 Use this handoff block exactly:
 
 ```text
-Read docs/WORKFLOW.md, docs/ASSET_POLICY.md, docs/ASSET_PRODUCTION.md, docs/GENERATED_ASSET_PIPELINE.md, and docs/ASSET_SESSION_PROTOCOL.md first. Operate manifest-first. Use strict gate-based promotion. Do not mark assets accepted unless all gates pass and validators succeed. Produce only one small batch with explicit state transitions and QA report.
+Read docs/WORKFLOW.md, docs/ASSET_POLICY.md, docs/ASSET_PRODUCTION.md, docs/GENERATED_ASSET_PIPELINE.md, docs/ASSET_SESSION_PROTOCOL.md, and assets/kits/wolfpine_village/pipeline/BATCH_STATE_MACHINE.md first. Operate manifest-first. Use strict gate-based promotion. Do not mark assets accepted unless all gates pass and validators succeed. Produce only one small batch with explicit state transitions and QA report. For retry loops, run deterministic WebGPT prompt-adjustment (single bounded delta committed to repo) before Codex regeneration, then reclassify failures and enforce retry limits.
 ```
 
 ---
