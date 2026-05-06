@@ -6,6 +6,7 @@ const PORTRAITS_PATH := "res://data/character_creation/portraits.json"
 
 var portrait_options: OptionButton
 var portrait_summary_label: Label
+var profile_preview_label: Label
 var portrait_data: Dictionary = {}
 var portrait_manually_selected := false
 
@@ -39,31 +40,31 @@ func _show_character_creator() -> void:
 
 	var panel := PanelContainer.new()
 	panel.name = "CreatorPanel"
-	panel.position = Vector2(300, 18)
-	panel.size = Vector2(680, 700)
+	panel.position = Vector2(290, 10)
+	panel.size = Vector2(700, 715)
 	CrpgTheme.apply_panel(panel)
 	character_creator_root.add_child(panel)
 
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 24)
-	margin.add_theme_constant_override("margin_top", 18)
+	margin.add_theme_constant_override("margin_top", 14)
 	margin.add_theme_constant_override("margin_right", 24)
-	margin.add_theme_constant_override("margin_bottom", 18)
+	margin.add_theme_constant_override("margin_bottom", 14)
 	panel.add_child(margin)
 
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 6)
+	root.add_theme_constant_override("separation", 5)
 	margin.add_child(root)
 
 	var title := Label.new()
 	title.text = "Create Your Character"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	CrpgTheme.apply_label(title, true)
-	title.add_theme_font_size_override("font_size", 24)
+	title.add_theme_font_size_override("font_size", 23)
 	root.add_child(title)
 
 	var intro := Label.new()
-	intro.text = "Choose a name, ancestry, background, class, trait, and text-first portrait."
+	intro.text = "Choose a name, ancestry, background, class, trait, and portrait. The preview shows the profile that will enter Wolfpine Road."
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	CrpgTheme.apply_label(intro)
 	root.add_child(intro)
@@ -72,6 +73,7 @@ func _show_character_creator() -> void:
 	character_name_edit = LineEdit.new()
 	character_name_edit.name = "CharacterName"
 	character_name_edit.text = String(player_profile.get("name", "Wanderer"))
+	character_name_edit.text_changed.connect(_on_creator_text_changed)
 	root.add_child(character_name_edit)
 
 	root.add_child(_make_form_label("Ancestry"))
@@ -117,14 +119,21 @@ func _show_character_creator() -> void:
 	portrait_summary_label = Label.new()
 	portrait_summary_label.name = "PortraitSummary"
 	portrait_summary_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	portrait_summary_label.custom_minimum_size = Vector2(620, 48)
+	portrait_summary_label.custom_minimum_size = Vector2(640, 44)
 	CrpgTheme.apply_label(portrait_summary_label)
 	root.add_child(portrait_summary_label)
+
+	profile_preview_label = Label.new()
+	profile_preview_label.name = "ProfilePreview"
+	profile_preview_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	profile_preview_label.custom_minimum_size = Vector2(640, 92)
+	CrpgTheme.apply_label(profile_preview_label)
+	root.add_child(profile_preview_label)
 
 	compatibility_warning_label = Label.new()
 	compatibility_warning_label.name = "CompatibilityWarning"
 	compatibility_warning_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	compatibility_warning_label.custom_minimum_size = Vector2(620, 50)
+	compatibility_warning_label.custom_minimum_size = Vector2(640, 44)
 	CrpgTheme.apply_label(compatibility_warning_label)
 	root.add_child(compatibility_warning_label)
 
@@ -146,6 +155,7 @@ func _show_character_creator() -> void:
 	_refresh_trait_options(String(player_profile.get("trait", "Steady Under Fire")))
 	_update_portrait_summary()
 	_update_creator_compatibility()
+	_update_profile_preview()
 	GameLog.info("MENU", "Character creator shown", {"portrait_count": PortraitCatalog.get_portraits(portrait_data).size()})
 
 func _start_new_game_from_creator(name_edit: LineEdit, selected_ancestry_options: OptionButton, selected_origin_options: OptionButton, selected_archetype_options: OptionButton, selected_trait_options: OptionButton, selected_portrait_options: OptionButton = null) -> void:
@@ -172,10 +182,16 @@ func _on_creator_selection_changed(_selected_index: int = -1) -> void:
 	_refresh_trait_options(_get_selected_option_text(trait_options))
 	_select_portrait_for_current_background(true)
 	_update_creator_compatibility(_selected_index)
+	_update_profile_preview()
+
+func _on_creator_text_changed(_new_text: String) -> void:
+	_update_creator_compatibility()
+	_update_profile_preview()
 
 func _on_portrait_selection_changed(_selected_index: int = -1) -> void:
 	portrait_manually_selected = true
 	_update_portrait_summary()
+	_update_profile_preview()
 
 func _populate_portrait_options() -> void:
 	if portrait_options == null:
@@ -228,14 +244,94 @@ func _update_portrait_summary() -> void:
 		return
 	portrait_summary_label.text = "%s\n%s" % [PortraitCatalog.get_display_name(portrait_data_item), PortraitCatalog.get_summary(portrait_data_item)]
 
+func _get_creator_preview_profile() -> Dictionary:
+	if character_name_edit == null or ancestry_options == null or origin_options == null or archetype_options == null or trait_options == null:
+		return {}
+	var preview_name := character_name_edit.text.strip_edges()
+	if preview_name.is_empty():
+		preview_name = "Wanderer"
+	var preview_profile := _build_player_profile(
+		preview_name,
+		_get_selected_option_text(ancestry_options),
+		_get_selected_option_text(origin_options),
+		_get_selected_option_text(archetype_options),
+		_get_selected_option_text(trait_options)
+	)
+	if portrait_options != null:
+		preview_profile = PortraitCatalog.apply_to_profile(preview_profile, _get_selected_portrait())
+	return preview_profile
+
+func _update_profile_preview() -> void:
+	if profile_preview_label == null:
+		return
+	var preview_profile := _get_creator_preview_profile()
+	if preview_profile.is_empty():
+		profile_preview_label.text = "Profile preview unavailable."
+		return
+	profile_preview_label.text = "Profile preview: %s\nAttributes: %s\nSkills: %s\nTags: %s" % [
+		_profile_identity_line(preview_profile),
+		_format_score_summary(preview_profile.get("attributes", {})),
+		_format_score_summary(preview_profile.get("skills", {})),
+		_format_tag_preview(preview_profile.get("tags", []))
+	]
+
+func _profile_identity_line(preview_profile: Dictionary) -> String:
+	return "%s — %s / %s / %s / %s" % [
+		String(preview_profile.get("name", "Wanderer")),
+		String(preview_profile.get("ancestry", "Unknown ancestry")),
+		String(preview_profile.get("background", "Unknown background")),
+		String(preview_profile.get("class", "Unknown class")),
+		String(preview_profile.get("trait", "Unknown trait"))
+	]
+
+func _format_score_summary(value: Variant) -> String:
+	if typeof(value) != TYPE_DICTIONARY:
+		return "none"
+	var source: Dictionary = value
+	var keys := source.keys()
+	keys.sort()
+	var pieces: Array[String] = []
+	for key in keys:
+		var label := String(key).replace("_", " ").capitalize()
+		pieces.append("%s %d" % [label, int(source[key])])
+	if pieces.is_empty():
+		return "none"
+	return ", ".join(pieces)
+
+func _format_tag_preview(value: Variant) -> String:
+	if typeof(value) != TYPE_ARRAY:
+		return "none"
+	var labels: Array[String] = []
+	for tag_id in value:
+		labels.append(CharacterProfileBuilder.format_tag(String(tag_id)))
+		if labels.size() >= 6:
+			break
+	if labels.is_empty():
+		return "none"
+	return ", ".join(labels)
+
 func run_debug_action(action: Dictionary) -> bool:
 	var action_type := String(action.get("type", ""))
 	if action_type == "select_portrait":
 		var portrait_ok := _select_option_by_text(portrait_options, String(action.get("portrait", "")), "portrait")
 		portrait_manually_selected = portrait_ok
 		_update_portrait_summary()
+		_update_profile_preview()
 		return portrait_ok
+	if action_type == "assert_creator_preview_contains":
+		return _assert_creator_preview_contains(String(action.get("text", "")))
 	return super.run_debug_action(action)
+
+func _assert_creator_preview_contains(expected_text: String) -> bool:
+	if profile_preview_label == null:
+		GameLog.error("ASSERT", "Creator profile preview label is missing")
+		return false
+	var actual_text := profile_preview_label.text
+	if not actual_text.contains(expected_text):
+		GameLog.error("ASSERT", "Creator profile preview mismatch: expected text containing %s got %s" % [expected_text, actual_text], {"expected": expected_text, "actual": actual_text})
+		return false
+	GameLog.info("ASSERT", "Creator profile preview contains: %s" % expected_text)
+	return true
 
 func _press_menu_button(button: String) -> bool:
 	if button == "start_journey":
@@ -264,3 +360,4 @@ func _clear_current_screen() -> void:
 	super._clear_current_screen()
 	portrait_options = null
 	portrait_summary_label = null
+	profile_preview_label = null
