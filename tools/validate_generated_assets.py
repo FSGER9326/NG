@@ -151,7 +151,7 @@ def _validate_entry(base_dir: Path, rel_manifest: str, index: int, entry: dict[s
     file_name = str(entry.get("file", ""))
     file_path = Path(file_name)
     if not SAFE_FILE_RE.match(file_path.name):
-        errors.append(f"{prefix}: asset file name must be lowercase snake/kebab case PNG/JPG/JSON: {file_name!r}")
+        errors.append(f"{prefix}: asset file name must be lowercase snake/kebab case PNG/JPG/JSON/SVG: {file_name!r}")
     if file_path.is_absolute() or ".." in file_path.parts:
         errors.append(f"{prefix}: asset file path must stay inside manifest directory: {file_name!r}")
         return
@@ -227,8 +227,6 @@ def _validate_png(asset_path: Path, prefix: str, entry: dict[str, Any], errors: 
             errors.append(f"{prefix}: PNG corners should be fully transparent: {_rel(asset_path)}")
 
 
-
-
 def _validate_svg(asset_path: Path, prefix: str, errors: list[str]) -> None:
     contents = asset_path.read_text(encoding="utf-8")
 
@@ -241,6 +239,7 @@ def _validate_svg(asset_path: Path, prefix: str, errors: list[str]) -> None:
             errors.append(
                 f"{prefix}: structural SVG missing non-empty marker '{marker}' in metadata/comments: {_rel(asset_path)}"
             )
+
 
 def _count_alpha_pixels(alpha_image: Any, predicate: Callable[[int], bool]) -> int:
     histogram = alpha_image.histogram()
@@ -286,9 +285,16 @@ def _validate_scorecard_review_json(path: Path, rel_manifest: str, manifest_asse
         errors.append(f"{rel_path}: invalid JSON: {exc}")
         return
 
-    reviews = payload.get("reviews", payload)
+    if isinstance(payload, list):
+        reviews = payload
+    elif isinstance(payload, dict):
+        reviews = payload.get("reviews", [])
+    else:
+        errors.append(f"{rel_path}: expected non-empty list or object with 'reviews' list")
+        return
+
     if not isinstance(reviews, list) or not reviews:
-        errors.append(f"{rel_path}: expected non-empty list (or object with 'reviews' list)")
+        errors.append(f"{rel_path}: expected non-empty list or object with 'reviews' list")
         return
     _validate_review_rows(reviews, rel_manifest, rel_path, manifest_asset_ids, errors)
 
@@ -317,7 +323,7 @@ def _validate_scorecard_review_markdown(path: Path, rel_manifest: str, manifest_
         _validate_review_rows(rows, rel_manifest, rel_path, manifest_asset_ids, errors)
 
 
-def _validate_review_rows(rows: list[dict[str, Any]], rel_manifest: str, rel_path: str, manifest_asset_ids: set[str], errors: list[str]) -> None:
+def _validate_review_rows(rows: list[Any], rel_manifest: str, rel_path: str, manifest_asset_ids: set[str], errors: list[str]) -> None:
     required_fields = {
         "asset_id",
         "weighted_total",
@@ -330,6 +336,10 @@ def _validate_review_rows(rows: list[dict[str, Any]], rel_manifest: str, rel_pat
     seen: set[str] = set()
     for index, row in enumerate(rows):
         prefix = f"{rel_path}:row[{index}]"
+        if not isinstance(row, dict):
+            errors.append(f"{prefix}: review row must be an object")
+            continue
+
         missing = sorted(field for field in required_fields if field not in row or str(row.get(field, "")).strip() == "")
         if missing:
             errors.append(f"{prefix}: missing required field(s): {', '.join(missing)}")
@@ -343,7 +353,7 @@ def _validate_review_rows(rows: list[dict[str, Any]], rel_manifest: str, rel_pat
         weighted_total = row.get("weighted_total")
         if not _is_numeric(weighted_total):
             errors.append(f"{prefix}: weighted_total must be numeric")
-        category_score_keys = [key for key in row.keys() if key.endswith("_score")]
+        category_score_keys = [key for key in row.keys() if isinstance(key, str) and key.endswith("_score")]
         if not category_score_keys:
             errors.append(f"{prefix}: at least one numeric category score is required (column/key ending with '_score')")
         for key in category_score_keys:
