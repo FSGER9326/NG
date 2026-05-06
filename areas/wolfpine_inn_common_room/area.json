@@ -1,0 +1,17 @@
+{
+  "id": "wolfpine_inn_common_room",
+  "name": "The Pine Hearth Common Room",
+  "type": "interior",
+  "description": "A low-beamed inn room smelling of wet wool, smoke, and sour ale. Travelers keep their backs to the wall while village talk lowers around the fire.",
+  "background": "areas/wolfpine_inn_common_room/background_placeholder.txt",
+  "occlusion": "areas/wolfpine_inn_common_room/occlusion_placeholder.txt",
+  "walkmask": "areas/wolfpine_inn_common_room/walkmask_placeholder.txt",
+  "hotspots": "areas/wolfpine_inn_common_room/hotspots.json",
+  "actors": "areas/wolfpine_inn_common_room/actors.json",
+  "default_music": "music/village_wolfpine_low",
+  "entry_points": {
+    "front_door": [210, 600],
+    "hearth": [640, 420],
+    "back_table": [980, 335]
+  }
+}
