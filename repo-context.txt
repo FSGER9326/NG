@@ -100,6 +100,8 @@ data/
   asset_registry/
     batches/
       wolfpine_village_batch_01.json
+    external_reference_assets.json
+    pvgames_infernus_reference_catalog.json
     scene_builder_registry.json
   asset_review_outcomes/
     wolfpine_first_cleaned_review_pending_2026_05_06.json
@@ -162,6 +164,7 @@ tools/
   analyze_debug_report.py
   apply_issue_13_portrait_selection_patch.py
   asset_eval_download.py
+  catalog_reference_assets.py
   check_pr_hygiene.py
   classify_debug_git_status.py
   collect_debug_bundle.bat
@@ -171,6 +174,7 @@ tools/
   ng_launcher.bat
   one_click_play_upload.bat
   one_click_update_test_upload.bat
+  organize_reference_assets.py
   prepare_asset_batch.py
   prepare_wolfpine_first_binary_pr.py
   promote_asset_candidates.py
@@ -1976,6 +1980,48 @@ File: data/asset_registry/batches/wolfpine_village_batch_01.json
     "python tools/validate_project.py"
   ]
 }
+
+================
+File: data/asset_registry/external_reference_assets.json
+================
+{
+  "version": 1,
+  "references": [
+    {
+      "id": "pvgames_infernus_free",
+      "provider": "Pioneer Valley Games / PVGames",
+      "pack_name": "PVGames Infernus Free",
+      "local_only_path": "reference_assets/local/pvgames/infernus_free/",
+      "status": "external_reference_only",
+      "repo_policy": "Do not commit original resources, edited copies, or unpacked pack contents.",
+      "license_summary": "Permits use and editing in commercial and non-commercial projects, but does not permit freely distributing the resources or edited resource files.",
+      "allowed_use_in_ng": [
+        "local visual reference",
+        "quality benchmark",
+        "style and construction comparison"
+      ],
+      "forbidden_use_in_ng": [
+        "committing raw resource files",
+        "committing edited copies",
+        "copying, tracing, recoloring, or deriving NG assets directly from the pack",
+        "redistributing the pack through the repository"
+      ],
+      "quality_targets": [
+        "crisp pseudo-isometric construction",
+        "disciplined modular alignment",
+        "believable material rendering",
+        "clean transparent edges",
+        "readable gameplay-scale silhouettes",
+        "consistent kit-wide lighting and palette"
+      ]
+    }
+  ]
+}
+
+================
+File: data/asset_registry/pvgames_infernus_reference_catalog.json
+================
+{"version":1,"source_pack":"PVGames Infernus Free","source_zip_name":"PVGames_Infernus_Free.zip","source_policy":"Reference-only quality benchmark. Do not copy, trace, derive, or redistribute through NG unless license rights are explicitly verified for the exact repository scope.","recommended_roots":["reference_assets/local/pvgames/infernus_free/","assets/reference/pvgames/infernus_free/","reference_assets/pvgames/infernus_free/"],"total_png_files":639,"all_pngs_are_rgba":true,"total_size_bytes_uncompressed_pngs":39656206,"category_summary":[{"category":"misc_root_tiles","count":325,"reference_use":"General kit breadth: set dressing, infernal environment pieces, decals, and props.","common_dimensions":[{"size":"64x64","count":42},{"size":"64x96","count":28},{"size":"32x32","count":24},{"size":"96x96","count":16},{"size":"96x128","count":16},{"size":"128x128","count":11},{"size":"160x160","count":11},{"size":"128x160","count":11}],"examples":["Infernus_Tiles/Infernus_Altar1_1.png","Infernus_Tiles/Infernus_Altar1_2.png","Infernus_Tiles/Infernus_Altar1_3.png","Infernus_Tiles/Infernus_Altar1_4.png","Infernus_Tiles/Infernus_Altar3_1.png","Infernus_Tiles/Infernus_Altar3_2.png","Infernus_Tiles/Infernus_Altar3_3.png","Infernus_Tiles/Infernus_Altar3_4.png","Infernus_Tiles/Infernus_Altar_1.png","Infernus_Tiles/Infernus_Altar_2.png","Infernus_Tiles/Infernus_Altar_3.png","Infernus_Tiles/Infernus_Altar_4.png"]},{"category":"walls","count":82,"reference_use":"Wall modularity, facade depth, shadow side consistency, and corner joins.","common_dimensions":[{"size":"64x96","count":67},{"size":"64x128","count":6},{"size":"64x160","count":6},{"size":"32x64","count":2},{"size":"128x128","count":1}],"examples":["Infernus_Tiles/Building_Infernus_1/Wall_Front_Large_1.png","Infernus_Tiles/Building_Infernus_1/Wall_Front_Large_2.png","Infernus_Tiles/Building_Infernus_1/Wall_Front_Large_3.png","Infernus_Tiles/Building_Infernus_1/Wall_Front_Medium_1.png","Infernus_Tiles/Building_Infernus_1/Wall_Front_Medium_2.png","Infernus_Tiles/Building_Infernus_1/Wall_Front_Medium_3.png","Infernus_Tiles/Building_Infernus_1/Wall_Front_Small_1.png","Infernus_Tiles/Building_Infernus_1/Wall_Front_Small_2.png","Infernus_Tiles/Building_Infernus_1/Wall_Front_Small_3.png","Infernus_Tiles/Building_Infernus_1/Wall_Large_1.png","Infernus_Tiles/Building_Infernus_1/Wall_Large_2.png","Infernus_Tiles/Building_Infernus_1/Wall_Large_3.png"]},{"category":"decor_props","count":54,"reference_use":"Small prop readability, thematic accents, and detail density.","common_dimensions":[{"size":"64x64","count":14},{"size":"64x96","count":7},{"size":"32x64","count":6},{"size":"32x32","count":5},{"size":"96x96","count":5},{"size":"96x128","count":4},{"size":"64x128","count":4},{"size":"96x160","count":3}],"examples":["Infernus_Tiles/Infernus_Bones1_1.png","Infernus_Tiles/Infernus_Bones1_2.png","Infernus_Tiles/Infernus_Bones1_3.png","Infernus_Tiles/Infernus_Bones1_4.png","Infernus_Tiles/Infernus_Bones1_5.png","Infernus_Tiles/Infernus_Bones1_6.png","Infernus_Tiles/Infernus_Bones1_7.png","Infernus_Tiles/Infernus_Bones1_8.png","Infernus_Tiles/Infernus_Decor1_1.png","Infernus_Tiles/Infernus_Decor1_2.png","Infernus_Tiles/Infernus_Decor2_1.png","Infernus_Tiles/Infernus_Decor2_2.png"]},{"category":"walls_and_edges","count":26,"reference_use":"Boundary decoration, wall-mounted detail, and readable side-facing assets.","common_dimensions":[{"size":"64x96","count":6},{"size":"96x128","count":5},{"size":"96x160","count":4},{"size":"64x128","count":3},{"size":"32x32","count":2},{"size":"32x64","count":2},{"size":"64x64","count":2},{"size":"32x96","count":1}],"examples":["Infernus_Tiles/Infernus_PentagramWall_1.png","Infernus_Tiles/Infernus_PentagramWall_2.png","Infernus_Tiles/Infernus_PentagramWall_3.png","Infernus_Tiles/Infernus_WallCandles_1.png","Infernus_Tiles/Infernus_WallCandles_2.png","Infernus_Tiles/Infernus_WallCandles_3.png","Infernus_Tiles/Infernus_WallCandles_4.png","Infernus_Tiles/Infernus_WallCandles_5.png","Infernus_Tiles/Infernus_WallClub.png","Infernus_Tiles/Infernus_WallLantern_1.png","Infernus_Tiles/Infernus_WallLantern_2.png","Infernus_Tiles/Infernus_WallLantern_3.png"]},{"category":"stairs","count":24,"reference_use":"Step direction readability, elevation clarity, and path affordance.","common_dimensions":[{"size":"64x96","count":20},{"size":"64x128","count":4}],"examples":["Infernus_Tiles/Building_Infernus_1/Stairs_1.png","Infernus_Tiles/Building_Infernus_1/Stairs_2.png","Infernus_Tiles/Building_Infernus_1/Stairs_3.png","Infernus_Tiles/Building_Infernus_1/Stairs_4.png","Infernus_Tiles/Building_Infernus_1/Stairs_5.png","Infernus_Tiles/Building_Infernus_1/Stairs_6.png","Infernus_Tiles/Building_Infernus_1/Stairs_7.png","Infernus_Tiles/Building_Infernus_1/Stairs_8.png","Infernus_Tiles/Building_Infernus_1/Stairs_Inverted_1.png","Infernus_Tiles/Building_Infernus_1/Stairs_Inverted_2.png","Infernus_Tiles/Building_Infernus_1/Stairs_Inverted_3.png","Infernus_Tiles/Building_Infernus_1/Stairs_Inverted_4.png"]},{"category":"rocks_stone","count":17,"reference_use":"Organic stone silhouettes, material texture, and variant shape language.","common_dimensions":[{"size":"64x64","count":5},{"size":"96x96","count":4},{"size":"128x128","count":2},{"size":"32x32","count":1},{"size":"32x64","count":1},{"size":"96x64","count":1},{"size":"128x96","count":1},{"size":"160x128","count":1}],"examples":["Infernus_Tiles/Infernus_Hellscape_Rocks_1.png","Infernus_Tiles/Infernus_Hellscape_Rocks_2.png","Infernus_Tiles/Infernus_Hellscape_Rocks_3.png","Infernus_Tiles/Infernus_Hellscape_Rocks_4.png","Infernus_Tiles/Infernus_Hellscape_Rocks_5.png","Infernus_Tiles/Infernus_Hellscape_Rocks_6.png","Infernus_Tiles/Infernus_Hellscape_Rock_1.png","Infernus_Tiles/Infernus_Hellscape_Rock_2.png","Infernus_Tiles/Infernus_Hellscape_Rock_3.png","Infernus_Tiles/Infernus_Hellscape_Rock_4.png","Infernus_Tiles/Infernus_Hellscape_Rock_5.png","Infernus_Tiles/Infernus_Hellscape_Rock_6.png"]},{"category":"ramps","count":16,"reference_use":"Readable elevation transitions and slope direction clarity.","common_dimensions":[{"size":"64x96","count":14},{"size":"64x64","count":2}],"examples":["Infernus_Tiles/Building_Infernus_1/Ramp_1.png","Infernus_Tiles/Building_Infernus_1/Ramp_2.png","Infernus_Tiles/Building_Infernus_1/Ramp_3.png","Infernus_Tiles/Building_Infernus_1/Ramp_4.png","Infernus_Tiles/Building_Infernus_1/Ramp_5.png","Infernus_Tiles/Building_Infernus_1/Ramp_6.png","Infernus_Tiles/Building_Infernus_1/Ramp_7.png","Infernus_Tiles/Building_Infernus_1/Ramp_8.png","Infernus_Tiles/Building_Infernus_2/Ramp_1.png","Infernus_Tiles/Building_Infernus_2/Ramp_2.png","Infernus_Tiles/Building_Infernus_2/Ramp_3.png","Infernus_Tiles/Building_Infernus_2/Ramp_4.png"]},{"category":"architectural_adorns","count":14,"reference_use":"Readable architectural ornament density without muddy silhouettes.","common_dimensions":[{"size":"64x96","count":9},{"size":"96x96","count":2},{"size":"64x128","count":1},{"size":"128x128","count":1},{"size":"224x288","count":1}],"examples":["Infernus_Tiles/Building_Infernus_1/Adorn_1.png","Infernus_Tiles/Building_Infernus_1/Adorn_2.png","Infernus_Tiles/Building_Infernus_2/Adorn_1.png","Infernus_Tiles/Building_Infernus_2/Adorn_10.png","Infernus_Tiles/Building_Infernus_2/Adorn_11.png","Infernus_Tiles/Building_Infernus_2/Adorn_12.png","Infernus_Tiles/Building_Infernus_2/Adorn_2.png","Infernus_Tiles/Building_Infernus_2/Adorn_3.png","Infernus_Tiles/Building_Infernus_2/Adorn_4.png","Infernus_Tiles/Building_Infernus_2/Adorn_5.png","Infernus_Tiles/Building_Infernus_2/Adorn_6.png","Infernus_Tiles/Building_Infernus_2/Adorn_7.png"]},{"category":"buttresses","count":14,"reference_use":"Support-piece proportions, grounding, and shadow logic.","common_dimensions":[{"size":"64x160","count":10},{"size":"64x64","count":4}],"examples":["Infernus_Tiles/Building_Infernus_1/Buttress_1.png","Infernus_Tiles/Building_Infernus_1/Buttress_2.png","Infernus_Tiles/Building_Infernus_1/Buttress_3.png","Infernus_Tiles/Building_Infernus_1/Buttress_4.png","Infernus_Tiles/Building_Infernus_1/Buttress_5.png","Infernus_Tiles/Building_Infernus_1/Buttress_6.png","Infernus_Tiles/Building_Infernus_1/Buttress_7.png","Infernus_Tiles/Building_Infernus_2/Buttress_1.png","Infernus_Tiles/Building_Infernus_2/Buttress_2.png","Infernus_Tiles/Building_Infernus_2/Buttress_3.png","Infernus_Tiles/Building_Infernus_2/Buttress_4.png","Infernus_Tiles/Building_Infernus_2/Buttress_5.png"]},{"category":"columns","count":14,"reference_use":"Vertical structure readability, material banding, and repeated modular variants.","common_dimensions":[{"size":"64x160","count":14}],"examples":["Infernus_Tiles/Building_Infernus_1/Column_1.png","Infernus_Tiles/Building_Infernus_1/Column_2.png","Infernus_Tiles/Building_Infernus_1/Column_3.png","Infernus_Tiles/Building_Infernus_1/Column_4.png","Infernus_Tiles/Building_Infernus_1/Column_5.png","Infernus_Tiles/Building_Infernus_1/Column_6.png","Infernus_Tiles/Building_Infernus_1/Column_Shadow.png","Infernus_Tiles/Building_Infernus_2/Column_1.png","Infernus_Tiles/Building_Infernus_2/Column_2.png","Infernus_Tiles/Building_Infernus_2/Column_3.png","Infernus_Tiles/Building_Infernus_2/Column_4.png","Infernus_Tiles/Building_Infernus_2/Column_5.png"]},{"category":"floor_tiles","count":14,"reference_use":"Interior/structure tile alignment and repeatable pattern treatment.","common_dimensions":[{"size":"32x32","count":8},{"size":"64x64","count":4},{"size":"96x96","count":2}],"examples":["Infernus_Tiles/Building_Infernus_1/Floor_Lower_1.png","Infernus_Tiles/Building_Infernus_1/Floor_Lower_2.png","Infernus_Tiles/Building_Infernus_1/Floor_Lower_3.png","Infernus_Tiles/Building_Infernus_1/Floor_Upper_1.png","Infernus_Tiles/Building_Infernus_1/Floor_Upper_2.png","Infernus_Tiles/Building_Infernus_1/Floor_Upper_3.png","Infernus_Tiles/Building_Infernus_2/Floor_Lower_1.png","Infernus_Tiles/Building_Infernus_2/Floor_Lower_2.png","Infernus_Tiles/Building_Infernus_2/Floor_Lower_3.png","Infernus_Tiles/Building_Infernus_2/Floor_Lower_4.png","Infernus_Tiles/Building_Infernus_2/Floor_Upper_1.png","Infernus_Tiles/Building_Infernus_2/Floor_Upper_2.png"]},{"category":"archways","count":10,"reference_use":"Portal/threshold construction, negative space, and modular facade framing.","common_dimensions":[{"size":"64x160","count":9},{"size":"224x288","count":1}],"examples":["Infernus_Tiles/Building_Infernus_1/Archway_1.png","Infernus_Tiles/Building_Infernus_1/Archway_2.png","Infernus_Tiles/Building_Infernus_1/Archway_3.png","Infernus_Tiles/Building_Infernus_1/Archway_4.png","Infernus_Tiles/Building_Infernus_1/Archway_5.png","Infernus_Tiles/Building_Infernus_2/Archway_1.png","Infernus_Tiles/Building_Infernus_2/Archway_2.png","Infernus_Tiles/Building_Infernus_2/Archway_3.png","Infernus_Tiles/Building_Infernus_2/Archway_4.png","Infernus_Tiles/Building_Infernus_2/Archway_5.png"]},{"category":"animated_light_sources","count":9,"reference_use":"Animation strip timing, glow readability, and flame/light effect style.","common_dimensions":[{"size":"192x384","count":9}],"examples":["Infernus_Tiles/Anim_Infernus_Lightsources_1.png","Infernus_Tiles/Anim_Infernus_Lightsources_2.png","Infernus_Tiles/Anim_Infernus_Lightsources_3.png","Infernus_Tiles/Anim_Infernus_Lightsources_4.png","Infernus_Tiles/Anim_Infernus_Lightsources_5.png","Infernus_Tiles/Anim_Infernus_Lightsources_6.png","Infernus_Tiles/Anim_Infernus_Lightsources_7.png","Infernus_Tiles/Anim_Infernus_Lightsources_8.png","Infernus_Tiles/Anim_Infernus_Lightsources_9.png"]},{"category":"columns_pillars","count":9,"reference_use":"Standalone vertical silhouette, base/capital definition, and prop scale.","common_dimensions":[{"size":"64x96","count":2},{"size":"64x128","count":2},{"size":"32x32","count":1},{"size":"32x64","count":1},{"size":"64x64","count":1},{"size":"96x128","count":1},{"size":"128x160","count":1}],"examples":["Infernus_Tiles/Infernus_BurnerColumn_1.png","Infernus_Tiles/Infernus_BurnerColumn_2.png","Infernus_Tiles/Infernus_Column.png","Infernus_Tiles/Infernus_Hellscape_Columns_1.png","Infernus_Tiles/Infernus_Hellscape_Columns_2.png","Infernus_Tiles/Infernus_Hellscape_Columns_3.png","Infernus_Tiles/Infernus_Hellscape_Columns_4.png","Infernus_Tiles/Infernus_Pillar_1.png","Infernus_Tiles/Infernus_Pillar_2.png"]},{"category":"floor_ground_tiles","count":7,"reference_use":"Ground material texture and tile seam discipline.","common_dimensions":[{"size":"32x32","count":3},{"size":"64x64","count":3},{"size":"128x128","count":1}],"examples":["Infernus_Tiles/Infernus_FloorDecal.png","Infernus_Tiles/Infernus_Ground.png","Infernus_Tiles/Infernus_Hellscape_Ground_1.png","Infernus_Tiles/Infernus_Hellscape_Ground_2.png","Infernus_Tiles/Infernus_Hellscape_Ground_3.png","Infernus_Tiles/Infernus_Hellscape_Ground_4.png","Infernus_Tiles/Infernus_PentagramFloor.png"]},{"category":"pillars","count":4,"reference_use":"Large support silhouette, occlusion potential, and scale contrast.","common_dimensions":[{"size":"64x160","count":2},{"size":"96x256","count":2}],"examples":["Infernus_Tiles/Building_Infernus_1/Pillar_1.png","Infernus_Tiles/Building_Infernus_1/Pillar_2.png","Infernus_Tiles/Building_Infernus_2/Pillar_1.png","Infernus_Tiles/Building_Infernus_2/Pillar_2.png"]}],"quality_dimensions_to_compare":["silhouette_readability","isometric_alignment","modular_join_consistency","material_rendering","lighting_direction","shadow_contact","edge_alpha_cleanliness","variant_family_cohesion","gameplay_scale_readability"],"usage":"Use this compact catalog to locate quality references by category. Run tools/catalog_reference_assets.py on the actual asset folder to generate a full file-level catalog when the reference assets are present in a local checkout."}
 
 ================
 File: data/asset_registry/scene_builder_registry.json
@@ -7943,6 +7989,183 @@ if __name__ == "__main__":
     raise SystemExit(main())
 
 ================
+File: tools/catalog_reference_assets.py
+================
+#!/usr/bin/env python3
+"""Catalog external reference asset folders for quality-bar use.
+
+This tool does not copy or transform assets. It records file paths, PNG dimensions,
+and coarse categories so art agents can quickly find reference examples without
+browsing hundreds of files manually.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import struct
+from collections import Counter, defaultdict
+from pathlib import Path
+from typing import Any
+
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+
+CATEGORY_USE = {
+    "animated_light_sources": "Animation strip timing, glow readability, and flame/light effect style.",
+    "architectural_adorns": "Readable architectural ornament density without muddy silhouettes.",
+    "archways": "Portal/threshold construction, negative space, and modular facade framing.",
+    "buttresses": "Support-piece proportions, grounding, and shadow logic.",
+    "columns": "Vertical structure readability, material banding, and repeated modular variants.",
+    "columns_pillars": "Standalone vertical silhouette, base/capital definition, and prop scale.",
+    "decor_props": "Small prop readability, thematic accents, and detail density.",
+    "floor_ground_tiles": "Ground material texture and tile seam discipline.",
+    "floor_tiles": "Interior/structure tile alignment and repeatable pattern treatment.",
+    "misc_root_tiles": "General kit breadth: set dressing, environment pieces, decals, and props.",
+    "pillars": "Large support silhouette, occlusion potential, and scale contrast.",
+    "ramps": "Readable elevation transitions and slope direction clarity.",
+    "rocks_stone": "Organic stone silhouettes, material texture, and variant shape language.",
+    "stairs": "Step direction readability, elevation clarity, and path affordance.",
+    "walls": "Wall modularity, facade depth, shadow side consistency, and corner joins.",
+    "walls_and_edges": "Boundary decoration, wall-mounted detail, and readable side-facing assets.",
+}
+
+
+def png_info(path: Path) -> dict[str, Any]:
+    data = path.read_bytes()
+    if data[:8] != PNG_SIGNATURE or data[12:16] != b"IHDR":
+        raise ValueError(f"Not a readable PNG IHDR: {path}")
+    width, height = struct.unpack(">II", data[16:24])
+    bit_depth = data[24]
+    color_type = data[25]
+    return {
+        "width": width,
+        "height": height,
+        "bit_depth": bit_depth,
+        "color_type": color_type,
+        "rgba_png": color_type == 6,
+        "size_bytes": path.stat().st_size,
+    }
+
+
+def classify(path: Path) -> str:
+    stem = path.stem.lower()
+    folder = path.parent.as_posix().lower()
+    if stem.startswith("anim_"):
+        return "animated_light_sources"
+    if "building_infernus" in folder:
+        first = path.stem.split("_")[0].lower()
+        return {
+            "adorn": "architectural_adorns",
+            "archway": "archways",
+            "buttress": "buttresses",
+            "column": "columns",
+            "floor": "floor_tiles",
+            "pillar": "pillars",
+            "ramp": "ramps",
+            "stairs": "stairs",
+            "wall": "walls",
+        }.get(first, "building_parts")
+
+    name = stem.replace("infernus_", "")
+    if "wall" in name:
+        return "walls_and_edges"
+    if any(token in name for token in ["floor", "ground", "tile", "road"]):
+        return "floor_ground_tiles"
+    if any(token in name for token in ["lava", "magma", "fire"]):
+        return "lava_fire_fx"
+    if any(token in name for token in ["rock", "stone", "boulder"]):
+        return "rocks_stone"
+    if "stairs" in name:
+        return "stairs"
+    if "ramp" in name:
+        return "ramps"
+    if "bridge" in name:
+        return "bridges"
+    if "pillar" in name or "column" in name:
+        return "columns_pillars"
+    if "arch" in name:
+        return "archways"
+    if "door" in name or "gate" in name:
+        return "doors_gates"
+    if any(token in name for token in ["decor", "adorn", "statue", "skull", "bone"]):
+        return "decor_props"
+    return "misc_root_tiles"
+
+
+def build_catalog(root: Path, source_pack: str) -> dict[str, Any]:
+    records: list[dict[str, Any]] = []
+    for path in sorted(root.rglob("*.png")):
+        rel = path.relative_to(root).as_posix()
+        info = png_info(path)
+        category = classify(path.relative_to(root))
+        records.append({
+            "path": rel,
+            "category": category,
+            **info,
+            "reference_only": True,
+        })
+
+    by_category: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for record in records:
+        by_category[record["category"]].append(record)
+
+    category_summary = []
+    for category, items in sorted(by_category.items(), key=lambda item: (-len(item[1]), item[0])):
+        dims = Counter(f"{item['width']}x{item['height']}" for item in items)
+        category_summary.append({
+            "category": category,
+            "count": len(items),
+            "reference_use": CATEGORY_USE.get(category, "Reference quality comparison."),
+            "common_dimensions": [
+                {"size": size, "count": count}
+                for size, count in dims.most_common(8)
+            ],
+            "examples": [item["path"] for item in items[:12]],
+        })
+
+    return {
+        "version": 1,
+        "source_pack": source_pack,
+        "root": root.as_posix(),
+        "total_png_files": len(records),
+        "all_pngs_are_rgba": all(record["rgba_png"] for record in records),
+        "total_size_bytes": sum(record["size_bytes"] for record in records),
+        "category_summary": category_summary,
+        "quality_dimensions_to_compare": [
+            "silhouette_readability",
+            "isometric_alignment",
+            "modular_join_consistency",
+            "material_rendering",
+            "lighting_direction",
+            "shadow_contact",
+            "edge_alpha_cleanliness",
+            "variant_family_cohesion",
+            "gameplay_scale_readability",
+        ],
+        "entries": records,
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Catalog reference PNG assets")
+    parser.add_argument("root", type=Path, help="Reference asset root to scan")
+    parser.add_argument("--source-pack", default="external_reference_pack", help="Human-readable source pack name")
+    parser.add_argument("--out", type=Path, default=Path("debug/reference_asset_catalog.json"), help="Output JSON file")
+    args = parser.parse_args()
+
+    if not args.root.exists():
+        raise SystemExit(f"Reference root does not exist: {args.root}")
+
+    catalog = build_catalog(args.root, args.source_pack)
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
+    print(f"Wrote {catalog['total_png_files']} PNG records to {args.out}")
+
+
+if __name__ == "__main__":
+    main()
+
+================
 File: tools/check_pr_hygiene.py
 ================
 #!/usr/bin/env python3
@@ -8741,6 +8964,220 @@ echo Archived report: debug_reports/runs/%RUN_ID%_test
 echo.
 pause
 exit /b %TEST_EXIT%
+
+================
+File: tools/organize_reference_assets.py
+================
+#!/usr/bin/env python3
+"""Organize external reference PNG assets into a single category folder.
+
+This is intended for local/private reference packs. It does not transform image
+content. It only copies or moves files into predictable category folders and
+writes an index JSON that art agents can use for reference lookup.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import shutil
+import struct
+from collections import Counter, defaultdict
+from pathlib import Path
+from typing import Any
+
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+
+DEFAULT_DEST = Path("reference_assets/organized/pvgames/infernus_free")
+
+CATEGORY_USE = {
+    "animated_light_sources": "Animation strip timing, glow readability, and flame/light effect style.",
+    "architectural_adorns": "Readable architectural ornament density without muddy silhouettes.",
+    "archways": "Portal/threshold construction, negative space, and modular facade framing.",
+    "bridges": "Walkable connector silhouettes and modular path joins.",
+    "building_parts": "Architectural pieces that need manual category review.",
+    "buttresses": "Support-piece proportions, grounding, and shadow logic.",
+    "columns": "Vertical structure readability, material banding, and repeated modular variants.",
+    "columns_pillars": "Standalone vertical silhouette, base/capital definition, and prop scale.",
+    "decor_props": "Small prop readability, thematic accents, and detail density.",
+    "doors_gates": "Walkable entrance readability and threshold framing.",
+    "floor_ground_tiles": "Ground material texture and tile seam discipline.",
+    "floor_tiles": "Interior/structure tile alignment and repeatable pattern treatment.",
+    "lava_fire_fx": "Effect readability and glow/color restraint.",
+    "misc_root_tiles": "General kit breadth: set dressing, environment pieces, decals, and props.",
+    "pillars": "Large support silhouette, occlusion potential, and scale contrast.",
+    "ramps": "Readable elevation transitions and slope direction clarity.",
+    "rocks_stone": "Organic stone silhouettes, material texture, and variant shape language.",
+    "stairs": "Step direction readability, elevation clarity, and path affordance.",
+    "walls": "Wall modularity, facade depth, shadow side consistency, and corner joins.",
+    "walls_and_edges": "Boundary decoration, wall-mounted detail, and readable side-facing assets.",
+}
+
+
+def png_info(path: Path) -> dict[str, Any]:
+    data = path.read_bytes()
+    if data[:8] != PNG_SIGNATURE or data[12:16] != b"IHDR":
+        raise ValueError(f"Not a readable PNG IHDR: {path}")
+    width, height = struct.unpack(">II", data[16:24])
+    return {
+        "width": width,
+        "height": height,
+        "bit_depth": data[24],
+        "color_type": data[25],
+        "rgba_png": data[25] == 6,
+        "size_bytes": path.stat().st_size,
+    }
+
+
+def classify(path: Path) -> str:
+    stem = path.stem.lower()
+    folder = path.parent.as_posix().lower()
+    if stem.startswith("anim_"):
+        return "animated_light_sources"
+    if "building_infernus" in folder:
+        first = path.stem.split("_")[0].lower()
+        return {
+            "adorn": "architectural_adorns",
+            "archway": "archways",
+            "buttress": "buttresses",
+            "column": "columns",
+            "floor": "floor_tiles",
+            "pillar": "pillars",
+            "ramp": "ramps",
+            "stairs": "stairs",
+            "wall": "walls",
+        }.get(first, "building_parts")
+
+    name = stem.replace("infernus_", "")
+    if "wall" in name:
+        return "walls_and_edges"
+    if any(token in name for token in ["floor", "ground", "tile", "road"]):
+        return "floor_ground_tiles"
+    if any(token in name for token in ["lava", "magma", "fire"]):
+        return "lava_fire_fx"
+    if any(token in name for token in ["rock", "stone", "boulder"]):
+        return "rocks_stone"
+    if "stairs" in name:
+        return "stairs"
+    if "ramp" in name:
+        return "ramps"
+    if "bridge" in name:
+        return "bridges"
+    if "pillar" in name or "column" in name:
+        return "columns_pillars"
+    if "arch" in name:
+        return "archways"
+    if "door" in name or "gate" in name:
+        return "doors_gates"
+    if any(token in name for token in ["decor", "adorn", "statue", "skull", "bone"]):
+        return "decor_props"
+    return "misc_root_tiles"
+
+
+def unique_dest(dest_dir: Path, source: Path) -> Path:
+    candidate = dest_dir / source.name
+    if not candidate.exists():
+        return candidate
+    stem = source.stem
+    suffix = source.suffix
+    index = 2
+    while True:
+        candidate = dest_dir / f"{stem}_{index}{suffix}"
+        if not candidate.exists():
+            return candidate
+        index += 1
+
+
+def build_summary(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for entry in entries:
+        grouped[entry["category"]].append(entry)
+
+    summary = []
+    for category, items in sorted(grouped.items(), key=lambda item: (-len(item[1]), item[0])):
+        dims = Counter(f"{item['width']}x{item['height']}" for item in items)
+        summary.append({
+            "category": category,
+            "count": len(items),
+            "reference_use": CATEGORY_USE.get(category, "Reference quality comparison."),
+            "common_dimensions": [
+                {"size": size, "count": count}
+                for size, count in dims.most_common(8)
+            ],
+            "examples": [item["organized_path"] for item in items[:12]],
+        })
+    return summary
+
+
+def organize(source_root: Path, dest_root: Path, mode: str, dry_run: bool) -> dict[str, Any]:
+    source_root = source_root.resolve()
+    dest_root = dest_root.resolve()
+    entries: list[dict[str, Any]] = []
+
+    for source in sorted(source_root.rglob("*.png")):
+        if dest_root in source.resolve().parents:
+            continue
+        rel_source = source.relative_to(source_root).as_posix()
+        info = png_info(source)
+        category = classify(source.relative_to(source_root))
+        category_dir = dest_root / category
+        dest = unique_dest(category_dir, source)
+
+        entries.append({
+            "source_path": rel_source,
+            "organized_path": dest.relative_to(dest_root).as_posix(),
+            "category": category,
+            **info,
+            "reference_only": True,
+        })
+
+        if not dry_run:
+            category_dir.mkdir(parents=True, exist_ok=True)
+            if mode == "move":
+                shutil.move(str(source), str(dest))
+            else:
+                shutil.copy2(source, dest)
+
+    return {
+        "version": 1,
+        "source_root": source_root.as_posix(),
+        "organized_root": dest_root.as_posix(),
+        "mode": mode,
+        "dry_run": dry_run,
+        "total_png_files": len(entries),
+        "all_pngs_are_rgba": all(entry["rgba_png"] for entry in entries),
+        "total_size_bytes": sum(entry["size_bytes"] for entry in entries),
+        "category_summary": build_summary(entries),
+        "entries": entries,
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Organize reference PNG assets by category")
+    parser.add_argument("source", type=Path, help="Folder containing reference PNGs")
+    parser.add_argument("--dest", type=Path, default=DEFAULT_DEST, help="Canonical organized reference folder")
+    parser.add_argument("--mode", choices=["copy", "move"], default="copy", help="Copy or move files into organized folders")
+    parser.add_argument("--dry-run", action="store_true", help="Write index only; do not copy/move files")
+    parser.add_argument("--index", type=Path, default=None, help="Output index path; defaults to <dest>/reference_index.json")
+    args = parser.parse_args()
+
+    if not args.source.exists():
+        raise SystemExit(f"Source folder does not exist: {args.source}")
+
+    index_path = args.index or args.dest / "reference_index.json"
+    catalog = organize(args.source, args.dest, args.mode, args.dry_run)
+    if not args.dry_run:
+        args.dest.mkdir(parents=True, exist_ok=True)
+    index_path.parent.mkdir(parents=True, exist_ok=True)
+    index_path.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
+
+    print(f"Organized/categorized {catalog['total_png_files']} PNG files")
+    print(f"Index: {index_path}")
+    print(f"Destination: {args.dest}")
+
+
+if __name__ == "__main__":
+    main()
 
 ================
 File: tools/prepare_asset_batch.py
