@@ -9,7 +9,7 @@ asset-kit manifest statuses/production notes. It avoids marking anything
 Example:
     python tools/promote_asset_candidates.py \
         --zip ng_wolfpine_production_batch_2026_05_06.zip \
-        --plan assets/kits/wolfpine_village/promotion_plans/first_binary_promotion_2026_05_06.json
+        --plan assets/kits/wolfpine_village/FIRST_BINARY_PROMOTION_2026_05_06.json
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ import zipfile
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 VALID_STATUSES = {
     "planned",
     "generated_candidate",
@@ -42,15 +42,15 @@ OPTIONAL_ASSET_FIELDS = {
 }
 
 
-def repo_path(value: str) -> Path:
+def repo_path(root: Path, value: str) -> Path:
     path = Path(value)
     if path.is_absolute() or ".." in path.parts:
         raise ValueError(f"Unsafe repository path: {value}")
-    return ROOT / path
+    return root / path
 
 
-def rel(path: Path) -> str:
-    return str(path.relative_to(ROOT)).replace("\\", "/")
+def rel(root: Path, path: Path) -> str:
+    return str(path.relative_to(root)).replace("\\", "/")
 
 
 def load_json(path: Path) -> Any:
@@ -119,11 +119,11 @@ def copy_from_zip(zip_path: Path, source_in_zip: str, target: Path, dry_run: boo
     return sha256_file(target)
 
 
-def update_manifest(manifest_path: Path, entry: dict[str, Any], actual_sha256: str, dry_run: bool) -> bool:
+def update_manifest(root: Path, manifest_path: Path, entry: dict[str, Any], actual_sha256: str, dry_run: bool) -> bool:
     data = load_json(manifest_path)
     assets = data.get("assets")
     if not isinstance(assets, list):
-        raise ValueError(f"{rel(manifest_path)}: assets must be a list")
+        raise ValueError(f"{rel(root, manifest_path)}: assets must be a list")
 
     asset_id = entry["asset_id"]
     target_asset = None
@@ -133,16 +133,16 @@ def update_manifest(manifest_path: Path, entry: dict[str, Any], actual_sha256: s
             break
 
     if target_asset is None:
-        raise ValueError(f"{rel(manifest_path)}: asset id not found: {asset_id}")
+        raise ValueError(f"{rel(root, manifest_path)}: asset id not found: {asset_id}")
 
     intended_file = entry["intended_file"]
     if target_asset.get("intended_file") != intended_file:
         raise ValueError(
-            f"{rel(manifest_path)} asset {asset_id}: intended_file mismatch; "
+            f"{rel(root, manifest_path)} asset {asset_id}: intended_file mismatch; "
             f"manifest has {target_asset.get('intended_file')!r}, plan has {intended_file!r}"
         )
 
-    if entry["status"] == "accepted" and not repo_path(intended_file).exists() and not dry_run:
+    if entry["status"] == "accepted" and not repo_path(root, intended_file).exists() and not dry_run:
         raise ValueError(f"Refusing to mark accepted before file exists: {intended_file}")
 
     target_asset["status"] = entry["status"]
@@ -161,11 +161,20 @@ def main() -> int:
     parser.add_argument("--zip", required=True, dest="zip_path", help="Candidate handoff ZIP path")
     parser.add_argument("--plan", required=True, dest="plan_path", help="Promotion plan JSON path")
     parser.add_argument("--dry-run", action="store_true", help="Validate and report without writing files")
+    parser.add_argument(
+        "--repo-root",
+        default=str(DEFAULT_ROOT),
+        help="Repository root to update. Defaults to the project root; tests may point this at a temporary mini-repo.",
+    )
     args = parser.parse_args()
 
+    root = Path(args.repo_root).expanduser().resolve()
     zip_path = Path(args.zip_path).expanduser().resolve()
-    plan_path = repo_path(args.plan_path) if not Path(args.plan_path).is_absolute() else Path(args.plan_path)
+    plan_path = repo_path(root, args.plan_path) if not Path(args.plan_path).is_absolute() else Path(args.plan_path)
 
+    if not root.exists():
+        print(f"Repository root does not exist: {root}", file=sys.stderr)
+        return 1
     if not zip_path.exists():
         print(f"Candidate ZIP does not exist: {zip_path}", file=sys.stderr)
         return 1
@@ -176,17 +185,17 @@ def main() -> int:
     try:
         plan = load_plan(plan_path)
         print(f"Promoting asset candidates from {zip_path}")
-        print(f"Using plan {rel(plan_path) if plan_path.is_relative_to(ROOT) else plan_path}")
+        print(f"Using plan {rel(root, plan_path) if plan_path.is_relative_to(root) else plan_path}")
 
         for entry in plan["assets"]:
-            intended_file = repo_path(entry["intended_file"])
+            intended_file = repo_path(root, entry["intended_file"])
             actual_sha256 = copy_from_zip(zip_path, entry["source_in_zip"], intended_file, args.dry_run)
             expected_sha256 = entry.get("sha256")
             if isinstance(expected_sha256, str) and expected_sha256 and expected_sha256 != actual_sha256:
                 raise ValueError(
                     f"{entry['asset_id']}: SHA256 mismatch; plan has {expected_sha256}, ZIP produced {actual_sha256}"
                 )
-            update_manifest(repo_path(entry["manifest"]), entry, actual_sha256, args.dry_run)
+            update_manifest(root, repo_path(root, entry["manifest"]), entry, actual_sha256, args.dry_run)
             action = "Would promote" if args.dry_run else "Promoted"
             print(f"{action} {entry['asset_id']} -> {entry['intended_file']} [{entry['status']}]")
 
