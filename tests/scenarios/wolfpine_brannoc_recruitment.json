@@ -1,0 +1,34 @@
+{
+  "id": "wolfpine_brannoc_recruitment",
+  "name": "Wolfpine Brannoc Recruitment",
+  "root_scene": "area",
+  "description": "Verifies that the player can recruit Brannoc from Wolfpine Road through companion dialogue and set his recruitment state.",
+  "steps": [
+    {
+      "type": "load_area",
+      "area_id": "wolfpine_road",
+      "entry_id": "south_road"
+    },
+    {
+      "type": "assert_area",
+      "area_id": "wolfpine_road"
+    },
+    {
+      "type": "click_actor",
+      "actor_id": "brannoc"
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "I could use a hunter who knows the border roads."
+    },
+    {
+      "type": "choose_dialogue",
+      "text": "Then we travel together."
+    },
+    {
+      "type": "assert_flag",
+      "flag_id": "brannoc_recruited",
+      "value": true
+    }
+  ]
+}
