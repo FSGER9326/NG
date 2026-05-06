@@ -39,34 +39,40 @@ This note defines the canonical allowed values for manifest metadata fields used
    - `join_compatibility: ["wolfpine_v1"]`
 4. Update this file first when introducing new enumerations, then update manifests.
 
+## Canonical Asset Lifecycle
 
-## Required SVG Candidate Fields for Canonical Promotion
+Wolfpine kit manifests use the existing asset lifecycle vocabulary:
 
-Before an SVG asset can be promoted to canonical, manifest entries must include all of the following required fields:
+```text
+planned -> generated_candidate/external_candidate -> cleaned -> candidate_validated -> accepted
+```
+
+Side/terminal states:
+
+- `rejected` — failed quality, style, legal/provenance, or technical gates.
+- `blocked` — cannot progress until a dependency or decision is resolved.
+
+Do **not** use `candidate`, `validated`, or `canonical` as replacement manifest statuses unless a separate migration updates all current manifests and validators in the same PR.
+
+## SVG Candidate Fields for Promotion
+
+Before an SVG asset can move to `candidate_validated` or `accepted`, manifest or batch evidence must include:
 
 - `id`
-- `candidate_file` (path to the source `.svg`)
+- `candidate_file` or `file`
+  - May point to `.svg` for SVG-first assets.
+  - May point to `.png` for rendered, cleaned, or paintover assets.
 - `module_family`
 - `orientation`
 - `join_compatibility`
 - `qa_score`
-- `status` using lifecycle states: `candidate -> validated -> canonical`
+- lifecycle status compatible with the canonical asset lifecycle above.
 
-### Status Transition Rule
+## Promotion Gate Requirements
 
-Promotion flow is strictly ordered:
-
-1. `candidate`
-2. `validated`
-3. `canonical`
-
-Direct `candidate -> canonical` transitions are not allowed.
-
-### Validator Gate Requirements
-
-Validation checks must block canonical promotion unless both artifacts are present:
+Validation checks must block `accepted` promotion unless both evidence types are present:
 
 - **Scorecard evidence:** a completed quality scorecard record with category scores and weighted total.
-- **Seam evidence:** modular seam compatibility evidence (join/seam verification notes, captures, or test artifacts).
+- **Seam/readability evidence:** modular seam compatibility evidence and gameplay-scale readability evidence. These may be local repo paths, Godot validation scenes, captures, notes, or explicit review artifacts.
 
-If either evidence type is missing, validators must reject the transition request.
+If either evidence type is missing, validators must reject the promotion request.
