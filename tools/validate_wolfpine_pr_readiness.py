@@ -16,6 +16,9 @@ REQUIRED_MARKERS = (
     "- [x] validator command passed",
     "- [x] scorecard evidence complete",
     "- [x] required validation scenes referenced",
+    "- [x] seam compatibility checked",
+    "- [x] elevation transition checked",
+    "- [x] gameplay-scale readability checked",
     "- [x] manifest status transitions valid",
     "- [x] unresolved blocked assets listed",
 )
@@ -29,7 +32,7 @@ def run_capture(command: list[str]) -> str:
 
 
 def changed_files(base_ref: str) -> list[Path]:
-    out = run_capture(["git", "diff", "--name-only", base_ref, "HEAD"])
+    out = run_capture(["git", "diff", "--name-only", "--diff-filter=d", f"{base_ref}...HEAD"])
     files: list[Path] = []
     for line in out.splitlines():
         line = line.strip()
@@ -48,11 +51,15 @@ def is_batch_doc(path: Path) -> bool:
     return any(hint in name for hint in BATCH_DOC_NAME_HINTS)
 
 
+def marker_present(content: str, marker: str) -> bool:
+    return marker in content or marker.replace("[x]", "[X]") in content
+
+
 def validate_doc(path: Path) -> list[str]:
     content = (ROOT / path).read_text(encoding="utf-8")
     missing: list[str] = []
     for marker in REQUIRED_MARKERS:
-        if marker not in content:
+        if not marker_present(content, marker):
             missing.append(marker)
     return missing
 
@@ -76,6 +83,7 @@ def main() -> int:
     for relative_path in candidates:
         absolute = ROOT / relative_path
         if not absolute.exists():
+            # Explicit --files may include missing paths; auto-detected deletions are filtered before this point.
             print(f"FAIL: {relative_path} does not exist")
             failures += 1
             continue
