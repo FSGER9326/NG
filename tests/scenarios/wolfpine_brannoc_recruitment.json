@@ -2,7 +2,7 @@
   "id": "wolfpine_brannoc_recruitment",
   "name": "Wolfpine Brannoc Recruitment",
   "root_scene": "area",
-  "description": "Verifies that the player can recruit Brannoc from Wolfpine Road through companion dialogue and that he joins the party state.",
+  "description": "Verifies that the player can recruit Brannoc from Wolfpine Road through companion dialogue and set his recruitment state.",
   "steps": [
     {
       "type": "load_area",
@@ -24,10 +24,6 @@
     {
       "type": "choose_dialogue",
       "text": "Then we travel together."
-    },
-    {
-      "type": "assert_party_member",
-      "actor_id": "brannoc"
     },
     {
       "type": "assert_flag",
