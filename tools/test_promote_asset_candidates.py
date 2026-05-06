@@ -120,15 +120,17 @@ def run_write_mode_test() -> None:
 
         result = run_promoter(zip_path, plan_path, repo_root=repo_root, dry_run=False)
         promoted_file = repo_root / INTENDED_FILE
+        promoted_file_exists = promoted_file.exists()
+        promoted_file_payload = promoted_file.read_bytes() if promoted_file_exists else b""
         manifest_data: dict[str, Any] = json.loads((repo_root / STARTER_MANIFEST).read_text(encoding="utf-8"))
 
     assert_success(result)
     if "Asset promotion complete." not in result.stdout:
         print(result.stdout, end="")
         raise AssertionError("Expected write-mode success message was not printed.")
-    if not promoted_file.exists():
-        raise AssertionError(f"Promoted file was not written: {promoted_file}")
-    if promoted_file.read_bytes() != payload:
+    if not promoted_file_exists:
+        raise AssertionError("Promoted file was not written inside the temporary mini-repo.")
+    if promoted_file_payload != payload:
         raise AssertionError("Promoted file payload does not match ZIP source.")
 
     matching_assets = [asset for asset in manifest_data["assets"] if asset.get("id") == ASSET_ID]
