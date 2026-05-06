@@ -104,7 +104,7 @@ This roadmap defines three production waves for the Wolfpine Village kit and est
 - Focal props: **14**
 - Clutter/decals/occluders: **28**
 - Palette harmonization pass outputs: **1 global pass package**
-- **Wave 3 total target: 50 deliverables**
+- **Wave 3 total target: 51 deliverables**
 
 ### Definition of done
 - At least three showcase compositions read as distinct districts while remaining stylistically unified.
