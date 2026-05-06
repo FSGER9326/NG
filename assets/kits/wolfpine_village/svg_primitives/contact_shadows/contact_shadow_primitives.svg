@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Wolfpine contact shadow primitives</title>
+  <desc>Reusable grounding/contact shadow shapes for Wolfpine SVG assets.</desc>
+  <defs>
+    <radialGradient id="contact_shadow_soft_grad_v1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <g id="contact_shadow_oval_soft_v1">
+      <ellipse cx="128" cy="220" rx="84" ry="18" fill="url(#contact_shadow_soft_grad_v1)"/>
+    </g>
+    <g id="contact_shadow_wall_foot_v1">
+      <rect x="12" y="214" width="232" height="18" rx="8" fill="#000" opacity="0.18"/>
+    </g>
+    <g id="contact_shadow_post_pair_v1">
+      <ellipse cx="86" cy="224" rx="22" ry="8" fill="#000" opacity="0.2"/>
+      <ellipse cx="170" cy="224" rx="22" ry="8" fill="#000" opacity="0.2"/>
+    </g>
+  </defs>
+</svg>
