@@ -16,7 +16,7 @@ CATEGORY_PREFIXES: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("ci", (".github/",)),
     ("docs", ("docs/", "README.md")),
     ("runtime", ("game/",)),
-    ("data", ("data/",)),
+    ("data", ("data/", "dialogue/")),
     ("areas", ("areas/",)),
     ("scenarios", ("tests/scenarios/",)),
     ("tools", ("tools/",)),
