@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 CANONICAL_REFERENCE_ROOT = Path("reference_assets/organized/pvgames/infernus_free")
@@ -59,14 +60,37 @@ ALLOWED_REFERENCE_PREFIXES = (
 )
 
 
+@dataclass(frozen=True)
+class ChangedPath:
+    status: str
+    path: str
+
+
 def normalize(path: str) -> str:
     return path.strip().replace("\\", "/")
 
 
-def load_changed_files(path: Path) -> list[str]:
+def load_changed_files(path: Path) -> list[ChangedPath]:
     if not path.exists():
         raise FileNotFoundError(f"Changed-file list does not exist: {path}")
-    return [normalize(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+    changed_paths: list[ChangedPath] = []
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        parts = line.split("\t")
+        if len(parts) == 1:
+            changed_paths.append(ChangedPath(status="M", path=normalize(parts[0])))
+            continue
+
+        status = parts[0]
+        # git diff --name-status reports rename/copy lines as R100 old new or C100 old new.
+        # Only the destination path can introduce new root-level clutter.
+        candidate_path = parts[-1]
+        changed_paths.append(ChangedPath(status=status, path=normalize(candidate_path)))
+    return changed_paths
 
 
 def root_segment(path: str) -> str:
@@ -85,9 +109,13 @@ def root_name_is_disallowed(root: str) -> bool:
     return root in DISALLOWED_ROOT_NAMES or any(root.startswith(prefix) for prefix in DISALLOWED_ROOT_PREFIXES)
 
 
-def validate_changed_files(changed_files: list[str]) -> list[str]:
+def validate_changed_files(changed_files: list[ChangedPath]) -> list[str]:
     errors: list[str] = []
-    for path in changed_files:
+    for changed_path in changed_files:
+        if changed_path.status.startswith("D"):
+            continue
+
+        path = changed_path.path
         root = root_segment(path)
         if root_name_is_disallowed(root):
             errors.append(
