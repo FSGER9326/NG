@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Wolfpine edge-wear overlays</title>
+  <desc>Reusable edge break-up overlays to prevent flat surfaces.</desc>
+  <defs>
+    <g id="edge_wear_timber_chips_v1">
+      <path d="M30 38l9 -5 6 7 -8 6zM108 44l10 -6 7 8 -10 6zM186 38l8 -5 7 7 -8 6z" fill="#5d422d" opacity="0.5"/>
+      <path d="M42 206l8 -4 7 7 -9 5zM132 214l8 -5 7 7 -9 6zM208 204l8 -4 6 7 -8 6z" fill="#5d422d" opacity="0.5"/>
+    </g>
+    <g id="edge_wear_plaster_flake_v1">
+      <path d="M22 76l14 -8 11 11 -13 8zM196 84l15 -9 12 12 -14 10zM88 176l16 -10 11 12 -16 10z" fill="#9f988b" opacity="0.55"/>
+    </g>
+    <g id="edge_wear_stone_chips_v1">
+      <path d="M16 30l10 -6 8 8 -10 7zM230 42l9 -6 8 8 -9 7zM34 220l10 -6 8 8 -10 7zM216 212l10 -6 8 8 -10 7z" fill="#585450" opacity="0.55"/>
+    </g>
+  </defs>
+</svg>

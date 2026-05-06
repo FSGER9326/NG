@@ -23,7 +23,7 @@ except ImportError:  # pragma: no cover - dependency boundary
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ROOTS = (ROOT / "assets" / "generated",)
 ALLOWED_CANVAS_SIZES = {(512, 512), (1024, 1024), (2048, 2048)}
-SAFE_FILE_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]*\.(png|jpg|jpeg|json)$")
+SAFE_FILE_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]*\.(png|jpg|jpeg|json|svg)$")
 SAFE_ID_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]*$")
 NUMERIC_RE = re.compile(r"^-?\d+(\.\d+)?$")
 REQUIRED_MANIFEST_FIELDS = {
@@ -40,6 +40,17 @@ REQUIRED_MANIFEST_FIELDS = {
 ALLOWED_QA_STATUSES = {"source", "candidate", "approved_first_playable", "final", "rejected"}
 ALLOWED_SOURCE_KINDS = {"generated", "generated_from_reference", "third_party_derivative", "manual_paintover"}
 ALLOWED_LICENSE_STATUS = {"project_generated", "third_party_reviewed", "requires_review"}
+
+STRUCTURAL_SVG_MARKERS = (
+    "NG-PRIMITIVE-BASE:",
+    "NG-PRIMITIVE-SHADOW:",
+    "NG-PRIMITIVE-EDGE:",
+)
+STRUCTURAL_SVG_MARKER_RE = {
+    marker: re.compile(rf"{re.escape(marker)}\s*[A-Za-z0-9][A-Za-z0-9_-]*")
+    for marker in STRUCTURAL_SVG_MARKERS
+}
+SVG_STRUCTURAL_CLASS_MARKER = "NG-SVG-CLASS: structural"
 
 
 def main() -> int:
@@ -164,6 +175,8 @@ def _validate_entry(base_dir: Path, rel_manifest: str, index: int, entry: dict[s
 
     if asset_path.suffix.lower() == ".png":
         _validate_png(asset_path, prefix, entry, errors)
+    elif asset_path.suffix.lower() == ".svg":
+        _validate_svg(asset_path, prefix, errors)
 
     mask_name = entry.get("mask")
     if mask_name:
@@ -213,6 +226,21 @@ def _validate_png(asset_path: Path, prefix: str, entry: dict[str, Any], errors: 
         if any(rgba[x, y][3] != 0 for x, y in corner_points):
             errors.append(f"{prefix}: PNG corners should be fully transparent: {_rel(asset_path)}")
 
+
+
+
+def _validate_svg(asset_path: Path, prefix: str, errors: list[str]) -> None:
+    contents = asset_path.read_text(encoding="utf-8")
+
+    # Structural classes must include explicit primitive traceability markers.
+    if SVG_STRUCTURAL_CLASS_MARKER not in contents:
+        return
+
+    for marker, marker_re in STRUCTURAL_SVG_MARKER_RE.items():
+        if not marker_re.search(contents):
+            errors.append(
+                f"{prefix}: structural SVG missing non-empty marker '{marker}' in metadata/comments: {_rel(asset_path)}"
+            )
 
 def _count_alpha_pixels(alpha_image: Any, predicate: Callable[[int], bool]) -> int:
     histogram = alpha_image.histogram()
