@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="192" viewBox="0 0 256 192">
+  <defs>
+    <linearGradient id="plaster" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8a88f"/>
+      <stop offset="1" stop-color="#927f67"/>
+    </linearGradient>
+  </defs>
+  <polygon points="30,46 226,46 206,66 50,66" fill="#78624b"/>
+  <rect x="44" y="66" width="168" height="92" fill="url(#plaster)"/>
+  <rect x="44" y="66" width="168" height="12" fill="#c7b59a" opacity="0.45"/>
+  <rect x="110" y="104" width="38" height="54" fill="#4c3a2b"/>
+  <rect x="116" y="111" width="26" height="47" fill="#5a4634"/>
+  <rect x="59" y="92" width="30" height="28" fill="#5a4634"/>
+  <rect x="167" y="92" width="30" height="28" fill="#5a4634"/>
+  <ellipse cx="128" cy="166" rx="94" ry="13" fill="#2f261d" opacity="0.33"/>
+</svg>
