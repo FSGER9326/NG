@@ -20,6 +20,9 @@ Future chats should start by reading:
 8. `docs/CHARACTER_CREATION.md`
 9. `docs/ASSET_SESSION_PROTOCOL.md`
 10. `data/asset_registry/scene_builder_registry.json`
+11. `docs/ART_BASELINE_V1.md`
+12. `docs/EXTERNAL_REFERENCE_ASSETS.md`
+13. `data/asset_registry/external_reference_assets.json`
 
 ## How to request work in a new chat
 
@@ -39,6 +42,7 @@ Open GitHub repo FSGER9326/NG. Read docs/PROJECT_STATUS.md, docs/ROADMAP.md, doc
 - Do not rely on hidden Godot editor state.
 - Add or update validation when a new data format is introduced.
 - Do not add large raw asset dumps directly to the repo.
+- Keep external reference packs local-only unless their license explicitly permits repository redistribution.
 - Start story content from grounded local stakes before connecting it to faction pressure or old-law mythology.
 
 ## Recommended branch pattern

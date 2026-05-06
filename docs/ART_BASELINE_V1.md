@@ -9,6 +9,24 @@ This baseline is a hard style contract for generated and imported assets.
 - no perspective drift between assets in same kit
 - silhouettes must read at gameplay zoom
 
+## Reference quality bar
+
+PVGames Infernus Free is the current external visual reference for minimum production craft.
+
+Generated or cleaned NG art should meet or exceed that reference level for:
+
+- crisp pseudo-isometric construction
+- disciplined modular alignment
+- believable material rendering
+- readable gameplay-scale silhouettes
+- clean transparent edges without halos
+- consistent top-left lighting and shadow logic
+- coherent kit-wide palette and detail density
+
+Important: PVGames resource files are local-only references. Do not commit, copy, trace, recolor, upscale, or derive NG assets directly from them. Use them as a quality bar only.
+
+See `docs/EXTERNAL_REFERENCE_ASSETS.md` for local setup and license handling.
+
 ## Tile and canvas standards
 
 - base iso ground tile: `128x64`
@@ -34,6 +52,7 @@ An asset cannot be accepted unless all are true:
 4. manifest record exists
 5. source/provenance note exists
 6. in-engine readability confirmed
+7. quality is at least comparable to the approved external reference bar
 
 ## Variant strategy for scale
 

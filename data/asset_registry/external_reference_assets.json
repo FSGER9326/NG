@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "references": [
+    {
+      "id": "pvgames_infernus_free",
+      "provider": "Pioneer Valley Games / PVGames",
+      "pack_name": "PVGames Infernus Free",
+      "local_only_path": "reference_assets/local/pvgames/infernus_free/",
+      "status": "external_reference_only",
+      "repo_policy": "Do not commit original resources, edited copies, or unpacked pack contents.",
+      "license_summary": "Permits use and editing in commercial and non-commercial projects, but does not permit freely distributing the resources or edited resource files.",
+      "allowed_use_in_ng": [
+        "local visual reference",
+        "quality benchmark",
+        "style and construction comparison"
+      ],
+      "forbidden_use_in_ng": [
+        "committing raw resource files",
+        "committing edited copies",
+        "copying, tracing, recoloring, or deriving NG assets directly from the pack",
+        "redistributing the pack through the repository"
+      ],
+      "quality_targets": [
+        "crisp pseudo-isometric construction",
+        "disciplined modular alignment",
+        "believable material rendering",
+        "clean transparent edges",
+        "readable gameplay-scale silhouettes",
+        "consistent kit-wide lighting and palette"
+      ]
+    }
+  ]
+}
