@@ -52,6 +52,9 @@ jobs:
       - name: Validate asset review gates
         run: python tools/validate_asset_reviews.py
 
+      - name: Validate asset review outcomes
+        run: python tools/validate_asset_review_outcomes.py
+
       - name: Test asset promotion dry run
         run: python tools/test_promote_asset_candidates.py
 
