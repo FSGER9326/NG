@@ -1,0 +1,133 @@
+{
+  "id": "wolfpine_first_cleaned_review_2026_05_06",
+  "name": "Wolfpine First Cleaned Asset Review",
+  "purpose": "Visual/layout review gate for the first five Wolfpine PNG assets after they are promoted to cleaned status.",
+  "target_area": "wolfpine_village",
+  "source_bundle": "ng_wolfpine_first_binary_promotion_apply_bundle.zip",
+  "required_manifest": "data/asset_kits/wolfpine_village_starter.json",
+  "required_status_before_review": "cleaned",
+  "allowed_status_after_review": ["cleaned", "accepted", "rejected"],
+  "review_context": {
+    "camera": "pseudo_isometric_3_4",
+    "renderer_target": "Godot 4 Compatibility",
+    "style_family": "modernized_infinity_engine_dark_fantasy",
+    "backgrounds": [
+      "neutral_mid_gray",
+      "dark_game_background",
+      "wolfpine_village_layout_context"
+    ],
+    "scale_checks": [
+      "100_percent_asset_scale",
+      "expected_in_game_view_scale",
+      "hotspot_readability_scale"
+    ]
+  },
+  "global_review_checks": [
+    "PNG file exists at the canonical intended_file path.",
+    "Manifest sha256 matches the committed PNG.",
+    "Alpha edge does not show white/black haloing on neutral or dark backgrounds.",
+    "Contact shadow direction does not conflict with Wolfpine village lighting.",
+    "Silhouette remains readable at expected game scale.",
+    "Object footprint can be represented with simple collision or hotspot bounds.",
+    "Asset reads as painted/pre-rendered CRPG art rather than pixel art or clean RTS art.",
+    "No readable real-world text, labels, modern materials, or UI elements are baked in.",
+    "Asset does not block required routes, doors, exits, or hotspot approach arcs."
+  ],
+  "assets": [
+    {
+      "asset_id": "wolfpine_well_01",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_well_01.png",
+      "expected_sha256": "ac46b5af0fb013cdfb0b113a2b9684380cb0b56ab7c129d1ba3a698d5cee3185",
+      "recommended_layer": "props",
+      "recommended_use": "Village square focal object and interaction anchor.",
+      "specific_review_checks": [
+        "Readable as a stone village well at game scale.",
+        "Roof/crossbeam does not become a large foreground occluder.",
+        "Actor approach space remains clear on at least two sides.",
+        "Ground contact and shadow work on mud/cobble placement.",
+        "Hotspot silhouette is clear without requiring outline/highlight."
+      ],
+      "accepted_only_if": [
+        "Well can be placed near the square without blocking primary movement.",
+        "The roof and bucket/crank details remain legible at game scale."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_notice_board_01",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_notice_board_01.png",
+      "expected_sha256": "c056d94f5add4e62473a0c36f00614520f15b45870829b6cb4a7e5522cf7c62a",
+      "recommended_layer": "props",
+      "recommended_use": "Quest board or village information hotspot near crossroads or inn edge.",
+      "specific_review_checks": [
+        "Reads as a notice board, not a door or freestanding signpost.",
+        "Contains no readable real-world text.",
+        "Has a clear interaction-facing side.",
+        "Does not visually compete with building doors or exit markers.",
+        "Parchment shapes remain readable without becoming noisy."
+      ],
+      "accepted_only_if": [
+        "Quest-board function is readable in the Wolfpine village context.",
+        "The asset supports hotspot interaction without needing text baked into the texture."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_door_heavy_01",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_door_heavy_01.png",
+      "expected_sha256": "d1ded59dcd520c2f09c1d959cb938efb5762371205fec7b2a3265fcdd359dcbf",
+      "recommended_layer": "architecture",
+      "recommended_use": "Ground-level modular door for inn, storehouse, or guarded building facades.",
+      "specific_review_checks": [
+        "Reads unambiguously as a door, not a window or panel.",
+        "Scale is consistent with actor height and Wolfpine building facades.",
+        "Threshold implies a walkable approach at ground level.",
+        "Hinges/latch support medieval dark-fantasy material language.",
+        "Lantern/detail does not become a gameplay hotspot unless explicitly configured."
+      ],
+      "accepted_only_if": [
+        "Door can be attached to a building facade without perspective conflict.",
+        "Door approach remains clear and readable in layout context."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_window_shuttered_01",
+      "intended_file": "assets/kits/wolfpine_village/architecture/wolfpine_window_shuttered_01.png",
+      "expected_sha256": "0873dcc7e217bd3233053829296b202d6467c9848f3ab4d039660d414d9c3de4",
+      "recommended_layer": "architecture",
+      "recommended_use": "Small modular shuttered window for timber/plaster Wolfpine facades.",
+      "specific_review_checks": [
+        "Reads clearly as a window and cannot be mistaken for an entrance.",
+        "Scale is smaller than modular doors.",
+        "Shutters and frame match timber/plaster Wolfpine architecture.",
+        "Warm light or dark interior does not dominate the facade.",
+        "Can be placed above ground level without implying player access."
+      ],
+      "accepted_only_if": [
+        "Window works on at least one starter facade without perspective mismatch.",
+        "Window remains a background architecture detail rather than a false hotspot."
+      ]
+    },
+    {
+      "asset_id": "wolfpine_firewood_stack_01",
+      "intended_file": "assets/kits/wolfpine_village/props/wolfpine_firewood_stack_01.png",
+      "expected_sha256": "fe424f6ba6bdc7b3a70b624ca301c91cd722fbdd9dd095dc00310cac93abc2e9",
+      "recommended_layer": "props",
+      "recommended_use": "Cottage, inn, and blacksmith-side utility clutter.",
+      "specific_review_checks": [
+        "Reads as stacked firewood at small prop scale.",
+        "Grounding works beside buildings and forge work areas.",
+        "Does not block doors, exits, or hotspot approach arcs.",
+        "Texture detail is readable but not visually noisy.",
+        "Can combine with crates/barrels without becoming a clutter wall."
+      ],
+      "accepted_only_if": [
+        "Works beside both cottage/inn and blacksmith contexts.",
+        "Footprint is easy to represent in collision or non-walkable masking."
+      ]
+    }
+  ],
+  "review_outcomes": {
+    "accepted": "Promote the individual asset to accepted only after visual/layout review passes and validators still pass.",
+    "cleaned": "Keep as cleaned if the asset is usable but needs placement, alpha, scale, or contact-shadow iteration.",
+    "rejected": "Reject if style, perspective, readability, or route-blocking issues cannot be corrected cheaply."
+  }
+}
