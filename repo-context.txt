@@ -48,7 +48,21 @@ Notes:
 Directory Structure
 ================================================================
 areas/
+  wolfpine_blacksmith/
+    actors.json
+    area.json
+    background_placeholder.txt
+    hotspots.json
+    occlusion_placeholder.txt
+    walkmask_placeholder.txt
   wolfpine_chapel_yard/
+    actors.json
+    area.json
+    background_placeholder.txt
+    hotspots.json
+    occlusion_placeholder.txt
+    walkmask_placeholder.txt
+  wolfpine_inn_common_room/
     actors.json
     area.json
     background_placeholder.txt
@@ -185,6 +199,104 @@ Files
 ================================================================
 
 ================
+File: areas/wolfpine_blacksmith/actors.json
+================
+{
+  "area_id": "wolfpine_blacksmith",
+  "actors": []
+}
+
+================
+File: areas/wolfpine_blacksmith/area.json
+================
+{
+  "id": "wolfpine_blacksmith",
+  "name": "Wolfpine Blacksmith's Forge",
+  "type": "interior",
+  "description": "A cramped forge room with damp bellows, stacked fuel, and old iron tools arranged around a low work fire.",
+  "background": "areas/wolfpine_blacksmith/background_placeholder.txt",
+  "occlusion": "areas/wolfpine_blacksmith/occlusion_placeholder.txt",
+  "walkmask": "areas/wolfpine_blacksmith/walkmask_placeholder.txt",
+  "hotspots": "areas/wolfpine_blacksmith/hotspots.json",
+  "actors": "areas/wolfpine_blacksmith/actors.json",
+  "default_music": "music/village_wolfpine_low",
+  "entry_points": {
+    "front_door": [220, 600],
+    "forge": [655, 365],
+    "tool_bench": [910, 465]
+  }
+}
+
+================
+File: areas/wolfpine_blacksmith/background_placeholder.txt
+================
+Wolfpine blacksmith background placeholder.
+
+Production art target: cramped forge interior, work fire, bellows, tool bench, stacked fuel, and front door.
+
+================
+File: areas/wolfpine_blacksmith/hotspots.json
+================
+{
+  "area_id": "wolfpine_blacksmith",
+  "hotspots": [
+    {
+      "id": "blacksmith_front_door_exit",
+      "name": "Front Door",
+      "type": "exit",
+      "position": [220, 600],
+      "radius": 64,
+      "target_area": "wolfpine_village",
+      "target_entry": "village_square"
+    },
+    {
+      "id": "forge_coals",
+      "name": "Forge Coals",
+      "type": "inspect",
+      "position": [655, 365],
+      "radius": 52,
+      "description": "The forge coals glow under a thin gray crust. Fresh hammer scale lies beside them, mixed with black grit from the village bread ovens.",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_blacksmith_oven_grit_seen",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "tool_bench",
+      "name": "Tool Bench",
+      "type": "inspect",
+      "position": [910, 465],
+      "radius": 46,
+      "description": "A bench of files, nails, and wagon irons. One fresh-cut hook matches the guardhouse rope rack, but the smith's mark has been filed away.",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_blacksmith_hook_hint_seen",
+          "value": true
+        }
+      ]
+    }
+  ]
+}
+
+================
+File: areas/wolfpine_blacksmith/occlusion_placeholder.txt
+================
+Wolfpine blacksmith occlusion placeholder.
+
+Future occluders: forge hood, hanging tools, foreground anvil edge, and smoke masks.
+
+================
+File: areas/wolfpine_blacksmith/walkmask_placeholder.txt
+================
+Wolfpine blacksmith walkmask placeholder.
+
+Walkable focus: front door, forge approach, tool bench approach, and central work floor.
+
+================
 File: areas/wolfpine_chapel_yard/actors.json
 ================
 {
@@ -299,6 +411,109 @@ File: areas/wolfpine_chapel_yard/walkmask_placeholder.txt
 Placeholder walkmask notes for Wolfpine Chapel Yard.
 
 Walkable path should run from west_path to prayer_tree and chapel_steps. Grave rows and chapel walls should block movement once final collision data exists.
+
+================
+File: areas/wolfpine_inn_common_room/actors.json
+================
+{
+  "area_id": "wolfpine_inn_common_room",
+  "actors": []
+}
+
+================
+File: areas/wolfpine_inn_common_room/area.json
+================
+{
+  "id": "wolfpine_inn_common_room",
+  "name": "The Pine Hearth Common Room",
+  "type": "interior",
+  "description": "A low-beamed inn room smelling of wet wool, smoke, and sour ale. Travelers keep their backs to the wall while village talk lowers around the fire.",
+  "background": "areas/wolfpine_inn_common_room/background_placeholder.txt",
+  "occlusion": "areas/wolfpine_inn_common_room/occlusion_placeholder.txt",
+  "walkmask": "areas/wolfpine_inn_common_room/walkmask_placeholder.txt",
+  "hotspots": "areas/wolfpine_inn_common_room/hotspots.json",
+  "actors": "areas/wolfpine_inn_common_room/actors.json",
+  "default_music": "music/village_wolfpine_low",
+  "entry_points": {
+    "front_door": [210, 600],
+    "hearth": [640, 420],
+    "back_table": [980, 335]
+  }
+}
+
+================
+File: areas/wolfpine_inn_common_room/background_placeholder.txt
+================
+Wolfpine inn common room background placeholder.
+
+Production art target: low-beamed timber interior, central hearth, back table, front door, and damp frontier inn mood.
+
+================
+File: areas/wolfpine_inn_common_room/hotspots.json
+================
+{
+  "area_id": "wolfpine_inn_common_room",
+  "hotspots": [
+    {
+      "id": "front_door_exit",
+      "name": "Front Door",
+      "type": "exit",
+      "position": [210, 600],
+      "radius": 64,
+      "target_area": "wolfpine_village",
+      "target_entry": "village_square"
+    },
+    {
+      "id": "hearth_ashes",
+      "name": "Hearth Ashes",
+      "type": "inspect",
+      "position": [640, 420],
+      "radius": 48,
+      "description": "The inn hearth burns low under damp pine. Someone has raked the ash smooth, then disturbed it again with boot heels and a short knife-tip mark shaped like three cuts across a road line.",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_inn_hearth_smuggler_mark_seen",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "back_table_manifest",
+      "name": "Back Table Manifest",
+      "type": "inspect",
+      "position": [980, 335],
+      "radius": 44,
+      "description": "A rain-warped table holds spilled ale, candle grease, and a copied caravan tally. One passenger line has been overwritten twice, but the pressure marks remain in the wood beneath the paper.",
+      "effects": [
+        {
+          "type": "set_flag",
+          "flag_id": "wolfpine_inn_manifest_pressure_seen",
+          "value": true
+        },
+        {
+          "type": "set_quest_stage",
+          "quest_id": "missing_caravan",
+          "stage": "found_erased_name"
+        }
+      ]
+    }
+  ]
+}
+
+================
+File: areas/wolfpine_inn_common_room/occlusion_placeholder.txt
+================
+Wolfpine inn common room occlusion placeholder.
+
+Future occluders: hanging beams, foreground table edges, and hearth smoke masks.
+
+================
+File: areas/wolfpine_inn_common_room/walkmask_placeholder.txt
+================
+Wolfpine inn common room walkmask placeholder.
+
+Walkable focus: front door, hearth approach, back table approach, and central common-room floor.
 
 ================
 File: areas/wolfpine_road/actors.json
