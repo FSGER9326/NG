@@ -39,7 +39,7 @@
     },
     {
       "type": "click_hotspot",
-      "hotspot_id": "front_door_exit"
+      "hotspot_id": "blacksmith_front_door_exit"
     },
     {
       "type": "assert_area",
