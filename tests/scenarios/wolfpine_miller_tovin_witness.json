@@ -1,0 +1,26 @@
+{
+  "id": "wolfpine_miller_tovin_witness",
+  "name": "Wolfpine Miller Tovin Witness",
+  "description": "Verifies Miller Tovin connects Wolfpine's black bread pressure to the erased manifest name.",
+  "steps": [
+    {"type": "load_area", "area_id": "wolfpine_village", "entry_id": "village_square"},
+    {"type": "click_hotspot", "hotspot_id": "market_stall"},
+    {"type": "assert_flag", "flag_id": "black_bread_market_checked", "value": true},
+    {"type": "click_hotspot", "hotspot_id": "mill_tally_window"},
+    {"type": "assert_flag", "flag_id": "wolfpine_mill_tally_erased_name_hint", "value": true},
+    {"type": "click_actor", "actor_id": "miller_tovin"},
+    {"type": "choose_dialogue", "text": "The market bread is black with ash and husk."},
+    {"type": "assert_quest_stage", "quest_id": "black_bread_tithe", "stage": "accepted"},
+    {"type": "assert_flag", "flag_id": "black_bread_miller_claims_short_sacks", "value": true},
+    {"type": "choose_dialogue", "text": "Who made the sacks lighter?"},
+    {"type": "assert_flag", "flag_id": "black_bread_miller_guard_count_hint", "value": true},
+    {"type": "choose_dialogue", "text": "That sounds like a tithe after the tithe."},
+    {"type": "assert_flag", "flag_id": "black_bread_lawful_theft_named", "value": true},
+    {"type": "click_actor", "actor_id": "miller_tovin"},
+    {"type": "choose_dialogue", "text": "Your tally window had a copied manifest under it."},
+    {"type": "assert_flag", "flag_id": "wolfpine_miller_knows_erased_manifest", "value": true},
+    {"type": "choose_dialogue", "text": "Whose name was practiced away?"},
+    {"type": "assert_flag", "flag_id": "wolfpine_miller_names_mara_vell", "value": true},
+    {"type": "assert_quest_stage", "quest_id": "missing_caravan", "stage": "village_pressure_reported"}
+  ]
+}
