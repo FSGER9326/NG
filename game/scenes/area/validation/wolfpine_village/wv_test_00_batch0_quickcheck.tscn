@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Texture2D" path="res://Building_Infernus_1/Wall_Front_Medium_1.png" id="1"]
+[ext_resource type="Texture2D" path="res://Building_Infernus_1/Wall_Side_1.png" id="2"]
+[ext_resource type="Texture2D" path="res://Building_Infernus_1/Floor_Lower_1.png" id="3"]
+[ext_resource type="Texture2D" path="res://Building_Infernus_1/Stairs_1.png" id="4"]
+[ext_resource type="Texture2D" path="res://Building_Infernus_1/Wall_Side_1_Shadow_1.png" id="5"]
+
+[node name="WVTest00Batch0Quickcheck" type="Node2D"]
+
+[node name="WallFront" type="Sprite2D" parent="."]
+position = Vector2(220, 150)
+texture = ExtResource("1")
+
+[node name="WallSide" type="Sprite2D" parent="."]
+position = Vector2(284, 182)
+texture = ExtResource("2")
+
+[node name="FloorLower" type="Sprite2D" parent="."]
+position = Vector2(220, 260)
+texture = ExtResource("3")
+
+[node name="Stairs" type="Sprite2D" parent="."]
+position = Vector2(284, 260)
+texture = ExtResource("4")
+
+[node name="SideShadow" type="Sprite2D" parent="."]
+position = Vector2(284, 182)
+texture = ExtResource("5")

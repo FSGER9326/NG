@@ -7,6 +7,13 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate-data:
     runs-on: ubuntu-latest
@@ -78,10 +85,18 @@ jobs:
         run: |
           if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
             git diff --name-only "origin/$GITHUB_BASE_REF...HEAD" > changed_files.txt
+            git diff --name-status "origin/$GITHUB_BASE_REF...HEAD" > changed_files_name_status.txt
           else
             git diff --name-only HEAD~1...HEAD > changed_files.txt || true
+            git diff --name-status HEAD~1...HEAD > changed_files_name_status.txt || true
           fi
           cat changed_files.txt
 
       - name: Check PR scope hygiene
         run: python tools/check_pr_hygiene.py changed_files.txt
+
+      - name: Check reference asset layout hygiene
+        run: python tools/validate_reference_asset_layout.py changed_files_name_status.txt
+
+      - name: Audit existing reference asset layout debt
+        run: python tools/validate_reference_asset_layout.py --audit-repo
