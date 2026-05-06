@@ -360,6 +360,141 @@
       },
       "style_lock_version": "wolfpine_v1",
       "qa_score": 0.0
+    },
+    {
+      "id": "wolfpine_wall_front_a_00",
+      "display_name": "Wolfpine Wall Front A (Batch 0)",
+      "category": "architecture",
+      "source_file": "Building_Infernus_1/Wall_Front_Medium_1.png",
+      "status": "accepted",
+      "candidate_file": "Building_Infernus_1/Wall_Front_Medium_1.png",
+      "sha256": "c971c54275449210af3fb3effc7df00ea729e214b8bca51190f27b37b09f2455",
+      "production_notes": "Canonical isolated candidate accepted after scorecard pass; crop/alpha/contact shadow normalized for batch-00 modular seam tests. Candidate references in-repo baseline file to keep PR text-only.",
+      "module_family": "architecture_trim",
+      "orientation": "iso_southwest",
+      "edge_role": "front",
+      "elevation_class": "lower",
+      "join_compatibility": [
+        "wolfpine_v1",
+        "wall_side",
+        "floor_lower"
+      ],
+      "shadow_mode": "baked_soft",
+      "tile_span": {
+        "width": 1,
+        "depth": 1,
+        "height": 1
+      },
+      "style_lock_version": "wolfpine_v1",
+      "qa_score": 0.896
+    },
+    {
+      "id": "wolfpine_wall_side_a_00",
+      "display_name": "Wolfpine Wall Side A (Batch 0)",
+      "category": "architecture",
+      "source_file": "Building_Infernus_1/Wall_Side_1.png",
+      "status": "accepted",
+      "candidate_file": "Building_Infernus_1/Wall_Side_1.png",
+      "sha256": "be6594a3e19f6de160ea612417123aa39ac3e1a523ac9f0c0e4f2bfd9f4a5c2f",
+      "production_notes": "Canonical isolated candidate accepted after scorecard pass; adjacency checked against wall_front seam lane. Candidate references in-repo baseline file to keep PR text-only.",
+      "module_family": "architecture_trim",
+      "orientation": "iso_southwest",
+      "edge_role": "side",
+      "elevation_class": "lower",
+      "join_compatibility": [
+        "wolfpine_v1",
+        "wall_front",
+        "floor_lower"
+      ],
+      "shadow_mode": "baked_soft",
+      "tile_span": {
+        "width": 1,
+        "depth": 1,
+        "height": 1
+      },
+      "style_lock_version": "wolfpine_v1",
+      "qa_score": 0.889
+    },
+    {
+      "id": "wolfpine_floor_lower_a_00",
+      "display_name": "Wolfpine Floor Lower A (Batch 0)",
+      "category": "decals",
+      "source_file": "Building_Infernus_1/Floor_Lower_1.png",
+      "status": "accepted",
+      "candidate_file": "Building_Infernus_1/Floor_Lower_1.png",
+      "sha256": "042c10f401b933743fef7e3fcc66b2f39bd71c54ab6bf15101aca2baeae469cf",
+      "production_notes": "Canonical isolated candidate accepted after scorecard pass; normalized ground plane for lower-lane transitions. Candidate references in-repo baseline file to keep PR text-only.",
+      "module_family": "pathing_piece",
+      "orientation": "omni",
+      "edge_role": "transition",
+      "elevation_class": "lower",
+      "join_compatibility": [
+        "wolfpine_v1",
+        "stairs",
+        "wall_front",
+        "wall_side"
+      ],
+      "shadow_mode": "baked_soft",
+      "tile_span": {
+        "width": 1,
+        "depth": 1,
+        "height": 1
+      },
+      "style_lock_version": "wolfpine_v1",
+      "qa_score": 0.902
+    },
+    {
+      "id": "wolfpine_stairs_a_00",
+      "display_name": "Wolfpine Stairs A (Batch 0)",
+      "category": "architecture",
+      "source_file": "Building_Infernus_1/Stairs_1.png",
+      "status": "accepted",
+      "candidate_file": "Building_Infernus_1/Stairs_1.png",
+      "sha256": "357c7834789986e556a9823f5ab910d789d15e4ff629e96e5588f96a2c2412e8",
+      "production_notes": "Canonical isolated candidate accepted after scorecard pass; floor_lower adjacency lane validated. Candidate references in-repo baseline file to keep PR text-only.",
+      "module_family": "pathing_piece",
+      "orientation": "iso_southwest",
+      "edge_role": "transition",
+      "elevation_class": "stair",
+      "join_compatibility": [
+        "wolfpine_v1",
+        "floor_lower",
+        "floor_upper"
+      ],
+      "shadow_mode": "baked_soft",
+      "tile_span": {
+        "width": 1,
+        "depth": 1,
+        "height": 1
+      },
+      "style_lock_version": "wolfpine_v1",
+      "qa_score": 0.878
+    },
+    {
+      "id": "wolfpine_contact_shadow_wall_side_a_00",
+      "display_name": "Wolfpine Wall Side Contact Shadow A (Batch 0)",
+      "category": "architecture",
+      "source_file": "Building_Infernus_1/Wall_Side_1_Shadow_1.png",
+      "status": "accepted",
+      "candidate_file": "Building_Infernus_1/Wall_Side_1_Shadow_1.png",
+      "sha256": "2752cc28a33ecf6dfde06117945e0aeeca4fafeebd6c4c6338caecd53af9c0db",
+      "production_notes": "Canonical isolated shadow companion accepted after scorecard pass; used to normalize seam grounding. Candidate references in-repo baseline file to keep PR text-only.",
+      "module_family": "architecture_trim",
+      "orientation": "iso_southwest",
+      "edge_role": "shadow",
+      "elevation_class": "lower",
+      "join_compatibility": [
+        "wolfpine_v1",
+        "wall_side"
+      ],
+      "shadow_mode": "baked_soft",
+      "tile_span": {
+        "width": 1,
+        "depth": 1,
+        "height": 1
+      },
+      "style_lock_version": "wolfpine_v1",
+      "qa_score": 0.867
     }
   ],
   "metadata_schema_note": "assets/kits/wolfpine_village/metadata_schema_note.md"
