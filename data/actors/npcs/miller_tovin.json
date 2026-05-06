@@ -3,7 +3,7 @@
   "name": "Miller Tovin",
   "kind": "npc",
   "faction": "wolfpine_villagers",
-  "portrait": "assets/portraits/miller_tovin_placeholder.txt",
+  "portrait": "assets/portraits/captain_renna_placeholder.txt",
   "dialogue": "dialogue/npcs/miller_tovin.json",
   "tags": ["villager", "miller", "witness", "hunger_pressure"],
   "stats": {
