@@ -18,6 +18,8 @@ Future chats should start by reading:
 6. `docs/BUGFIXING.md`
 7. `docs/ASSET_POLICY.md`
 8. `docs/CHARACTER_CREATION.md`
+9. `docs/ASSET_SESSION_PROTOCOL.md`
+10. `data/asset_registry/scene_builder_registry.json`
 
 ## How to request work in a new chat
 
