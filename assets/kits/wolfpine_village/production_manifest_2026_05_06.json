@@ -481,7 +481,7 @@
       "production_notes": "Canonical isolated shadow companion accepted after scorecard pass; used to normalize seam grounding. Candidate references in-repo baseline file to keep PR text-only.",
       "module_family": "architecture_trim",
       "orientation": "iso_southwest",
-      "edge_role": "shadow",
+      "edge_role": "side",
       "elevation_class": "lower",
       "join_compatibility": [
         "wolfpine_v1",
