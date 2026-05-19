@@ -1,0 +1,57 @@
+{
+  "batch_id": "meshy_wolfpine_probe_01",
+  "name": "Meshy Wolfpine Probe 01",
+  "purpose": "Low-credit Meshy API probe for NG's enhanced classic pre-rendered pseudo-isometric CRPG asset pipeline.",
+  "ai_model": "latest",
+  "max_active": 6,
+  "enable_pbr": false,
+  "remove_lighting": true,
+  "style_lock": "single complete reusable game prop, original enhanced classic pre-rendered pseudo-isometric CRPG asset, grounded low-fantasy frontier village, muted earth palette, old timber, worn stone, iron, moss, mud, soft upper-left daylight, clean silhouette, centered object, no scene background, no characters, no UI, no readable text, not pixel art, not cartoon, not glossy heroic fantasy",
+  "defaults": {
+    "should_remesh": true,
+    "target_polycount": 30000,
+    "pose_mode": "",
+    "texture_prompt": "grounded low-fantasy pre-rendered CRPG material treatment, muted earth colors, worn edges, subtle dirt and moss, no labels, no symbols, no readable text, remove baked lighting"
+  },
+  "assets": [
+    {
+      "id": "wolfpine_barrel_01",
+      "category": "small_prop",
+      "priority": 10,
+      "prompt": "A single weathered medieval wooden storage barrel with iron bands, solid construction, slightly uneven planks, practical frontier village prop, centered, full object visible"
+    },
+    {
+      "id": "wolfpine_crate_01",
+      "category": "small_prop",
+      "priority": 20,
+      "prompt": "A single weathered medieval wooden crate made from rough planks, sturdy square shape, simple iron corner straps, practical frontier village storage prop, centered, full object visible"
+    },
+    {
+      "id": "wolfpine_firewood_stack_01",
+      "category": "medium_prop",
+      "priority": 30,
+      "prompt": "A compact stack of split firewood logs beside a small chopping block, rough bark and cut pale wood ends, practical medieval frontier village clutter, centered, full object visible"
+    },
+    {
+      "id": "wolfpine_notice_board_01",
+      "category": "interaction_prop",
+      "priority": 40,
+      "target_polycount": 45000,
+      "prompt": "A damp wooden village notice board on two posts with parchment scraps and simple wax seal shapes but no readable writing, muddy base, weathered timber, centered, full object visible"
+    },
+    {
+      "id": "wolfpine_well_01",
+      "category": "hero_prop",
+      "priority": 50,
+      "target_polycount": 60000,
+      "prompt": "A weathered low stone village well with circular stone rim, simple timber crossbeam, rope and bucket, moss and damp stone, practical low-fantasy settlement prop, centered, full object visible"
+    },
+    {
+      "id": "ashcrypt_brazier_01",
+      "category": "dungeon_prop",
+      "priority": 60,
+      "target_polycount": 45000,
+      "prompt": "A heavy old iron and blackened stone dungeon brazier, squat tripod base, bowl of cold ash and faint ember shapes, ancient low-fantasy crypt prop, centered, full object visible"
+    }
+  ]
+}
